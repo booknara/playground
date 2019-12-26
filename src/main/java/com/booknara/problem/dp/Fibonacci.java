@@ -1,10 +1,11 @@
-package com.booknara.problem;
+package com.booknara.problem.dp;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Leet code : 509
  * The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence,
  * such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
  * F(0) = 0,   F(1) = 1
@@ -104,8 +105,49 @@ public class Fibonacci {
         return v;
     }
 
-    public int fib6(int number) {
-        // Logarithm BigInteger
-        return 0;
+    /**
+     * [F(n) F(n-1)] = [F(n-1) F(n-2)] * [1, 1]
+     *                                   [1, 0]
+     * General formula 1
+     * [F(n) F(n-1)] = [F(1) F(0)] * ([1, 1]) ** (n - 1)
+     *                                [1, 0]
+     * General formula 1
+     * [F(n + 1) F(n)] =  ([1, 1]) ** n
+     * [F(n) F(n-1)]       [1, 0]
+     */
+    public int fib6(int N) {
+        if (N < 2) {
+            return N;
+        }
+
+        int[][] matrix = new int[][] {{1, 1}, {1, 0}};
+        power(matrix, N - 1);
+        return matrix[0][0];
+    }
+
+    private void power(int[][] matrix, int n) {
+        if (n == 0 || n == 1) {
+            return;
+        }
+
+        power(matrix, n / 2);
+        multiplyMatrix(matrix, matrix);
+
+        if (n % 2 != 0) {
+            int[][] unit = new int[][] {{1, 1}, {1, 0}};
+            multiplyMatrix(matrix, unit);
+        }
+    }
+
+    private void multiplyMatrix(int[][] matrix1, int[][] matrix2) {
+        int a1 = (matrix1[0][0] * matrix2[0][0]) + (matrix1[0][1] * matrix2[1][0]);
+        int a2 = (matrix1[0][0] * matrix2[0][1]) + (matrix1[0][1] * matrix2[1][1]);
+        int a3 = (matrix1[1][0] * matrix2[0][0]) + (matrix1[1][1] * matrix2[1][0]);
+        int a4 = (matrix1[1][0] * matrix2[0][1]) + (matrix1[1][1] * matrix2[1][1]);
+
+        matrix1[0][0] = a1;
+        matrix1[0][1] = a2;
+        matrix1[1][0] = a3;
+        matrix1[1][1] = a4;
     }
 }
