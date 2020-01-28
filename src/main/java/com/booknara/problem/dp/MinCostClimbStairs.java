@@ -50,7 +50,7 @@ public class MinCostClimbStairs {
         return value;
     }
 
-    // Time complexity: O(n), Space complexity: O(1), Bottom-up DP
+    // Time complexity: O(n), Space complexity: O(n), Bottom-up DP
     public int optimizedMinCostClimbingStairs(int[] cost) {
         if (cost == null || cost.length == 0) {
             return 0;
@@ -60,19 +60,44 @@ public class MinCostClimbStairs {
             return cost[0];
         }
 
-        int prev = 0, prev2 = 0;
-        int value = 0;
-        for (int i = 0; i < cost.length; i++) {
-            value = Math.min(prev, prev2) + cost[i];
-            if (i == cost.length - 1) {
-                // Whether the last element or previos element is a minmum value.
-                value = Math.min(prev, value);
-            }
-
-            prev2 = prev;
-            prev = value;
+        if (cost.length == 2) {
+            return cost[0] < cost[1] ? cost[0] : cost[1];
         }
 
-        return value;
+        int[] min = new int[cost.length];
+        min[0] = cost[0];
+        min[1] = cost[1];
+        for (int i = 2; i < cost.length; i++) {
+            // F(i) = min(F(i-1), F(i-2)) + cost[i]
+            min[i] = Math.min(min[i - 1], min[i - 2]) + cost[i];
+        }
+
+        return min[cost.length - 2] < min[cost.length - 1] ?
+                min[cost.length - 2] : min[cost.length - 1];
+    }
+
+    // Time complexity: O(n), Space complexity: O(1), Bottom-up DP
+    public int optimizedMinCostClimbingStairs2(int[] cost) {
+        if (cost == null || cost.length == 0) {
+            return 0;
+        }
+
+        if (cost.length == 1) {
+            return cost[0];
+        }
+
+        if (cost.length == 2) {
+            return cost[0] < cost[1] ? cost[0] : cost[1];
+        }
+
+        int ppVal = cost[0];
+        int pVal = cost[1];
+        for (int i = 2; i < cost.length; i++) {
+            int current = Math.min(pVal, ppVal) + cost[i];
+            ppVal = pVal;
+            pVal = current;
+        }
+
+        return ppVal < pVal ? ppVal : pVal;
     }
 }

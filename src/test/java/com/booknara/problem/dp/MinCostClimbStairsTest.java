@@ -12,5 +12,8 @@ public class MinCostClimbStairsTest {
 
         Assert.assertEquals(15, minCostClimbStairs.optimizedMinCostClimbingStairs(new int[] {10, 15, 20}));
         Assert.assertEquals(30, minCostClimbStairs.optimizedMinCostClimbingStairs(new int[] {10, 15, 20, 20}));
+
+        Assert.assertEquals(15, minCostClimbStairs.optimizedMinCostClimbingStairs2(new int[] {10, 15, 20}));
+        Assert.assertEquals(30, minCostClimbStairs.optimizedMinCostClimbingStairs2(new int[] {10, 15, 20, 20}));
     }
 }
