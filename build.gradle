@@ -1,0 +1,14 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+version = '1.0.0'
+
+dependencies {
+    testImplementation('junit:junit:4.13')
+}
+
+repositories {
+    jcenter()
+}
