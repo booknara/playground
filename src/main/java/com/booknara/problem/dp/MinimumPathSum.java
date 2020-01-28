@@ -2,8 +2,8 @@ package com.booknara.problem.dp;
 
 public class MinimumPathSum {
     public int minPathSum(int[][] grid) {
-        // Error handling
-        if (grid == null) {
+        // check input handling
+        if (grid == null || grid.length == 0) {
             return 0;
         }
 
@@ -11,19 +11,21 @@ public class MinimumPathSum {
             return grid[0][0];
         }
 
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
+        int i = 0, j = 0;
+        for (i = 0; i < grid.length; i++) {
+            for (j = 0; j < grid[i].length; j++) {
                 if (i == 0 && j == 0) {
                     continue;
                 }
 
-                int top = i - 1 >= 0 ? grid[i - 1][j] : Integer.MAX_VALUE;
-                int left = j - 1 >= 0 ? grid[i][j - 1] : Integer.MAX_VALUE;
-                grid[i][j] = Math.min(top, left) + grid[i][j];
+                int up = i - 1 < 0 ? Integer.MAX_VALUE : grid[i - 1][j];
+                int left = j - 1 < 0 ? Integer.MAX_VALUE : grid[i][j - 1];
+                // F[i][j] = min(F[i - 1][j] => up, F[i][j - 1] => left) + F[i][j];
+                grid[i][j] = Math.min(up, left) + grid[i][j];
             }
         }
 
-        return grid[grid.length - 1][grid[0].length - 1];
+        return grid[i - 1][j - 1];
     }
 
     public int minPathSum1(int[][] grid) {
