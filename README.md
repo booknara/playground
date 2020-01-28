@@ -5,9 +5,11 @@ Personal playground to practice anything(syntax, algorithm...)
 ### Practice list
 * CountDownLatch
 * IntegerChecker
+* Matrix initialization
 
 ### Problem Solving
-* Fibonacci
+* Dynamic problems
+* Divide and Conquer problems
 
 License
 -------
