@@ -26,8 +26,12 @@ public class CoinChange {
         // Per amount, each coin updates the final result
         for (int i = 1; i < amount + 1; i++) {
             for (int j = 0; j < coins.length; j++) {
+                // No need to update if the coin is bigger than amount
                 if (coins[j] <= i) {
-                    memo[i] = Math.min(memo[i], 1 + memo[i - coins[j]]);
+                    // Find the minimum value between the previous number of denomination
+                    // and the number which subtracts coin value from amount and then add 1
+                    // Key point : "memo[i - coins[j]] + 1"
+                    memo[i] = Math.min(memo[i], memo[i - coins[j]] + 1);
                 }
             }
         }
