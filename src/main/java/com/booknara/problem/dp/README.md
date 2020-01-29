@@ -33,11 +33,11 @@ for (int i = 1; i <= target; ++i) {
 return dp[target]
 ```
 #### Problem list
-[746. Min Cost Climbing Stairs - Easy][2], [Solution][3]\
-[64. Minimum Path Sum - Medium][4], [Solution][5]\
-[322. Coin Change - Medium][6], [Solution][7]\
-[931. Minimum Falling Path Sum - Medium][8]\
-[983. Minimum Cost For Tickets][9]
+[746. Min Cost Climbing Stairs - Easy][100], [Solution][101]\
+[64. Minimum Path Sum - Medium][102], [Solution][103]\
+[322. Coin Change - Medium][104], [Solution][105]\
+[931. Minimum Falling Path Sum - Medium][106]\
+[983. Minimum Cost For Tickets][108]
 
 ### Distinct Ways
 
@@ -64,9 +64,9 @@ return dp[target]
 ```
 
 #### Problem list
-[70. Climbing Stairs - Easy][10]\
-[62. Unique Paths - Medium][11]\
-[1155. Number of Dice Rolls With Target Sum][12]
+[70. Climbing Stairs - Easy][200]\, [Solution][201]\
+[62. Unique Paths - Medium][202]\, [Solution][203]\
+[1155. Number of Dice Rolls With Target Sum][204]
 
 
 ### Merging Intervals
@@ -77,7 +77,8 @@ return dp[target]
 
 
 ### Credit & References
-* [aatalyk][1]
+* [aatalyk][1000]
+* [karansingh1559][1001]
 
 
 License
@@ -104,15 +105,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[1]: https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns
-[2]: https://leetcode.com/problems/min-cost-climbing-stairs/
-[3]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/MinCostClimbStairs.java
-[4]: https://leetcode.com/problems/minimum-path-sum/
-[5]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/MinimumPathSum.java
-[6]: https://leetcode.com/problems/coin-change/
-[7]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/CoinChange.java
-[8]: https://leetcode.com/problems/minimum-falling-path-sum/
-[9]: https://leetcode.com/problems/minimum-cost-for-tickets/
-[10]: https://leetcode.com/problems/climbing-stairs/
-[11]: https://leetcode.com/problems/unique-paths/
-[12]: https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/ 
+
+[//]: <First_Pattern>
+[100]: https://leetcode.com/problems/min-cost-climbing-stairs/
+[101]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/MinCostClimbStairs.java
+[102]: https://leetcode.com/problems/minimum-path-sum/
+[103]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/MinimumPathSum.java
+[104]: https://leetcode.com/problems/coin-change/
+[105]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/CoinChange.java
+[106]: https://leetcode.com/problems/minimum-falling-path-sum/
+[108]: https://leetcode.com/problems/minimum-cost-for-tickets/
+
+[//]: <Second_Pattern>
+[200]: https://leetcode.com/problems/climbing-stairs/
+[201]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/ClimbingStairs.java
+[202]: https://leetcode.com/problems/unique-paths/
+[203]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/UniquePaths.java 
+[204]: https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/
+
+[//]: <Pattern_reference>
+[1000]: https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns 
+[1001]: https://leetcode.com/discuss/general-discussion/491522/dynamic-programming-questions-thread
