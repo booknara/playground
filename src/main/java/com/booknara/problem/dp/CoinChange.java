@@ -38,4 +38,37 @@ public class CoinChange {
 
         return memo[amount] > amount ? -1 : memo[amount];
     }
+
+    public int coinChangeTopdown(int[] coins, int amount) {
+        if (coins == null || coins.length == 0 || amount < 1) {
+            return 0;
+        }
+
+        return coinChangeHelper(coins, amount, new int[amount]);
+    }
+
+    private int coinChangeHelper(int[] coins, int remainingAmount, int[] count) {
+        if (remainingAmount < 0) {
+            return -1;
+        }
+
+        if (remainingAmount == 0) {
+            return 0;
+        }
+
+        if (count[remainingAmount - 1] != 0) {
+            return count[remainingAmount - 1];
+        }
+
+        int min = Integer.MAX_VALUE;
+        for (int c: coins) {
+            int res = coinChangeHelper(coins, remainingAmount - c, count);
+            if (res >= 0 && res < min) {
+                min = res + 1;
+            }
+        }
+
+        count[remainingAmount - 1] = (min == Integer.MAX_VALUE) ? -1 : min;
+        return count[remainingAmount - 1];
+    }
 }
