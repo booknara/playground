@@ -1,4 +1,4 @@
-package com.booknara.problem.tree;
+package com.booknara.problem.dp;
 
 /**
  * Leet code: 96. Unique Binary Search Trees (Medium)
@@ -22,6 +22,8 @@ package com.booknara.problem.tree;
  *    G(n) = F(1, n) + F(2, n) + ... + F(n, n)
  *    G(n) = Sum i=1 to n, F(i, n) => Sum i=1 to n, G(i - 1) * G(n - i)
  */
+
+
 public class UniqueBinarySearchTree {
     // Time complexity: O(N^2), Space complexity: O(N)
     public int numTrees(int n) {
@@ -29,8 +31,7 @@ public class UniqueBinarySearchTree {
             return 0;
         }
 
-        // Memoization
-        int[] graph = new int[n + 1];
+        int[] graph = new int[n + 1]; // Memoization
         graph[0] = 1;
         graph[1] = 1;
         for (int i = 2; i <= n; i++) {

@@ -1,4 +1,4 @@
-package com.booknara.problem.tree;
+package com.booknara.problem.dp;
 
 import org.junit.Assert;
 import org.junit.Test;
