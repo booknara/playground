@@ -37,7 +37,9 @@ return dp[target]
 [64. Minimum Path Sum - Medium][102], [Solution][103]\
 [322. Coin Change - Medium][104], [Solution][105]\
 [931. Minimum Falling Path Sum - Medium][106]\
-[983. Minimum Cost For Tickets][108]
+[983. Minimum Cost For Tickets - Medium][108]
+
+[//]: <================================================================================================>
 
 ### Distinct Ways
 
@@ -59,22 +61,97 @@ for (int i = 1; i <= target; ++i) {
        }
    }
 }
- 
+
 return dp[target]
 ```
 
 #### Problem list
-[70. Climbing Stairs - Easy][200]\, [Solution][201]\
-[62. Unique Paths - Medium][202]\, [Solution][203]\
+[70. Climbing Stairs - Easy][200], [Solution][201]\
+[62. Unique Paths - Medium][202], [Solution][203]\
 [1155. Number of Dice Rolls With Target Sum][204]
 
+[//]: <================================================================================================>
 
 ### Merging Intervals
 
+#### Problem statements
+Given a set of numbers, find an optimal solution for a problem considering the current number and the best you can get from the left and right sides.
+
+#### Approach
+Find all optimal solutions for every interval and return the best possible answer.
+
+    // from i to j
+    dp[i][j] = dp[i][k] + result[k] + dp[k+1][j]
+    
+Get the best from the left and right sides and add a solution for the current position.
+```java
+for(int l = 1; l< n; l++) {
+   for(int i = 0; i< n-l; i++) {
+       int j = i + l;
+       for(int k = i; k < j; k++) {
+           dp[i][j] = max(dp[i][j], dp[i][k] + result[k] + dp[k+1][j]);
+       }
+   }
+}
+ 
+return dp[0][n-1]
+```
+
+#### Problem list
+[1130. Minimum Cost Tree From Leaf Values - Medium][300]\
+[96. Unique Binary Search Trees - Medium][302], [Solution][303]\
+[1039. Minimum Score Triangulation of Polygon - Medium][304]
+
+[//]: <================================================================================================>
+
 ### DP on Strings
+General problem statement for this pattern can vary but most of the time you are given two strings where lengths of those strings are not big
+#### Problem statements
+Given two strings s1 and s2, return some result.
+#### Approach
+Most of the problems on this pattern requires a solution that can be accepted in O(n^2) complexity.
+```java
+// i - indexing string s1
+// j - indexing string s2
+for (int i = 1; i <= n; ++i) {
+   for (int j = 1; j <= m; ++j) {
+       if (s1[i-1] == s2[j-1]) {
+           dp[i][j] = /*code*/;
+       } else {
+           dp[i][j] = /*code*/;
+       }
+   }
+}
+```
+If you are given one string s the approach may little vary
+```java
+for (int l = 1; l < n; ++l) {
+   for (int i = 0; i < n-l; ++i) {
+       int j = i + l;
+       if (s[i] == s[j]) {
+           dp[i][j] = /*code*/;
+       } else {
+           dp[i][j] = /*code*/;
+       }
+   }
+}
+```
+#### Problem list
+[1143. Longest Common Subsequence - Medium][400]
+[647. Palindromic Substrings - Medium][402]
+[516. Longest Palindromic Subsequence - Medium][404]
+[1092. Shortest Common Supersequence - Hard][406]
+[712. Minimum ASCII Delete Sum for Two Strings - Medium][408]
+
+[//]: <================================================================================================>
 
 ### Decision Making
 
+#### Problem statements
+
+#### Approach
+
+#### Problem list
 
 ### Credit & References
 * [aatalyk][1000]
@@ -122,6 +199,20 @@ SOFTWARE.
 [202]: https://leetcode.com/problems/unique-paths/
 [203]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/UniquePaths.java 
 [204]: https://leetcode.com/problems/number-of-dice-rolls-with-target-sum/
+
+[//]: <Third_Pattern>
+[300]: https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/
+[302]: https://leetcode.com/problems/unique-binary-search-trees/
+[303]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/tree/UniqueBinarySearchTree.java
+[304]: https://leetcode.com/problems/minimum-score-triangulation-of-polygon/
+
+[//]: <Fourth_Pattern>
+[400]: https://leetcode.com/problems/longest-common-subsequence/
+[402]: https://leetcode.com/problems/palindromic-substrings/ 
+[404]: https://leetcode.com/problems/longest-palindromic-subsequence/
+[406]: https://leetcode.com/problems/shortest-common-supersequence/
+[408]: https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/ 
+[//]: <Fifth_Pattern>
 
 [//]: <Pattern_reference>
 [1000]: https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns 
