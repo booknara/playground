@@ -1,5 +1,6 @@
 package com.booknara.problem.stack;
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -80,5 +81,40 @@ public class AsteroidCollision {
         }
 
         return ans;
+    }
+
+    public int[] asteroidCollisionLinkedList(int[] asteroids) {
+        // Input clarification
+        if (asteroids == null || asteroids.length == 0) {
+            return null;
+        }
+
+        // LinkedList
+        LinkedList<Integer> list = new LinkedList<>();
+        // For loop
+        for (int n: asteroids) {
+            // Condition 1 : Positive value, push(n) to stack
+            if (n > 0) {
+                list.add(n);
+                continue;
+            }
+
+            // Condition 2 : Negative value
+            while (!list.isEmpty() && list.peekLast() > 0 && list.peekLast() < Math.abs(n)) {
+                // keep polling the last item from LinkedList
+                // until list is not empty and top value is positive && smaller than the absolute input value
+                list.pollLast();
+            }
+
+            if (list.isEmpty() || list.peekLast() < 0) {
+                // Condition 3 : stack is empty or top value is negative
+                list.add(n);
+            } else if (list.peekLast() + n == 0) {
+                // Condition 3 : the last value(+) plus input value(-) equal to 0
+                list.pollLast();
+            }
+        }
+
+        return list.stream().mapToInt(i -> i).toArray();
     }
 }

@@ -23,7 +23,7 @@ import com.booknara.problem.common.TreeNode;
  * Output: 5
  * Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
  */
-public class LCAOfBT {
+public class LongestCommonAncestorOfBinaryTree {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
             return null;
@@ -33,12 +33,16 @@ public class LCAOfBT {
             return root;
         }
 
-        TreeNode leftSide = lowestCommonAncestor(root.left, p, q);
-        TreeNode rightSide = lowestCommonAncestor(root.right, p, q);
-        if (leftSide != null && rightSide != null) {
+        TreeNode left = lowestCommonAncestor(root, p, q);
+        TreeNode right = lowestCommonAncestor(root, p, q);
+        if (left == null && right == null) {
+            return null;
+        }
+
+        if (left != null && right != null) {
             return root;
         }
 
-        return leftSide != null ? leftSide : rightSide;
+        return left != null ? left : right;
     }
 }
