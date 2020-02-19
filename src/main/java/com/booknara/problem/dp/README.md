@@ -146,12 +146,24 @@ for (int l = 1; l < n; ++l) {
 [//]: <================================================================================================>
 
 ### Decision Making
-
+The general problem statement for this pattern is forgiven situation decide whether to use or not to use the current state. So, the problem requires you to make a decision at a current state.
 #### Problem statements
-
+Given a set of values find an answer with an option to choose or ignore the current value.
 #### Approach
-
+If you decide to choose the current value use the previous result where the value was ignored; vice-versa, if you decide to ignore the current value use previous result where value was used.
+```java
+for (int i = 1; i < n; ++i) {
+   dp[i][1] = max(dp[i-1][0] + nums[i], dp[i-1][1]);
+   dp[i][0] = dp[i-1][1];
+}
+```
 #### Problem list
+[198. House Robber - Easy][500], [Solution][501]\
+[714. Best Time to Buy and Sell Stock with Transaction Fee - Medium][504], [Solution][505]\
+[309. Best Time to Buy and Sell Stock with Cooldown - Medium][506]\
+[123. Best Time to Buy and Sell Stock III - Hard][508]\
+[188. Best Time to Buy and Sell Stock IV - Hard][510]
+
 
 ### Credit & References
 * [aatalyk][1000]
@@ -211,8 +223,17 @@ SOFTWARE.
 [402]: https://leetcode.com/problems/palindromic-substrings/ 
 [404]: https://leetcode.com/problems/longest-palindromic-subsequence/
 [406]: https://leetcode.com/problems/shortest-common-supersequence/
-[408]: https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/ 
+[408]: https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/
+ 
 [//]: <Fifth_Pattern>
+[500]: https://leetcode.com/problems/house-robber/
+[501]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/HouseRobber.java
+[504]: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+[505]: https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/BestTimeBuySellStockTransactionFee.java
+[506]: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+[508]: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/
+[510]: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
+
 
 [//]: <Pattern_reference>
 [1000]: https://leetcode.com/discuss/general-discussion/458695/dynamic-programming-patterns 
