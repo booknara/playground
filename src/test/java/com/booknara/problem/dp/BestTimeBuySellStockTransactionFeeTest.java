@@ -10,5 +10,8 @@ public class BestTimeBuySellStockTransactionFeeTest {
                 = new BestTimeBuySellStockTransactionFee();
         Assert.assertEquals(8, bestTimeBuySellStockTransactionFee.maxProfit(new int[]{1,3,2,8,4,9}, 2));
         Assert.assertEquals(5, bestTimeBuySellStockTransactionFee.maxProfit(new int[]{1,3,2,8}, 2));
+
+        Assert.assertEquals(8, bestTimeBuySellStockTransactionFee.maxProfitwithSpace(new int[]{1,3,2,8,4,9}, 2));
+        Assert.assertEquals(5, bestTimeBuySellStockTransactionFee.maxProfitwithSpace(new int[]{1,3,2,8}, 2));
     }
 }
