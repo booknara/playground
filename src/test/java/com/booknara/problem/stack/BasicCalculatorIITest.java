@@ -10,5 +10,6 @@ public class BasicCalculatorIITest {
         Assert.assertEquals(1, basicCalculatorII.calculate(" 3/2 "));
         Assert.assertEquals(7, basicCalculatorII.calculate("3+2*2"));
         Assert.assertEquals(5, basicCalculatorII.calculate(" 3+5 / 2 "));
+        Assert.assertEquals(43, basicCalculatorII.calculate("3+2*20"));
     }
 }
