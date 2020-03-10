@@ -4,27 +4,31 @@ import com.booknara.problem.common.TreeNode;
 
 /**
  * Leet code : 124 (Hard)
- * Given a non-empty binary tree, find the maximum path sum.
- * For this problem, a path is defined as any sequence of nodes
- * from some starting node to any node in the tree along the parent-child connections.
- * The path must contain at least one node and does not need to go through the root.
- * Input: [1,2,3]
- *        1
- *       / \
- *      2   3
- * Output: 6
- *
- * Input: [-10,9,20,null,null,15,7]
- *    -10
- *    / \
- *   9  20
- *     /  \
- *    15   7
- * Output: 42
+ * https://leetcode.com/problems/binary-tree-maximum-path-sum/
  */
 public class BinaryTreeMaxPathSum {
+    int totalMax = Integer.MIN_VALUE;
+
     public int maxPathSum(TreeNode root) {
-        return -1;
+        if (root == null) {
+            return 0;
+        }
+
+        dfs(root);
+
+        return totalMax;
     }
 
+    public int dfs(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int left = Math.max(dfs(node.left), 0);
+        int right = Math.max(dfs(node.right), 0);
+
+        totalMax = Math.max(totalMax, left + right + node.val);
+
+        return Math.max(left, right) + node.val;
+    }
 }
