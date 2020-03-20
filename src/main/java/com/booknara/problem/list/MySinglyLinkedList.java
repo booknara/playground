@@ -2,13 +2,13 @@ package com.booknara.problem.list;
 
 import com.booknara.problem.common.Node;
 
-public class MyLinkedList {
+public class MySinglyLinkedList {
     private static final int FIRST_INDEX = 0;
     Node head;
     int size;
 
     /** Initialize your data structure here. */
-    public MyLinkedList() {
+    public MySinglyLinkedList() {
         head = new Node(0);
         size = 0;
     }
