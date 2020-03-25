@@ -2,6 +2,10 @@ package com.booknara.problem.tree;
 
 import com.booknara.problem.common.TreeNode;
 
+/**
+ * 98. Validate Binary Search Tree (Medium)
+ * https://leetcode.com/problems/validate-binary-search-tree/
+ */
 public class ValidateBST {
     public boolean isValidBST(TreeNode root) {
         return isBST(root, null, null);

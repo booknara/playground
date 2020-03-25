@@ -7,41 +7,29 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Leet code: 94. Binary Tree Inorder Traversal(Medium)
- * Given a binary tree, return the inorder traversal of its nodes' values.
- *
- * Example:
- * Input: [1,null,2,3]
- *    1
- *     \
- *      2
- *     /
- *    3
- *
- * Output: [1,3,2]
- * Follow up: Recursive solution is trivial, could you do it iteratively?
+ * 94. Binary Tree Inorder Traversal (Medium)
+ * https://leetcode.com/problems/binary-tree-inorder-traversal/
  */
 public class BinaryTreeInorderTraversal {
     // Time complexity: O(N), Space complexity: worst O(N), average O(logN)
-    public List<Integer> inorderTraversalWithRecursion(TreeNode root) {
+    public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
             return res;
         }
 
-        traverse(root, res);
-
+        inorder(res, root);
         return res;
     }
 
-    private void traverse(TreeNode node, List<Integer> list) {
+    public void inorder(List<Integer> list, TreeNode node) {
         if (node == null) {
             return;
         }
 
-        traverse(node.left, list);
+        inorder(list, node.left);
         list.add(node.val);
-        traverse(node.right, list);
+        inorder(list, node.right);
     }
 
     // Time complexity: O(N), Space complexity: O(N)
