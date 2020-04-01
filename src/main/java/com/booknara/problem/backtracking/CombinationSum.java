@@ -1,4 +1,4 @@
-package com.booknara.problem.recursive;
+package com.booknara.problem.backtracking;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,7 +9,7 @@ import java.util.List;
  * https://leetcode.com/problems/combination-sum/
  */
 public class CombinationSum {
-    // Backtracking
+    // Backtracking, Time complexity - O(#candidates^target)
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
         if (candidates == null || candidates.length == 0) {
