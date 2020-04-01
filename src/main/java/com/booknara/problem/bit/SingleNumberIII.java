@@ -1,4 +1,4 @@
-package com.booknara.problem.hash;
+package com.booknara.problem.bit;
 
 import java.util.HashMap;
 import java.util.Map;
