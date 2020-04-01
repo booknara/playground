@@ -4,55 +4,59 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 136. Single Number (Easy)
+ * https://leetcode.com/problems/single-number/
+ */
 public class SingleNumber {
-    // Sort
     public int singleNumber(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
-
-        Arrays.sort(nums);
-        int count = 1;
-        int prev = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            // System.out.println(nums[i]);
-            if (count == 1 && nums[i] == prev) {
-                // reset
-                count = 2;
-                prev = nums[i];
-            } else if (count == 2) {
-                // first appearance
-                count = 1;
-                prev = nums[i];
-            } else {
-                return prev;
-            }
+        int res = 0;
+        for (int n : nums) {
+            res ^= n;
+            //System.out.println(res);
+            //System.out.println(Integer.toBinaryString(res));
         }
 
-        return prev;
+        return res;
     }
 
+    // Sort O(nlogn) without space
+    public int singleNumberwithSort(int[] nums) {
+        // Input check(Assume non-empty array of integers based on problem statement)
+        Integer res = null;
+        Arrays.sort(nums);
+        for (int i = 0; i + 1 < nums.length; i += 2) {
+            int n1 = nums[i];
+            int n2 = nums[i + 1];
+            if (n1 != n2) {
+                res = n1;
+                break;
+            }
+        }
+
+        return res == null ? nums[nums.length - 1] : res;
+    }
+
+    // Sort O(n) with space (dictionary)
     public int singleNumberUsingHash(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-
+        // Input check(Assume non-empty array of integers based on problem statement)
         Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int count = map.getOrDefault(nums[i], 0);
-            if (count == 0) {
-                map.put(nums[i], 1);
-            } else {
-                map.remove(nums[i]);
+        for (int n: nums) {
+            int count = map.getOrDefault(n, 0);
+            map.put(n, count + 1);
+        }
+
+        int res = 0;
+        for (Map.Entry<Integer, Integer> entry: map.entrySet()) {
+            if (entry.getValue() == 1) {
+                res = entry.getKey();
+                break;
             }
         }
 
-        if (map.size() == 1) {
-            for (Map.Entry<Integer, Integer> entry: map.entrySet()) {
-                return entry.getKey();
-            }
-        }
-
-        return -1;
+        return res;
     }
 }
