@@ -1,4 +1,4 @@
-package com.booknara.problem.sort;
+package com.booknara.problem.bit;
 
 import org.junit.Assert;
 import org.junit.Test;
