@@ -10,15 +10,18 @@ public class MoveZeroes {
             return;
         }
 
-        int point = 0;
+        int zero = 0;
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != 0) {
-                // swap point and index
-                int temp = nums[i];
-                nums[i] = nums[point];
-                nums[point] = temp;
-                point++;
+                swap(nums, i, zero);
+                zero++;
             }
         }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
