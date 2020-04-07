@@ -10,14 +10,14 @@ import java.util.Random;
  */
 public class KthLargestElementInArray {
     public int findKthLargest(int[] nums, int k) {
-        if (nums == null || nums.length == 0 || k == 0) {
-            return 0;
+        if (nums == null || nums.length == 0 || k > nums.length || k == 0) {
+            return -1;
         }
 
         // Min heap
         PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.naturalOrder());
-        for (int i = 0; i < nums.length; i++) {
-            pq.add(nums[i]);
+        for (int n: nums) {
+            pq.add(n);
             if (pq.size() > k) {
                 pq.poll();
             }
