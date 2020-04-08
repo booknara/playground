@@ -1,4 +1,4 @@
-package com.booknara.problem.heap;
+package com.booknara.problem.dc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.PriorityQueue;
  * https://leetcode.com/problems/k-closest-points-to-origin/
  */
 public class KClosestPointsToOrigin {
-    // O(n)
+    // O(n), Quick search
     public int[][] kClosest(int[][] points, int K) {
         List<int[]> res = new ArrayList<>();
         if (points == null || points.length == 0) {
