@@ -1,53 +1,63 @@
 package com.booknara.problem.sort;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Leet code : 210. Course Schedule II(Medium)
- * There are a total of n courses you have to take, labeled from 0 to n-1.
- * Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
- * Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
- * There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
- *
- * Example 1:
- * Input: 2, [[1,0]]
- * Output: [0,1]
- * Explanation: There are a total of 2 courses to take. To take course 1 you should have finished
- *              course 0. So the correct course order is [0,1] .
- * Example 2:
- * Input: 4, [[1,0],[2,0],[3,1],[3,2]]
- * Output: [0,1,2,3] or [0,2,1,3]
- * Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both
- *              courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0.
- *              So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
+ * https://leetcode.com/problems/course-schedule-ii/
  */
 public class CourseScheduleII {
-    // TODO : Wrong answer
+    // In-degree solution O(N + E)
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        // Totological sort
-        if (prerequisites == null || prerequisites.length == 0) {
-            return null;
+        if (numCourses != 0 && (prerequisites == null || prerequisites.length == 0)) {
+            // not prerequisites required
+            int[] ans = new int[numCourses];
+            for (int i = 0; i < numCourses; i++) {
+                ans[i] = i;
+            }
+            return ans;
         }
 
-        Stack<int[]> stack = new Stack<>();
+        int[] indegree = new int[numCourses];
         int[] res = new int[numCourses];
-        int index = 0;
-        Set<Integer> visited = new HashSet<>();
-        stack.push(prerequisites[0]);
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int[] p: prerequisites) {
+            int dst = p[0];
+            int src = p[1];
+            List<Integer> list = map.getOrDefault(src, new ArrayList<>());
+            list.add(dst);
+            map.put(src, list);
+            indegree[dst]++;
+        }
 
-        while (!stack.empty()) {
-            int[] course = stack.peek();
-            if (visited.contains(course[1])) {
-                res[index++] = course[0];
-                stack.pop();
-            } else {
-                visited.add(course[1]);
-                stack.push(course);
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                // 0 indegree
+                q.add(i);
             }
         }
 
-        return res;
+        int i = 0;
+        while (!q.isEmpty()) {
+            int node = q.poll();
+            res[i++] = node;
+
+            if (map.containsKey(node)) {
+                for (int neighbor: map.get(node)) {
+                    indegree[neighbor]--;
+
+                    if (indegree[neighbor] == 0) {
+                        q.add(neighbor);
+                    }
+                }
+            }
+        }
+
+        if (i == numCourses) {
+            return res;
+        }
+
+        return new int[0];
     }
 }
