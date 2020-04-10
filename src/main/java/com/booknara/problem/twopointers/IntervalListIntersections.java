@@ -9,7 +9,55 @@ import java.util.List;
  * https://leetcode.com/problems/interval-list-intersections/
  */
 public class IntervalListIntersections {
+    // Apr 9, 2020 version
     public int[][] intervalIntersection(int[][] A, int[][] B) {
+        List<int[]> res = new ArrayList<>();
+        // Input validation handling
+        if (A == null || A.length == 0
+                || B == null || B.length == 0) {
+            return res.toArray(new int[0][]);
+        }
+
+        int i = 0;
+        int j = 0;
+        while (i < A.length && j < B.length) {
+            int[] a = A[i];
+            int[] b = B[j];
+            if (a[0] < b[0]) {
+                if (a[1] < b[0]) {
+                    // case 1) not overlapped
+                    i++;
+                } else if (a[1] > b[1]) {
+                    // case 2) a includes b entirely, b is an intersection
+                    res.add(new int[] {b[0], b[1]});
+                    j++;
+                } else {
+                    // case 3) a and b has an intersection partly, b[0] and a[1] is an intersection
+                    res.add(new int[] {b[0], a[1]});
+                    i++;
+                }
+            } else {
+                // a[0] > b[0]
+                if (b[1] < a[0]) {
+                    // case 1) not overlapped
+                    j++;
+                } else if (b[1] > a[1]) {
+                    // case 2) a includes b entirely, b is an intersection
+                    res.add(new int[] {a[0], a[1]});
+                    i++;
+                } else {
+                    // case 3) a and b has an intersection partly, b[0] and a[1] is an intersection
+                    res.add(new int[] {a[0], b[1]});
+                    j++;
+                }
+            }
+        }
+
+        return res.toArray(new int[res.size()][]);
+    }
+
+    // Apr 1, 2020 version
+    public int[][] intervalIntersection1(int[][] A, int[][] B) {
         List<int[]> res = new ArrayList<>();
         int i = 0, j = 0;
         int lengthA = A.length;
@@ -33,7 +81,7 @@ public class IntervalListIntersections {
     }
 
     // O(nlogn)
-    public int[][] intervalIntersection1(int[][] A, int[][] B) {
+    public int[][] intervalIntersection2(int[][] A, int[][] B) {
         // Input validation
         List<Integer> list = new ArrayList<>();
         for (int[] i: A) {
