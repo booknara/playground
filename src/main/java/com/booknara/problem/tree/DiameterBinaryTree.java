@@ -7,16 +7,14 @@ import com.booknara.problem.common.TreeNode;
  * https://leetcode.com/problems/diameter-of-binary-tree/
  */
 public class DiameterBinaryTree {
-    int d = 0;
+    int max = 0;
     public int diameterOfBinaryTree(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
-        d = 0;
         dfs(root);
-        // need to exclude self-node
-        return d - 1;
+        return max;
     }
 
     public int dfs(TreeNode node) {
@@ -26,8 +24,7 @@ public class DiameterBinaryTree {
 
         int l = dfs(node.left);
         int r = dfs(node.right);
-
-        d = Math.max(d, l + r + 1);
+        max = Math.max(max, l + r);
 
         // Return value is "max depth btw left and right + 1(self)"
         return Math.max(l, r) + 1;
