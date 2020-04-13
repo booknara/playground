@@ -1,4 +1,4 @@
-package com.booknara.problem.heap;
+package com.booknara.problem.list;
 
 import java.util.Deque;
 import java.util.LinkedList;
