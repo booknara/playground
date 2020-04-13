@@ -1,4 +1,4 @@
-package com.booknara.problem.hash;
+package com.booknara.problem.heap;
 
 import java.util.*;
 
