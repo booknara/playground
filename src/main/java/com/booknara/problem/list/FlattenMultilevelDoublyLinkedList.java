@@ -3,16 +3,20 @@ package com.booknara.problem.list;
 import java.util.Stack;
 
 /**
- * Leet code : 430. Flatten a Multilevel Doubly Linked List (Medium)
+ * 430. Flatten a Multilevel Doubly Linked List (Medium)
  * https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/
  */
 public class FlattenMultilevelDoublyLinkedList {
     public Node flatten(Node head) {
+        if (head == null) {
+            return null;
+        }
+
         Stack<Node> stack = new Stack<>();
         Node current = head;
-
-        while (current != null || !stack.isEmpty()) {
+        while (current != null) {
             if (current.child != null) {
+                // child
                 if (current.next != null) {
                     stack.push(current.next);
                 }
@@ -23,6 +27,7 @@ public class FlattenMultilevelDoublyLinkedList {
 
                 current = current.next;
             } else {
+                // no child
                 if (current.next == null && !stack.isEmpty()) {
                     current.next = stack.pop();
                     current.next.prev = current;
