@@ -1,64 +1,80 @@
 package com.booknara.problem.dp;
 
 /**
- * Given an array nums of n integers where n > 1,
- * return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
- *
- * Example:
- *
- * Input:  [1,2,3,4]
- * Output: [24,12,8,6]
- * Note: Please solve it without division and in O(n).
- *
- * Follow up:
- * Could you solve it with constant space complexity?
- * (The output array does not count as extra space for the purpose of space complexity analysis.)
+ * 238. Product of Array Except Self (Medium)
+ *  https://leetcode.com/problems/product-of-array-except-self/
  */
 public class ProductArrayExceptSelf {
+    // Time complexity: O(n), Space complexity: O(1)
+    public int[] productExceptSelf(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
+
+        int[] res = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                res[i] = nums[i];
+            } else {
+                res[i] = res[i - 1] * nums[i];
+            }
+            //System.out.print(res[i] + ",");
+        }
+
+        //System.out.println();
+        int product = 1;
+        for (int i = res.length - 1; i >= 0; i--) {
+            if (i == 0) {
+                res[i] = product;
+            } else {
+                res[i] = res[i - 1] * product;
+            }
+            product *= nums[i];
+            //System.out.print(res[i] + ",");
+        }
+
+        return res;
+    }
 
     // Time complexity: O(n), Space complexity: O(n)
-    public int[] productExceptSelf(int[] nums) {
-        if (nums.length == 1) {
-            return nums;
+    public int[] productExceptSelf1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
         }
 
         int[] left = new int[nums.length];
-        left[0] = 1;
-        for (int i = 1; i < nums.length; i++) {
-            left[i] = left[i - 1] * nums[i - 1];
+        for (int i = 0; i < nums.length; i++) {
+            if (i == 0) {
+                left[i] = nums[i];
+            } else {
+                left[i] = left[i - 1] * nums[i];
+            }
+            //System.out.print(left[i] + ",");
         }
 
+        System.out.println();
         int[] right = new int[nums.length];
-        right[nums.length - 1] = 1;
-        for (int i = nums.length - 2; i >= 0; i--) {
-            right[i] = right[i + 1] * nums[i + 1];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (i == nums.length - 1) {
+                right[i] = nums[nums.length - 1];
+            } else {
+                right[i] = nums[i] * right[i + 1];
+            }
+            //System.out.print(right[i] + ",");
         }
 
         for (int i = 0; i < nums.length; i++) {
-            right[i] *= left[i];
+            int l = 1;
+            if (i > 0) {
+                l = left[i - 1];
+            }
+            int r = 1;
+            if (i < nums.length - 1) {
+                r = right[i + 1];
+            }
+            nums[i] = l * r;
         }
 
-        return right;
-    }
-
-    // Time complexity: O(n), Space complexity: O(1)
-    public int[] optimizedProductExceptSelf(int[] nums) {
-        if (nums.length == 1) {
-            return nums;
-        }
-
-        int[] left = new int[nums.length];
-        left[0] = 1;
-        for (int i = 1; i < nums.length; i++) {
-            left[i] = left[i - 1] * nums[i - 1];
-        }
-
-        int r = 1;
-        for (int i = nums.length - 2; i >= 0; i--) {
-            r *= nums[i + 1];
-            left[i] = left[i] * r;
-        }
-
-        return left;
+        return nums;
     }
 }
