@@ -2,8 +2,45 @@ package com.booknara.problem.stack;
 
 import java.util.Stack;
 
+/**
+ * 20. Valid Parentheses (Easy)
+ * https://leetcode.com/problems/valid-parentheses/
+ */
 public class ValidParentheses {
+    // version: 04/16/2020
     public boolean isValid(String s) {
+        if (s == null || s.length() == 0) {
+            return true;
+        }
+
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (i == 0 && !open(c)) return false;
+
+            // open case
+            if (open(c)) {
+                stack.push(c);
+                continue;
+            }
+
+            // close case
+            if (stack.isEmpty()) return false;
+            char e = stack.pop();
+            if ((e == '(') != (c == ')')) return false;
+            if ((e == '{') != (c == '}')) return false;
+            if ((e == '[') != (c == ']')) return false;
+        }
+
+        return stack.isEmpty();
+    }
+
+    private boolean open(char c) {
+        return (c == '(' || c == '{' || c == '[');
+    }
+
+    // version: 02/12/2020
+    public boolean isValid1(String s) {
         if (s.length() == 0) {
             return true;
         }
