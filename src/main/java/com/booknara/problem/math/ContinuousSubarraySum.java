@@ -1,4 +1,4 @@
-package com.booknara.problem.array;
+package com.booknara.problem.math;
 
 import java.util.HashMap;
 import java.util.Map;
