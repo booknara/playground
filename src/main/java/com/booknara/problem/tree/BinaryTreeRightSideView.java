@@ -12,13 +12,13 @@ import java.util.List;
 public class BinaryTreeRightSideView {
     // Using DFS
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> ans = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
         if (root == null) {
-            return ans;
+            return res;
         }
 
-        dfs(root, ans, 0);
-        return ans;
+        dfs(root, res, 1);
+        return res;
     }
 
     public void dfs(TreeNode node, List<Integer> ans, int level) {
@@ -26,10 +26,11 @@ public class BinaryTreeRightSideView {
             return;
         }
 
-        if (ans.size() == level) {
+        if (ans.size() < level) {
             ans.add(node.val);
         }
 
+        // Key point: visit right side first
         dfs(node.right, ans, level + 1);
         dfs(node.left, ans, level + 1);
     }
