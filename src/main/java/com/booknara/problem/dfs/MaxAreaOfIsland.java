@@ -30,11 +30,10 @@ public class MaxAreaOfIsland {
         }
 
         grid[r][c] = 0;
-        int max = (1 + dfs(grid, r, c - 1, n)
+
+        return 1 + dfs(grid, r, c - 1, n)
                 + dfs(grid, r, c + 1, n)
                 + dfs(grid, r - 1, c, n)
-                + dfs(grid, r + 1, c, n));
-
-        return max;
+                + dfs(grid, r + 1, c, n);
     }
 }
