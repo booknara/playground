@@ -1,4 +1,4 @@
-package com.booknara.problem.backtracking;
+package com.booknara.problem.dp;
 
 /**
  * 1066. Campus Bikes II (Medium)
