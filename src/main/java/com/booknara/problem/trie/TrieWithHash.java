@@ -6,6 +6,7 @@ import java.util.Map;
 /**
  * 208. Implement Trie (Prefix Tree) (Medium)
  * https://leetcode.com/problems/implement-trie-prefix-tree/
+ * Time complexity : O(M*N*K), M: M words, N: the length of word at most, K: the max branch(in this case: alphabet)
  */
 public class TrieWithHash {
     TrieNode root;
