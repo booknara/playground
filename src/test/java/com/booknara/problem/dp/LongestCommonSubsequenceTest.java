@@ -10,6 +10,7 @@ public class LongestCommonSubsequenceTest {
         Assert.assertEquals(lcs.longestCommonSubsequence("abcde", "ace"), 3);
         Assert.assertEquals(lcs.longestCommonSubsequence("abc", "abc"), 3);
         Assert.assertEquals(lcs.longestCommonSubsequence("abc", "def"), 0);
+        Assert.assertEquals(lcs.longestCommonSubsequence("sea", "eat"), 2);
 
         Assert.assertEquals(lcs.optimizelongestCommonSubsequence("abcde", "ace"), 3);
         Assert.assertEquals(lcs.optimizelongestCommonSubsequence("abc", "abc"), 3);
