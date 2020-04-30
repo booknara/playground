@@ -28,9 +28,8 @@ public class StringValidSequenceInBinaryTree {
             return false;   // different value node
         }
 
-        if (node.left == null && node.right == null) {
-            if (index == arr.length - 1) return true;
-            else return false;
+        if (node.left == null && node.right == null && index == arr.length - 1) {
+            return true;
         }
 
         return dfs(node.left, arr, index + 1)
