@@ -1,5 +1,6 @@
 package com.booknara.problem.dp;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,8 +9,58 @@ import java.util.Set;
  * https://leetcode.com/problems/largest-plus-sign/
  */
 public class LargestPlusSign {
-    // O(n^2)
+    // O(n^2), better performance
     public int orderOfLargestPlusSign(int N, int[][] mines) {
+        if (mines == null || mines.length == 0) {
+            return (N + 1) / 2;
+        }
+
+        int[][] grid = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            Arrays.fill(grid[i], N);
+        }
+
+        for (int[] m: mines) {
+            grid[m[0]][m[1]] = 0;
+        }
+
+        for (int i = 0; i < N; i++) {
+            int l = 0, r = 0, t = 0, b = 0;
+            for (int j = 0, k = N - 1; j < N; j++, k--) {
+                // left
+                if (grid[i][j] == 0) l = 0;
+                else l += 1;
+                grid[i][j] = Math.min(grid[i][j], l);
+
+                // right
+                if (grid[i][k] == 0) r = 0;
+                else r += 1;
+                grid[i][k] = Math.min(grid[i][k], r);
+
+                // top
+                if (grid[j][i] == 0) t = 0;
+                else t += 1;
+                grid[j][i] = Math.min(grid[j][i], t);
+
+                // bottom
+                if (grid[k][i] == 0) b = 0;
+                else b += 1;
+                grid[k][i] = Math.min(grid[k][i], b);
+            }
+        }
+
+        int max = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                max = Math.max(max, grid[i][j]);
+            }
+        }
+
+        return max;
+    }
+
+    // O(n^2)
+    public int orderOfLargestPlusSign1(int N, int[][] mines) {
         if (mines == null || mines.length == 0) {
             return (N + 1) / 2;
         }
