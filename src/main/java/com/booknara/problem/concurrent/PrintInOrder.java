@@ -13,24 +13,29 @@ public class PrintInOrder {
     }
 
     public void first(Runnable printFirst) throws InterruptedException {
-        while (atomicInteger.get() != 3);
+        while (atomicInteger.get() != 3) {
+            Thread.sleep(1);
+        }
         // printFirst.run() outputs "first". Do not change or remove this line.
         printFirst.run();
         atomicInteger.decrementAndGet();
     }
 
     public void second(Runnable printSecond) throws InterruptedException {
-        while (atomicInteger.get() != 2);
+        while (atomicInteger.get() != 2) {
+            Thread.sleep(1);
+        }
         // printSecond.run() outputs "second". Do not change or remove this line.
         printSecond.run();
         atomicInteger.decrementAndGet();
     }
 
     public void third(Runnable printThird) throws InterruptedException {
-        while (atomicInteger.get() != 1);
+        while (atomicInteger.get() != 1) {
+            Thread.sleep(1);
+        }
         // printThird.run() outputs "third". Do not change or remove this line.
         printThird.run();
         atomicInteger.decrementAndGet();
     }
-
 }
