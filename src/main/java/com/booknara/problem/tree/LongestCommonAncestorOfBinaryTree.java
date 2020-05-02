@@ -23,7 +23,7 @@ public class LongestCommonAncestorOfBinaryTree {
             return null;
         }
 
-        // Exist LCA the other side
+        // Exist LCA on the other side
         if (left == null) return right;
         if (right == null) return left;
 
