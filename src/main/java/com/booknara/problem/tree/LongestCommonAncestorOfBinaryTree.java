@@ -7,6 +7,7 @@ import com.booknara.problem.common.TreeNode;
  * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
  */
 public class LongestCommonAncestorOfBinaryTree {
+    // T: O(n, the number of nodes), S: O(n, the number of nodes in case of skewed binary tree)
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
             return null;
