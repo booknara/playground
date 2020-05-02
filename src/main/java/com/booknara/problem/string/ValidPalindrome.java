@@ -12,10 +12,12 @@ public class ValidPalindrome {
 
         int l = 0, r = s.length() - 1;
         while (l < r) {
+            // check and skip non-alphanumeric on the left side
             while (l < r && !Character.isLetterOrDigit(Character.toLowerCase(s.charAt(l)))) {
                 l++;
             }
 
+            // check and skip non-alphanumeric on the right side
             while (l < r && !Character.isLetterOrDigit(Character.toLowerCase(s.charAt(r)))) {
                 r--;
             }
