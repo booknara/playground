@@ -10,6 +10,7 @@ import java.util.List;
  * https://leetcode.com/problems/all-elements-in-two-binary-search-trees/
  */
 public class AllElementsInTwoBinarySearchTrees {
+    // T:O(n, the number of total tree elements(root1, root2), S:O(n)
     public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
         List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
