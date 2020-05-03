@@ -1,5 +1,6 @@
 package com.booknara.problem.heap;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 /**
@@ -7,8 +8,35 @@ import java.util.PriorityQueue;
  * https://leetcode.com/problems/largest-number/
  */
 public class LargestNumber {
-    // T:O(nlogn), S:O(n)
+    // Using Sort, T:O(nlogn), S:O(n)
     public String largestNumber(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return "";
+        }
+
+        String[] strings = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            strings[i] = String.valueOf(nums[i]);
+        }
+
+        Arrays.sort(strings, (i1, i2) -> {
+            String first = i1 + i2;     // 3, 30 -> 330
+            String second = i2 + i1;    // 3, 30 -> 303
+            return second.compareTo(first); // in this case, make reverse order
+        });
+
+        if (strings[0].equals("0")) return "0";
+
+        StringBuilder builder = new StringBuilder();
+        for (String n: strings) {
+            builder.append(n);
+        }
+
+        return builder.toString();
+    }
+
+    // Using PriorityQueue, T:O(nlogn), S:O(n)
+    public String largestNumber1(int[] nums) {
         if (nums == null || nums.length == 0) {
             return "";
         }
