@@ -5,8 +5,28 @@ package com.booknara.problem.dp;
  *  https://leetcode.com/problems/product-of-array-except-self/
  */
 public class ProductArrayExceptSelf {
-    // Time complexity: O(n), Space complexity: O(1)
+    // T: O(n), S: O(1)
     public int[] productExceptSelf(int[] nums) {
+        // check input(assume the num of array is more than 1)
+        int[] res = new int[nums.length];
+        int product = 1;
+        for (int i = 0; i < nums.length; i++) {
+            // res[i] = the product value until res[i - 1]
+            res[i] = product;
+            product *= nums[i];
+        }
+
+        product = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            res[i] *= product;
+            product *= nums[i];
+        }
+
+        return res;
+    }
+
+    // Time complexity: O(n), Space complexity: O(1)
+    public int[] productExceptSelf1(int[] nums) {
         if (nums == null || nums.length == 0) {
             return new int[0];
         }
@@ -37,7 +57,7 @@ public class ProductArrayExceptSelf {
     }
 
     // Time complexity: O(n), Space complexity: O(n)
-    public int[] productExceptSelf1(int[] nums) {
+    public int[] productExceptSelf2(int[] nums) {
         if (nums == null || nums.length == 0) {
             return new int[0];
         }
