@@ -11,8 +11,9 @@ public class NumberComplement {
             return 1;
         }
 
-        int n = (Integer.highestOneBit(num) << 1) - 1;  // all 1's mask
-        return num ^ n;
+        // e.g. 5(101) ^ (1000)
+        int mask = (Integer.highestOneBit(num) << 1) - 1;  // all 1's mask
+        return num ^ mask;
     }
 
     // T: O(1), S:O(1)
