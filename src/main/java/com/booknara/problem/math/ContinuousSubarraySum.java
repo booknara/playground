@@ -28,19 +28,18 @@ public class ContinuousSubarraySum {
         Now back to prefix sum, if we know that the difference of two prefix sum is divisible by k, then we
         can learn that sum of the subarray corresponds to this difference must be divisible by k (aka, it is multiple of k
         */
+        int sum = 0;
         Map<Integer, Integer> map = new HashMap<>();
         map.put(0, -1);
-        int sum = 0;
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
             if (k != 0) {
-                sum = sum % k;
+                sum = sum % k;  // Key point!
             }
 
-            Integer prev = map.get(sum);
-            if (prev != null) {
+            if (map.containsKey(sum)) {
                 // to check a continuous subarray of size at least 2
-                if (i - prev > 1) return true;
+                if (i - map.get(sum) > 1) return true;
             } else {
                 map.put(sum, i);
             }
