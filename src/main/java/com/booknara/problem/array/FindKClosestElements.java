@@ -1,4 +1,4 @@
-package com.booknara.problem.hash;
+package com.booknara.problem.array;
 
 import java.util.LinkedList;
 import java.util.List;
