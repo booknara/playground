@@ -8,44 +8,38 @@ import java.util.Queue;
  * https://leetcode.com/problems/is-graph-bipartite/
  */
 public class GraphBipartite {
+    // T:O(v + e), S:O(v)
     public boolean isBipartite(int[][] graph) {
         if (graph == null || graph.length == 0) {
             return true;
         }
 
         // 0: not visited, 1: red, 2: blue
-        int[] color = new int[graph.length];
-        for (int i = 0; i < graph.length; i++) {
-            if (color[i] == 0) {
-                if (!isBipartite(graph, i, color)) return false;
+        int[] colors = new int[graph.length];
+        for (int i = 0; i < colors.length; i++) {
+            if (colors[i] == 0) {
+                if (!isBipartite(graph, colors, i)) return false;
             }
         }
 
         return true;
     }
 
-    private boolean isBipartite(int[][] graph, int source, int[] color) {
+    private boolean isBipartite(int[][] graph, int[] colors, int source) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(source);
-        color[source] = 1;
+        colors[source] = 1;  // 1: blue, 2: red
         while (!queue.isEmpty()) {
-            int n = queue.poll();
-
-            for (int i: graph[n]) {
-                if (color[n] == 1) {
-                    if (color[i] == 1) return false;
-
-                    if (color[i] == 0) {
-                        queue.add(i);
-                        color[i] = 2;
-                    }
-                } else {
-                    if (color[i] == 2) return false;
-
-                    if (color[i] == 0) {
-                        queue.add(i);
-                        color[i] = 1;
-                    }
+            int v = queue.poll();
+            int next = colors[v] == 1 ? 2 : 1;
+            for (int n: graph[v]) {
+                if (colors[n] == 0) {
+                    // color is not decided
+                    colors[n] = next;
+                    queue.offer(n);
+                } else if (colors[n] != next) {
+                    // not bipartite graph because neighbor node has same color
+                    return false;
                 }
             }
         }
