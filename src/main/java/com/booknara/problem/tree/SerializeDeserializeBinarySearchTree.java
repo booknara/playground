@@ -2,6 +2,8 @@ package com.booknara.problem.tree;
 
 import com.booknara.problem.common.TreeNode;
 
+import java.util.LinkedList;
+
 /**
  * 449. Serialize and Deserialize BST (Medium)
  * https://leetcode.com/problems/serialize-and-deserialize-bst/
@@ -24,11 +26,15 @@ public class SerializeDeserializeBinarySearchTree {
             return;
         }
 
-        builder.append(node.val).append(",");
-        dfsSerialize(node.left, builder);
-        dfsSerialize(node.right, builder);
-
-        return;
+        builder.append(node.val);
+        if (node.left != null) {
+            builder.append(",");
+            dfsSerialize(node.left, builder);
+        }
+        if (node.right != null) {
+            builder.append(",");
+            dfsSerialize(node.right, builder);
+        }
     }
 
     // Decodes your encoded data to tree.
@@ -37,27 +43,26 @@ public class SerializeDeserializeBinarySearchTree {
             return null;
         }
 
-        String[] array = data.split(",");
-        int[] pointer = new int[1];
-        return dfsDeserialize(array, pointer, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        String[] sArray = data.split(",");
+        LinkedList<Integer> input = new LinkedList<>();
+        for (String s: sArray) {
+            input.add(Integer.parseInt(s));
+        }
+
+        return dfsDeserialize(input, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    public TreeNode dfsDeserialize(String[] array, int[] pointer,
-                                   int min, int max) {
-        if (pointer[0] == array.length) {
-            return null;
-        }
+    private TreeNode dfsDeserialize(LinkedList<Integer> list, int lower, int higher) {
+        if (list.isEmpty()) return null;
 
-        int val = Integer.parseInt(array[pointer[0]]);
-        if (val < min || val > max) {
-            return null;
-        }
+        int val = list.peekFirst(); // check point
+        if (val < lower || val > higher) return null;
 
-        TreeNode node = new TreeNode(val);
-        pointer[0]++;
-        node.left = dfsDeserialize(array, pointer, min, val);   // smaller than root
-        node.right = dfsDeserialize(array, pointer, val, max);  // bigger than root
+        list.pollFirst();
+        TreeNode root = new TreeNode(val);
+        root.left = dfsDeserialize(list, lower, val);
+        root.right = dfsDeserialize(list, val, higher);
 
-        return node;
+        return root;
     }
 }
