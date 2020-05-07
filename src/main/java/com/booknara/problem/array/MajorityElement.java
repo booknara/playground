@@ -1,4 +1,4 @@
-package com.booknara.problem.hash;
+package com.booknara.problem.array;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
  * https://leetcode.com/problems/majority-element/
  */
 public class MajorityElement {
-    // Boyer-Moore Voting algorithm
+    // Boyer-Moore Voting algorithm(to find the majority element which is more than n/2
     // T:O(n), S:O(1)
     public int majorityElement(int[] nums) {
         int c = 0, res = 0;
