@@ -20,6 +20,7 @@ public class LongestIncreasingSubsequence {
                     max = Math.max(max, dp[j]);
                 }
             }
+            // After ith finishes, it comes up the ith max IS(if an array is descending order, max = 0)
             dp[i] = max + 1;
             total = Math.max(total, dp[i]);
         }
