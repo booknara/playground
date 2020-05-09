@@ -5,7 +5,7 @@ package com.booknara.problem.math;
  * https://leetcode.com/problems/sqrtx/
  */
 public class Sqrt {
-    // Binary search, O(n)
+    // Binary search, T:O(log*n), S:O(1)
     public int mySqrt(int x) {
         if (x < 2) return x;
 
