@@ -1,21 +1,8 @@
 package com.booknara.problem.dp;
 
 /**
- * Leet code: 96. Unique Binary Search Trees (Medium)
- * Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
- *
- * Example:
- *
- * Input: 3
- * Output: 5
- * Explanation:
- * Given n = 3, there are a total of 5 unique BST's:
- *
- *    1         3     3      2      1
- *     \       /     /      / \      \
- *      3     2     1      1   3      2
- *     /     /       \                 \
- *    2     1         2                 3
+ * 96. Unique Binary Search Trees (Medium)
+ * https://leetcode.com/problems/unique-binary-search-trees/
  *
  *    F(i, n) = G(i - 1) * G(n - i)
  *
@@ -23,9 +10,8 @@ package com.booknara.problem.dp;
  *    G(n) = Sum i=1 to n, F(i, n) => Sum i=1 to n, G(i - 1) * G(n - i)
  */
 
-
 public class UniqueBinarySearchTree {
-    // Time complexity: O(N^2), Space complexity: O(N)
+    // T: O(N^2), S: O(N)
     public int numTrees(int n) {
         if (n == 0) {
             return 0;
