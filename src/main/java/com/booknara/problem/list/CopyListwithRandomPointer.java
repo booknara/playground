@@ -6,49 +6,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Leet code : 138. Copy List with Random Pointer(Medium)
- * A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
- * Return a deep copy of the list.
- * The Linked List is represented in the input/output as a list of n nodes.
- * Each node is represented as a pair of [val, random_index] where:
- *
- * val: an integer representing Node.val
- * random_index: the index of the node (range from 0 to n-1) where random pointer points to,
- * or null if it does not point to any node.
+ * 138. Copy List with Random Pointer (Medium)
+ * https://leetcode.com/problems/copy-list-with-random-pointer/
  */
 public class CopyListwithRandomPointer {
-    // Key: old node, Value: new node
-    Map<Node, Node> visited = new HashMap<>();
-
+    // T:O(n), S:O(1)
     public Node copyRandomList(Node head) {
         if (head == null) {
             return null;
         }
 
-        Node oldNode = head;
-        Node newNode = new Node(oldNode.val);
-        visited.put(oldNode, newNode);
+        Node cur = head;
+        // Key: old node, Value: new node
+        Map<Node, Node> map = new HashMap<>();
+        while (cur != null) {
+            //System.out.println(cur.val);
+            Node n = getNode(map, cur);
+            n.next = getNode(map, cur.next);
+            n.random = getNode(map, cur.random);
 
-        while (oldNode != null) {
-            newNode.next = getNode(oldNode.next);
-            newNode.random = getNode(oldNode.random);
-
-            oldNode = oldNode.next;
-            newNode = newNode.next;
+            cur = cur.next;
         }
 
-        return visited.get(head);
+        return map.get(head);
     }
 
-    private Node getNode(Node node) {
+    private Node getNode(Map<Node, Node> map, Node node) {
         if (node == null) {
             return null;
         }
 
-        if (!visited.containsKey(node)) {
-            visited.put(node, new Node(node.val));
+        if (!map.containsKey(node)) {
+            map.put(node, new Node(node.val));
         }
 
-        return visited.get(node);
+        return map.get(node);
     }
 }
