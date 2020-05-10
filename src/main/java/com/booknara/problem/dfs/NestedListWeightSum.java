@@ -9,34 +9,29 @@ import java.util.List;
  * https://leetcode.com/problems/nested-list-weight-sum/
  */
 public class NestedListWeightSum {
+    // T:O(n), S:O(h, the max length of depth levels)
     public int depthSum(List<NestedInteger> nestedList) {
         if (nestedList == null || nestedList.size() == 0) {
             return 0;
         }
 
-        int res = 0;
-        int depth = 1;
-        for (NestedInteger ni: nestedList) {
-            if (ni.isInteger()) {
-                res += ni.getInteger() * depth;
-            } else {
-                res += dfs(ni.getList(), depth + 1);
-            }
-        }
-
-        return res;
+        return dfs(nestedList, 1);
     }
 
-    public int dfs(List<NestedInteger> list, int depth) {
-        int res = 0;
-        for (NestedInteger ni: list) {
+    private int dfs(List<NestedInteger> nestedList, int depth) {
+        if (nestedList == null || nestedList.size() == 0) {
+            return 0;
+        }
+
+        int total = 0;
+        for (NestedInteger ni: nestedList) {
             if (ni.isInteger()) {
-                res += ni.getInteger() * depth;
+                total += ni.getInteger() * depth;
             } else {
-                res += dfs(ni.getList(), depth + 1);
+                total += dfs(ni.getList(), depth + 1);
             }
         }
 
-        return res;
+        return total;
     }
 }
