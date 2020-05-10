@@ -7,39 +7,31 @@ import java.util.Stack;
  * https://leetcode.com/problems/next-greater-element-ii/
  */
 public class NextGreaterElementII {
+    // T:O(n), S:O(n)
     public int[] nextGreaterElements(int[] nums) {
-        int[] res = new int[nums.length];
         if (nums == null || nums.length == 0) {
-            return res;
+            return nums;
         }
 
+        int[] res = new int[nums.length];
+        // store index instead of value
         Stack<Integer> stack = new Stack<>();
-        // two loops
+        stack.push(-1);
+
         for (int i = 2 * nums.length - 1; i >= 0; i--) {
-            if (stack.empty()) {
-                stack.push(i);
-                res[i % nums.length] = -1;
-                continue;
+            int idx = i % nums.length;
+            int v = nums[idx];
+            while (stack.peek() != -1 && nums[stack.peek()] <= v) {
+                stack.pop();
             }
 
-            while (!stack.empty()) {
-                int prev = stack.peek();
-                if (nums[prev % nums.length] > nums[i % nums.length]) {
-                    res[i % nums.length] = nums[prev % nums.length];
-                    break;
-                }
-
-                if (!stack.empty()) {
-                    stack.pop();
-                } else {
-                    res[i % nums.length] = -1;
-                }
+            if (stack.peek() == -1) {
+                res[idx] = -1;
+            } else {
+                res[idx] = nums[stack.peek()];
             }
 
-            if (stack.empty()) {
-                res[i % nums.length] = -1;
-            }
-            stack.push(i % nums.length);
+            stack.push(idx);
         }
 
         return res;
