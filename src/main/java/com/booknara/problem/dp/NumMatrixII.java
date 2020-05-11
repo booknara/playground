@@ -4,10 +4,10 @@ package com.booknara.problem.dp;
  * 304. Range Sum Query 2D - Immutable (Medium)
  * https://leetcode.com/problems/range-sum-query-2d-immutable/
  */
-public class NumMatrix {
+public class NumMatrixII {
     int[][] dp;
     // T:O(n^2), S:O(n^2)
-    public NumMatrix(int[][] matrix) {
+    public NumMatrixII(int[][] matrix) {
         if (matrix == null || matrix.length == 0) {
             return;
         }
@@ -23,6 +23,7 @@ public class NumMatrix {
         }
     }
 
+    // T:O(1), S:O(1)
     public int sumRegion(int row1, int col1, int row2, int col2) {
         // (row1, col1) ~ (row2, col2)
         return dp[row2 + 1][col2 + 1] - dp[row2 + 1][col1] - dp[row1][col2 + 1] + dp[row1][col1];

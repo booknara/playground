@@ -3,7 +3,7 @@ package com.booknara.problem.dp;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class NumMatrixTest {
+public class NumMatrixIITest {
     @Test
     public void numMatrix() {
         int[][] matrix = new int[][] {
@@ -13,9 +13,9 @@ public class NumMatrixTest {
                 {4, 1, 0, 1, 7},
                 {1, 0, 3, 0, 5}
         };
-        NumMatrix numMatrix = new NumMatrix(matrix);
-        Assert.assertEquals(8, numMatrix.sumRegion(2, 1, 4, 3));
-        Assert.assertEquals(11, numMatrix.sumRegion(1, 1, 2, 2));
-        Assert.assertEquals(12, numMatrix.sumRegion(1, 2, 2, 4));
+        NumMatrixII numMatrixII = new NumMatrixII(matrix);
+        Assert.assertEquals(8, numMatrixII.sumRegion(2, 1, 4, 3));
+        Assert.assertEquals(11, numMatrixII.sumRegion(1, 1, 2, 2));
+        Assert.assertEquals(12, numMatrixII.sumRegion(1, 2, 2, 4));
     }
 }
