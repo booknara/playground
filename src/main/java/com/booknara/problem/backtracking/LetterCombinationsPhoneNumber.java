@@ -1,4 +1,4 @@
-package com.booknara.problem.dfs;
+package com.booknara.problem.backtracking;
 
 import java.util.ArrayList;
 import java.util.List;
