@@ -3,7 +3,7 @@ package com.booknara.problem.trie;
 /**
  * 208. Implement Trie (Prefix Tree) (Medium)
  * https://leetcode.com/problems/implement-trie-prefix-tree/
- * Time complexity : O(M*N*K), M: M words, N: the length of word at most, K: the max branch(in this case: alphabet)
+ * T: O(M*N*K), M: M words, N: the length of word at most, K: the max branch(in this case: alphabet)
  */
 public class TrieWithArray {
     TrieNode root;
@@ -53,7 +53,7 @@ public class TrieWithArray {
         return true;
     }
 
-    class TrieNode {
+    static class TrieNode {
         static final int NODE = 26;
         boolean word;
         TrieNode[] children;
