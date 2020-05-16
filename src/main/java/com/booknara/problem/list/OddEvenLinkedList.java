@@ -7,6 +7,7 @@ import com.booknara.problem.common.ListNode;
  * https://leetcode.com/problems/odd-even-linked-list/
  */
 public class OddEvenLinkedList {
+    // T:O(n), S:O(1)
     public ListNode oddEvenList(ListNode head) {
         if (head == null || head.next == null) {
             return head;
@@ -14,15 +15,16 @@ public class OddEvenLinkedList {
 
         ListNode odd = head;
         ListNode even = head.next;
-        ListNode second = even;
+        ListNode evenHead = even;
         while (even != null && even.next != null) {
             odd.next = even.next;
             even.next = even.next.next;
+
             odd = odd.next;
             even = even.next;
         }
 
-        odd.next = second;
+        odd.next = evenHead;
 
         return head;
     }
