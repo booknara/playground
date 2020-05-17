@@ -10,42 +10,39 @@ import java.util.Set;
  * https://leetcode.com/problems/find-all-anagrams-in-a-string/
  */
 public class FindAllAnagramsInString {
-    // O(|s|)
+    // T:O(n), S:O(1)
     public List<Integer> findAnagrams(String s, String p) {
         List<Integer> res = new ArrayList<>();
-        if (s == null || s.length() == 0) {
+        if (s == null || p == null || s.length() * p.length() == 0) {
             return res;
         }
 
         int[] pCount = new int[26];
-        int[] sCount = new int[26];
         for (char c: p.toCharArray()) {
             pCount[c - 'a']++;
         }
 
+        int[] sCount = new int[26];
         for (int i = 0; i < s.length(); i++) {
-            // add one more letter
-            // on the right side of the window
-            char c = s.charAt(i);
-            sCount[c - 'a']++;
-
-            // remove one letter
-            // from the left side of the window
-            int r = i - p.length();
-            if (r >= 0) {
-                sCount[s.charAt(r) - 'a']--;
+            sCount[s.charAt(i) - 'a']++;
+            if (i - p.length() >= 0) {
+                // remove out of range
+                sCount[s.charAt(i - p.length()) - 'a']--;
             }
 
-            boolean equal = true;
-            for (int j = 0; j < 26; j++) {
-                if (sCount[j] != pCount[j]) {
-                    equal = false;
-                    break;
+            if (i >= p.length() - 1) {
+                // compare pCount and sCount
+                boolean same = true;
+                for (int j = 0; j < 26; j++) {
+                    if (sCount[j] != pCount[j]) {
+                        same = false;
+                        break;
+                    }
                 }
-            }
 
-            if (equal) {
-                res.add((i-p.length())+1);
+                if (same) {
+                    res.add(i - p.length() + 1);
+                }
             }
         }
 
