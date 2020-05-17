@@ -7,19 +7,21 @@ import com.booknara.problem.common.ListNode;
  * https://leetcode.com/problems/linked-list-cycle/
  */
 public class LinkedListCycle {
+    // T:O(n), S:O(1)
     public boolean hasCycle(ListNode head) {
         if (head == null) {
             return false;
         }
 
-        ListNode s = head;
-        ListNode f = head;
-        while (f != null && f.next != null) {
-            s = s.next;
-            f = f.next.next;
-            if (s == f) {
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (fast != null && fast.next != null) {
+            if (slow == fast) {
                 return true;
             }
+
+            slow = slow.next;
+            fast = fast.next.next;
         }
 
         return false;
