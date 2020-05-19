@@ -9,6 +9,7 @@ import java.util.*;
  * https://leetcode.com/problems/binary-tree-vertical-order-traversal/
  */
 public class BinaryTreeVerticalOrderTraversal {
+    // T:O(n), S:O(h)
     public List<List<Integer>> verticalOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
@@ -39,9 +40,7 @@ public class BinaryTreeVerticalOrderTraversal {
             }
         }
 
-        for (List<Integer> list: map.values()) {
-            res.add(list);
-        }
+        res.addAll(map.values());
 
         return res;
     }
