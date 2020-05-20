@@ -9,7 +9,7 @@ import java.util.Stack;
  * https://leetcode.com/problems/kth-smallest-element-in-a-bst/
  */
 public class KthSmallestElementInBST {
-    // T:O(n), S:(h)
+    // T:O(n + k, n: the number of node, k: the stack size), S:(n + k)
     public int kthSmallest(TreeNode root, int k) {
         // Given problem description, root can't be null (1 ≤ k ≤ BST's total elements)
         // Inorder iterative traverse means to retrieve from the smallest to the biggest number.
