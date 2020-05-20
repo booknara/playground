@@ -1,4 +1,4 @@
-package com.booknara.problem.bfs;
+package com.booknara.problem.dp;
 
 import java.util.*;
 
