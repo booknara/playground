@@ -1,16 +1,41 @@
 package com.booknara.problem.twopointers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * 986. Interval List Intersections (Medium)
  * https://leetcode.com/problems/interval-list-intersections/
  */
 public class IntervalListIntersections {
-    // Apr 9, 2020 version
+    // May 24, 2020 version
     public int[][] intervalIntersection(int[][] A, int[][] B) {
+        List<int[]> res = new ArrayList<>();
+        if (A.length * B.length == 0) {
+            return res.toArray(new int[res.size()][]);
+        }
+
+        int i = 0, j = 0;
+        while (i < A.length && j < B.length) {
+            int[] pairA = A[i];
+            int[] pairB = B[j];
+            // get the overlapped area
+            int max = Math.max(pairA[0], pairB[0]);
+            int min = Math.min(pairA[1], pairB[1]);
+            if (max <= min) {
+                res.add(new int[] {max, min});
+            }
+
+            if (pairA[1] < pairB[1]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return res.toArray(new int[res.size()][]);
+    }
+
+    // Apr 9, 2020 version
+    public int[][] intervalIntersection1(int[][] A, int[][] B) {
         List<int[]> res = new ArrayList<>();
         // Input validation handling
         if (A == null || A.length == 0
@@ -56,30 +81,6 @@ public class IntervalListIntersections {
         return res.toArray(new int[res.size()][]);
     }
 
-    // Apr 1, 2020 version
-    public int[][] intervalIntersection1(int[][] A, int[][] B) {
-        List<int[]> res = new ArrayList<>();
-        int i = 0, j = 0;
-        int lengthA = A.length;
-        int lengthB = B.length;
-        while (i < lengthA && j < lengthB) {
-            int s = Math.max(A[i][0], B[j][0]);
-            int e = Math.min(A[i][1], B[j][1]);
-
-            if (s <= e) {
-                res.add(new int[]{s, e});
-            }
-
-            if (A[i][1] < B[j][1]) {
-                i++;
-            } else {
-                j++;
-            }
-        }
-
-        return res.toArray(new int[res.size()][]);
-    }
-
     // O(nlogn)
     public int[][] intervalIntersection2(int[][] A, int[][] B) {
         // Input validation
@@ -118,5 +119,59 @@ public class IntervalListIntersections {
         }
 
         return res.toArray(new int[0][]);
+    }
+
+    // T:O(n*logn), S:O(n + m);
+    public int[][] intervalIntersection3(int[][] A, int[][] B) {
+        List<int[]> res = new ArrayList<>();
+        if (A.length * B.length == 0) {
+            return res.toArray(new int[res.size()][]);
+        }
+
+        Queue<Interval> pq = new PriorityQueue<>((i1, i2) -> {
+            if (i1.time == i2.time) {
+                // i1, i2(false, true), i2, i1(true, false) order
+                return Boolean.compare(i2.start, i1.start);
+            }
+            return Integer.compare(i1.time, i2.time);
+        });
+
+        for (int[] i: A) {
+            pq.offer(new Interval(true, i[0]));
+            pq.offer(new Interval(false, i[1]));
+        }
+
+        for (int[] i: B) {
+            pq.offer(new Interval(true, i[0]));
+            pq.offer(new Interval(false, i[1]));
+        }
+
+        int count = 0;
+        int prev = 0;
+        while (!pq.isEmpty()) {
+            Interval interval = pq.poll();
+            if (count == 2) {
+                res.add(new int[] {prev, interval.time});
+            }
+
+            if (interval.start) {
+                count++;
+            } else {
+                count--;
+            }
+
+            prev = interval.time;
+        }
+
+        return res.toArray(new int[res.size()][]);
+    }
+
+    static class Interval {
+        boolean start; // true: start, false: end
+        int time;
+        Interval(boolean start, int time) {
+            this.start = start;
+            this.time = time;
+        }
     }
 }
