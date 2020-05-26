@@ -42,4 +42,35 @@ public class UncrossedLines {
 
         return dp[A.length][B.length];
     }
+
+    // T:O(n*m), S:O(n*m), Top-down
+    public int maxUncrossedLines3(int[] A, int[] B) {
+        if (A.length * B.length == 0) return 0;
+        int[][] dp = new int[A.length + 1][B.length + 1];
+        for (int i = 0; i <= A.length; i++) {
+            for (int j = 0; j <= B.length; j++) {
+                dp[i][j] = -1;
+            }
+        }
+
+        return dfs(A, 1, B, 1, dp);
+    }
+
+    private int dfs(int[] A, int i, int[] B, int j, int[][] dp) {
+        if (i == A.length + 1) return 0;
+        if (j == B.length + 1) return 0;
+
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
+        if (A[i - 1] == B[j - 1]) {
+            dp[i][j] = 1 + dfs(A, i + 1, B, j + 1, dp);
+        } else {
+            dp[i][j] = Math.max(dfs(A, i, B, j + 1, dp), dfs(A, i + 1, B, j, dp));
+        }
+
+        return dp[i][j];
+    }
+
 }
