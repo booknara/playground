@@ -1,4 +1,4 @@
-package com.booknara.problem.backtracking;
+package com.booknara.problem.dp;
 
 /**
  * 416. Partition Equal Subset Sum (Medium)
