@@ -37,30 +37,37 @@ public class PossibleBipartition {
     }
 
     // Bipartite
-    Map<Integer, Integer> color = new HashMap<>();
+    // T:O(v+e), S:O(v+e)
     public boolean possibleBipartition1(int N, int[][] dislikes) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 1; i <= N + 1; ++i) graph.add(new ArrayList());
-
+        Map<Integer, List<Integer>> graph = new HashMap<>();
         for (int[] edge : dislikes) {
-            graph.get(edge[0]).add(edge[1]);
-            graph.get(edge[1]).add(edge[0]);
+            List<Integer> list1 = graph.getOrDefault(edge[0], new ArrayList<>());
+            list1.add(edge[1]);
+            graph.put(edge[0], list1);
+
+            List<Integer> list2 = graph.getOrDefault(edge[1], new ArrayList<>());
+            list2.add(edge[0]);
+            graph.put(edge[1], list2);
         }
 
-        for (int node = 1; node <= N; ++node) {
-            if (!color.containsKey(node) && !dfs(node, 0, graph)) return false;
+        Map<Integer, Integer> colors = new HashMap<>();
+        for (int i = 1; i <= N; i++) {
+            if (!colors.containsKey(i) && !dfs(i, 0, colors, graph)) return false;
         }
 
         return true;
     }
 
-    private boolean dfs(int node, int color, List<List<Integer>> graph) {
-        if (this.color.containsKey(node)) return this.color.get(node) == color;
+    private boolean dfs(int node, int color,
+                        Map<Integer, Integer> colors,
+                        Map<Integer, List<Integer>> graph) {
+        if (colors.containsKey(node)) return colors.get(node) == color;
 
-        this.color.put(node, color);
+        colors.put(node, color);
+        if (!graph.containsKey(node)) return true;
 
         for (int neighbor : graph.get(node)) {
-            if (!dfs(neighbor, color ^ 1, graph)) return false;
+            if (!dfs(neighbor, color ^ 1, colors, graph)) return false;
         }
 
         return true;
