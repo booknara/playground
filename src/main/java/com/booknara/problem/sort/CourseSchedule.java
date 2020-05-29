@@ -1,9 +1,6 @@
 package com.booknara.problem.sort;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 207. Course Schedule (Medium)
@@ -13,6 +10,47 @@ public class CourseSchedule {
     // T:O(∣E∣+∣V∣) where |V|∣V∣ is the number of courses, and |E|∣E∣ is the number of dependencies.
     // S:O(∣E∣+∣V∣)
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        if (numCourses == 0 || prerequisites == null || prerequisites.length == 0) {
+            return true;
+        }
+
+        // indegree array
+        int[] inDegree = new int[numCourses];
+        // graph edge (key: prerequisite, value: classes)
+        Map<Integer, List<Integer>> edge = new HashMap<>();
+        for (int[] c: prerequisites) {
+            inDegree[c[0]]++;
+            List<Integer> list = edge.getOrDefault(c[1], new ArrayList<>());
+            list.add(c[0]);
+            edge.put(c[1], list);
+        }
+
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < inDegree.length; i++) {
+            if (inDegree[i] == 0) q.offer(i);
+        }
+
+        int count = 0;
+        while (!q.isEmpty()) {
+            int n = q.poll();
+            count++;
+            if (!edge.containsKey(n)) continue;
+
+            for (int nei: edge.get(n)) {
+                inDegree[nei]--;
+                if (inDegree[nei] == 0) {
+                    q.offer(nei);
+                }
+            }
+        }
+
+        // the number of count means the number of courses finished
+        return count == numCourses;
+    }
+
+    // T:O(∣E∣+∣V∣) where |V|∣V∣ is the number of courses, and |E|∣E∣ is the number of dependencies.
+    // S:O(∣E∣+∣V∣)
+    public boolean canFinish1(int numCourses, int[][] prerequisites) {
         if (numCourses <= 0) {
             return false;
         }
@@ -57,7 +95,7 @@ public class CourseSchedule {
     }
 
     // Need to improve, prerequisites -> List<List<Integer>>
-    public boolean canFinish1(int numCourses, int[][] prerequisites) {
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
         if (numCourses <= 0) {
             return false;
         }
