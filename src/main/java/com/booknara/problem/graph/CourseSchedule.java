@@ -1,4 +1,4 @@
-package com.booknara.problem.sort;
+package com.booknara.problem.graph;
 
 import java.util.*;
 
