@@ -7,6 +7,7 @@ import com.booknara.problem.common.ListNode;
  * https://leetcode.com/problems/delete-node-in-a-linked-list/
  */
 public class DeleteNodeInLinkedList {
+    // T:O(1), S:O(1)
     public void deleteNode(ListNode node) {
         if (node == null) {
             return;
