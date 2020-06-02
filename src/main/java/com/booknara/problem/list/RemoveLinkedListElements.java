@@ -2,15 +2,20 @@ package com.booknara.problem.list;
 
 import com.booknara.problem.common.ListNode;
 
+/**
+ * 203. Remove Linked List Elements (Easy)
+ * https://leetcode.com/problems/remove-linked-list-elements/
+ */
 public class RemoveLinkedListElements {
+    // T:O(n), S:O(1)
     public ListNode removeElements(ListNode head, int val) {
         if (head == null) {
             return null;
         }
 
-        ListNode ans = new ListNode(0);
-        ans.next = head;
-        ListNode prev = ans;
+        ListNode newHead = new ListNode(0);
+        newHead.next = head;
+        ListNode prev = newHead;
         while (head != null) {
             //System.out.println(current.val);
             if (head.val == val) {
@@ -22,6 +27,6 @@ public class RemoveLinkedListElements {
             head = head.next;
         }
 
-        return ans.next;
+        return newHead.next;
     }
 }
