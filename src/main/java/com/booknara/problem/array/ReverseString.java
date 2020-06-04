@@ -5,6 +5,7 @@ package com.booknara.problem.array;
  * https://leetcode.com/problems/reverse-string/
  */
 public class ReverseString {
+    // T:O(n), S:O(1)
     public void reverseString(char[] s) {
         if (s == null || s.length == 0) {
             return;
