@@ -1,4 +1,4 @@
-package com.booknara.problem.tree.bst;
+package com.booknara.problem.search.binary;
 
 /**
  * 540. Single Element in a Sorted Array (Medium)
