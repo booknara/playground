@@ -2,7 +2,12 @@ package com.booknara.problem.dp;
 
 import java.util.Stack;
 
+/**
+ * 85. Maximal Rectangle (Hard)
+ * https://leetcode.com/problems/maximal-rectangle/
+ */
 public class MaximalRectangle {
+    // T:O(n^2), S:O(n)
     public int maximalRectangle(char[][] matrix) {
         if (matrix == null || matrix.length == 0) {
             return 0;
@@ -30,7 +35,7 @@ public class MaximalRectangle {
             return 0;
         }
 
-        int max = Integer.MIN_VALUE;
+        int max = 0;
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
         for (int i = 0; i < heights.length; i++) {
