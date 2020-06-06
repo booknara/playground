@@ -20,7 +20,7 @@ public class LargestRectangleHistogram {
             // checking descending(monotonic stack)
             while (stack.peek() != -1 && heights[i] < heights[stack.peek()]) {
                 int h = stack.pop();
-                // formular -> current index - 1(index just before) - previos stack(lower) * height
+                // formula -> current index - 1(index just before) - previos stack(lower) * height
                 max = Math.max(max, (i - 1 - stack.peek()) * heights[h]);
             }
             stack.push(i);
