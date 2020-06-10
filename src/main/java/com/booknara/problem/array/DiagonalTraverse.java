@@ -7,7 +7,7 @@ package com.booknara.problem.array;
 public class DiagonalTraverse {
     // T: O(m*n), S: O(1, except result array)
     public int[] findDiagonalOrder(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) return new int[0];
+        if (matrix == null || matrix.length == 0) return new int[]{};
 
         int m = matrix.length, n = matrix[0].length;
 
@@ -27,9 +27,9 @@ public class DiagonalTraverse {
 
             // Note: should handle "row >= m" and "col >= n" case first
             if (row >= m) { row = m - 1; col += 2; up = !up;}
-            if (col >= n) { col = n - 1; row += 2; up = !up;}
-            if (row < 0)  { row = 0; up = !up;}
-            if (col < 0)  { col = 0; up = !up;}
+            else if (col >= n) { col = n - 1; row += 2; up = !up;}
+            else if (row < 0)  { row = 0; up = !up;}
+            else if (col < 0)  { col = 0; up = !up;}
         }
 
         return result;
