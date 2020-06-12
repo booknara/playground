@@ -20,7 +20,6 @@ public class FriendsOfAppropriateAges {
         for (int i = 1; i < 121; i++) {
             for (int j = 1; j < 121; j++) {
                 if (count[i] == 0 || count[j] == 0) continue;
-                // j is always bigger than i
                 if (isAppropriateAges(i, j)) {
                     total += count[i] * count[j];
                     if (i == j) total -= count[i];
