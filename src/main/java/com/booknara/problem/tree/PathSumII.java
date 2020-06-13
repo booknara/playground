@@ -11,10 +11,37 @@ import java.util.List;
  * https://leetcode.com/problems/path-sum-ii/
  */
 public class PathSumII {
+    // 6/13/2020 Solution
+    // T:O(n^2), S:O(h)
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+
+        LinkedList<Integer> list = new LinkedList<>();
+        dfs(root, list, sum, res);
+        return res;
+    }
+
+    public void dfs(TreeNode node, LinkedList<Integer> list, int remaining, List<List<Integer>> res) {
+        if (node.left == null && node.right == null && remaining == node.val) {
+            list.addLast(node.val);
+            res.add(new ArrayList<>(list));
+            list.removeLast();
+            return;
+        }
+
+        list.addLast(node.val);
+
+        if (node.left != null) dfs(node.left, list, remaining - node.val, res);
+        if (node.right != null) dfs(node.right, list, remaining - node.val, res);
+
+        list.removeLast();
+    }
+
     List<List<Integer>> ans;
 
     // #1 Solution : 3/3/2020
-    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+    public List<List<Integer>> pathSum1(TreeNode root, int sum) {
         ans = new ArrayList<>();
 
         dfs(root, new ArrayList<>(), sum);
@@ -41,7 +68,7 @@ public class PathSumII {
     }
 
     // #2 Solution : 3/21/2020
-    public List<List<Integer>> pathSum1(TreeNode root, int sum) {
+    public List<List<Integer>> pathSum2(TreeNode root, int sum) {
         ans = new ArrayList<>();
         if (root == null) {
             return ans;
