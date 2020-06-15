@@ -8,6 +8,7 @@ import java.util.List;
  * https://leetcode.com/problems/insert-interval/
  */
 public class InsertInterval {
+    // T:O(n), S:O(1)
     public int[][] insert(int[][] intervals, int[] newInterval) {
         if (newInterval == null || newInterval.length == 0) return intervals;
 
