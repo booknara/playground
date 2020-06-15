@@ -14,6 +14,29 @@ public class CheckCompletenessOfBinaryTree {
     public boolean isCompleteTree(TreeNode root) {
         if (root == null) return true;
 
+        // check whether there is the second time null
+        boolean found = false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            if (node == null) {
+                found = true;
+                continue;
+            }
+
+            if (found) return false;
+            queue.offer(node.left);
+            queue.offer(node.right);
+        }
+
+        return true;
+    }
+
+    // T:O(n), S:O(h)
+    public boolean isCompleteTree1(TreeNode root) {
+        if (root == null) return true;
+
         // get the count of nodes until reaching the first null
         int count = 0;
         Queue<TreeNode> queue = new LinkedList<>();
