@@ -1,4 +1,4 @@
-package com.booknara.problem.array;
+package com.booknara.problem.math;
 
 import org.junit.Assert;
 import org.junit.Test;

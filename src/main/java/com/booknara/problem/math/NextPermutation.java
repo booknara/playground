@@ -1,9 +1,42 @@
-package com.booknara.problem.array;
+package com.booknara.problem.math;
 
 import java.util.Arrays;
 
 public class NextPermutation {
     public void nextPermutation(int[] nums) {
+        if (nums == null || nums.length <= 1) return;
+
+        int inverse = -1;
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (nums[i] >= nums[i + 1]) {
+                continue;
+            }
+
+            inverse = i;
+
+            int nextBig = 0;
+            for (int j = nums.length - 1; j > inverse; j--) {
+                if (nums[inverse] < nums[j]) {
+                    nextBig = j;
+                    break;
+                }
+            }
+
+            // swap inverse and nextBig
+            swap(nums, inverse, nextBig);
+            break;
+        }
+
+        // reverse (all the array elements(54321->12345) or a part of elements(1254->1425))
+        int l = inverse + 1, r = nums.length - 1;
+        while (l <= r) {
+            swap(nums, l, r);
+            l++;
+            r--;
+        }
+    }
+
+    public void nextPermutation1(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
         }
@@ -71,6 +104,5 @@ public class NextPermutation {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
-        return;
     }
 }
