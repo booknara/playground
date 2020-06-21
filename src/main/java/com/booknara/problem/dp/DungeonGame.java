@@ -32,7 +32,7 @@ public class DungeonGame {
 
         for (int i = row - 2; i >= 0; i--) {
             for (int j = col - 2; j >= 0; j--) {
-                // dp[i][j] -> depends on future states
+                // dp[i][j] -> depends on future states (bottom or right)
                 // dp[i][j] + dungeon[i][j] = min(dp[i + 1][j], dp[i][j + 1])
                 dp[i][j] = Math.min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j];
                 if (dp[i][j] < 1) dp[i][j] = 1; // dp[i][j] shouldn't be 0 or below because of death
