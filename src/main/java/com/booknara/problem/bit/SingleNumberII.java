@@ -8,25 +8,38 @@ import java.util.Map;
  * https://leetcode.com/problems/single-number-ii/
  */
 public class SingleNumberII {
-    // Using bit operator
+    // input: integer array
+    // output: the element that appears once
+    // T:O(n), S:O(1)
     public int singleNumber(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return -1;
-        }
-
+        // input check(non-empty array)
         int res = 0;
-        // 32 bit integer
+        int multiple = 3;   // three times
         for (int i = 0; i < 32; i++) {
             int sum = 0;
+            // sum the number of each digit (0 ~ 31 digits)
             for (int j = 0; j < nums.length; j++) {
-                sum += nums[j] >> i & 1;
+                sum += (nums[j] >> i) & 1;
             }
 
-            res |= (sum % 3) << i;
+            res |= (sum % multiple) << i;
         }
 
         return res;
     }
+
+// count the number of each digit (0 ~ 31 digits)
+// e.g. 2,2,3,4,2,4,4
+//  10
+//  10
+//  11
+// 100
+//  10
+// 100
+// 100
+// 341
+// divide by 3 for each digit
+// 3%3=0, 4%3=1,1%3=1 -> 011
 
     // With Space(dictionary)
     public int singleNumber1(int[] nums) {
