@@ -10,8 +10,13 @@ import java.util.Map;
  * https://leetcode.com/problems/group-shifted-strings/
  */
 public class GroupShiftedStrings {
+    // input: string array
+    // output: group all the strings
     // T:O(n*m), S:O(n*m)
     public List<List<String>> groupStrings(String[] strings) {
+        // input check
+        // 1. input array can be null or empty
+        // 2. each string of the array is non-empty string
         List<List<String>> res = new ArrayList<>();
         if (strings == null || strings.length == 0) {
             return res;
@@ -21,27 +26,25 @@ public class GroupShiftedStrings {
         for (int i = 0; i < strings.length; i++) {
             int offset = strings[i].charAt(0) - 'a';
             //System.out.println(offset);
-
-            char[] aligned = new char[strings[i].length()];
+            StringBuilder builder = new StringBuilder();
             for (int j = 0; j < strings[i].length(); j++) {
                 char c = strings[i].charAt(j);
                 if (c - offset < 'a') {
-                    // For the case of "xa" -> offset of x is 23
-                    aligned[j] = (char) (c - offset + 26 + 'a');
-                } else {
-                    aligned[j] = (char) (c - offset + 'a');
+                    c += 26;
                 }
+                c = (char) (c - offset);
+
+                builder.append(c);
             }
 
-            String key = new String(aligned);
+            String key = builder.toString();
+            //System.out.println(key);
             List<String> list = map.getOrDefault(key, new ArrayList<>());
             list.add(strings[i]);
             map.put(key, list);
         }
 
-        for (List<String> list: map.values()) {
-            res.add(list);
-        }
+        res.addAll(map.values());
 
         return res;
     }
