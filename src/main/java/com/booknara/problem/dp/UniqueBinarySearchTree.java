@@ -17,16 +17,16 @@ public class UniqueBinarySearchTree {
             return 0;
         }
 
-        int[] graph = new int[n + 1]; // Memoization
-        graph[0] = 1;
-        graph[1] = 1;
+        int[] memo = new int[n + 1]; // Memoization
+        memo[0] = 1;
+        memo[1] = 1;
         for (int i = 2; i <= n; i++) {
             for (int j = 1; j <= i; j++) {
                 // To get graph[i] value, sum 1 to i using j, G(j - 1) * G(i - j)
-                graph[i] += (graph[j - 1] * graph[i - j]);
+                memo[i] += (memo[j - 1] * memo[i - j]);
             }
         }
 
-        return graph[n];
+        return memo[n];
     }
 }
