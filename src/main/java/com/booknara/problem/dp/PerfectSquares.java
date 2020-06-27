@@ -7,20 +7,26 @@ import java.util.*;
  * https://leetcode.com/problems/perfect-squares/
  */
 public class PerfectSquares {
-    // DP, T:O(n*sqrt(n), S:(n)
+    // DP, T:O(n*sqrt(n)), S:(n)
+    // input : positive integer
+    // output : the least number of perfect square numbers
     public int numSquares(int n) {
-        if (n <= 3) return n;
+        // input check
+        if (n < 4) return n;
 
         int[] dp = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            int min = Integer.MAX_VALUE;
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 3;
+
+        for (int i = 4; i <= n; i++) {
+            int min = i;    // Integer.MAX_VALUE because i can be many 1
             int j = 1;
             while (i - j * j >= 0) {
-                // substrac i from the smallest perfect square(1, 4, 9)
                 min = Math.min(min, dp[i - j * j] + 1);
                 j++;
             }
-
             dp[i] = min;
         }
 
