@@ -1,45 +1,32 @@
 package com.booknara.problem.dp;
 
 /**
- * Leet code : 62. Unique Paths(Medium)
- * A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
- * The robot can only move either down or right at any point in time.
- * The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
- * How many possible unique paths are there?
- *
- * Example 1:
- * Input: m = 3, n = 2
- * Output: 3
- * Explanation:
- * From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:
- * 1. Right -> Right -> Down
- * 2. Right -> Down -> Right
- * 3. Down -> Right -> Right
- *
- * Example 2:
- * Input: m = 7, n = 3
- * Output: 28
+ * 62. Unique Paths (Medium)
+ * https://leetcode.com/problems/unique-paths/
  */
 public class UniquePaths {
+    // input : integer (m, n)
+    // output : the possible number of way from top-left to bottom-right
+    // T:O(n*m), S:O(n*m)
     public int uniquePaths(int m, int n) {
-        if (m == 0 || n == 0) {
-            return 0;
-        }
-
-        int[][] g = new int[m][n];
-        g[0][0] = 1;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == 0 && j == 0) {
+        // input check : 1 <= m, n <= 100
+        int[][] dp = new int[m + 1][n + 1];
+        for (int i = 0; i < m + 1; i++) {
+            for (int j = 0; j < n + 1; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
                     continue;
                 }
 
-                int up = i - 1 < 0 ? 0 : g[i - 1][j];
-                int left = j - 1 < 0 ? 0 : g[i][j - 1];
-                g[i][j] = up + left;
+                if (i == 1 && j == 1) {
+                    dp[i][j] = 1;
+                    continue;
+                }
+
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
             }
         }
 
-        return g[m - 1][n - 1];
+        return dp[m][n];
     }
 }
