@@ -1,4 +1,4 @@
-package com.booknara.problem.heap;
+package com.booknara.problem.hash;
 
 import java.util.HashSet;
 import java.util.Set;
