@@ -12,6 +12,7 @@ import java.util.Queue;
  * https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
  */
 public class BinaryTreeLevelOrderTraversalII {
+    // T:O(n, the number of node), S:(m, the max number of node having the same level)
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         LinkedList<List<Integer>> res = new LinkedList<>();
         // input check
