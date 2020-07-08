@@ -47,7 +47,7 @@ public class ThreeSumClosest {
             return 0;
         }
 
-        int ans = 0;
+        int ans = 3 * 10 * 10 * 10; // max number of array element 10^3 * 3(numbers)
         int closest = Integer.MAX_VALUE;
         Arrays.sort(nums);
         for (int i = 0; i < nums.length - 2; i++) {
