@@ -8,26 +8,27 @@ import java.util.Arrays;
  */
 public class ThreeSumSmaller {
     public int threeSumSmaller(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
+        // input check, nums.length >= 3
+        if (nums == null || nums.length < 3) return 0;
 
-        int ans = 0;
         Arrays.sort(nums);
+        int res = 0;
         for (int i = 0; i < nums.length - 2; i++) {
-            int j = i + 1, k = nums.length - 1;
-
-            while (j < k) {
-                if (nums[i] + nums[j] + nums[k] < target) {
+            int l = i + 1;  // no need to check i or less than i
+            int r = nums.length - 1;
+            while (l < r) {
+                if (nums[i] + nums[l] + nums[r] < target) {
                     // All the indexes are answers btw j and k
-                    ans = ans + k - j;
-                    j++;
+                    res += r - l;
+                    // increase
+                    l++;
                 } else {
-                    k--;
+                    // decrease
+                    r--;
                 }
             }
         }
 
-        return ans;
+        return res;
     }
 }
