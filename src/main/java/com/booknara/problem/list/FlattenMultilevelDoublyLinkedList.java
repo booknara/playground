@@ -7,7 +7,42 @@ import java.util.Stack;
  * https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/
  */
 public class FlattenMultilevelDoublyLinkedList {
+    // T:O(n), S:O(n)
     public Node flatten(Node head) {
+        // input check
+        if (head == null) return head;
+
+        Stack<Node> stack = new Stack<>();
+        Node cur = head;
+        Node prev = null;
+        while (cur != null || !stack.isEmpty()) {
+            // the end element of each level
+            if (cur == null) {
+                cur = stack.pop();
+                prev.next = cur;
+                cur.prev = prev;
+            } else {
+                // child
+                if (cur.child != null) {
+                    // Note: push only not null node
+                    if (cur.next != null) {
+                        stack.push(cur.next);
+                    }
+                    cur.next = cur.child;
+                    cur.child.prev = cur;
+                    cur.child = null;
+                }
+            }
+
+            // System.out.println(cur.val);
+            prev = cur;
+            cur = cur.next;
+        }
+
+        return head;
+    }
+
+    public Node flatten1(Node head) {
         if (head == null) {
             return null;
         }
