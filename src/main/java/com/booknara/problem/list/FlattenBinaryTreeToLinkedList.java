@@ -9,7 +9,34 @@ import java.util.Stack;
  * https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
  */
 public class FlattenBinaryTreeToLinkedList {
+    // T:O(n), S:O(h)
     public void flatten(TreeNode root) {
+        // input check
+        if (root == null) return;
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+
+            if (node.right != null) {
+                stack.push(node.right);
+            }
+
+            if (node.left != null) {
+                stack.push(node.left);
+            }
+
+            // Key point: check empty stack in case of most end node. And use peek()
+            if (!stack.isEmpty()) {
+                node.right = stack.peek();
+            }
+
+            node.left = null;
+        }
+    }
+
+    public void flatten1(TreeNode root) {
         getTail(root);
     }
 
@@ -32,19 +59,14 @@ public class FlattenBinaryTreeToLinkedList {
     }
 
     Stack<TreeNode> stack;
-    public void flatten1(TreeNode root) {
-        if (root == null ||
-                (root.left == null && root.right == null)) {
-            return;
-        }
+    public void flatten2(TreeNode root) {
+        if (root == null) return;
 
         stack = new Stack<>();
         dfs(root);
-
-        return;
     }
 
-    private void dfs(TreeNode node) {
+    public void dfs(TreeNode node) {
         if (node.left == null && node.right == null) {
             if (!stack.isEmpty()) {
                 node.right = stack.pop();
