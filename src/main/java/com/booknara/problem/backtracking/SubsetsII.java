@@ -20,16 +20,17 @@ public class SubsetsII {
         return res;
     }
 
-    private void dfs(int[] nums, int index, List<Integer> list, List<List<Integer>> res) {
-        if (index > nums.length) {
+    private void dfs(int[] nums, int start, List<Integer> list, List<List<Integer>> res) {
+        if (start > nums.length) {
             return;
         }
 
         res.add(new ArrayList<>(list));
 
         // backtracking
-        for (int i = index; i < nums.length; i++) {
-            if (i > index && nums[i - 1] == nums[i]) continue;
+        for (int i = start; i < nums.length; i++) {
+            // Key point: if i == start, proceed, but if i > start and same value with the previous, skip
+            if (i > start && nums[i - 1] == nums[i]) continue;
             list.add(nums[i]);
             dfs(nums, i + 1, list, res);
             list.remove(list.size() - 1);
