@@ -9,6 +9,7 @@ import java.util.List;
  * https://leetcode.com/problems/subsets/
  */
 public class Subsets {
+    // T:O(n * 2^n), S:O(n * 2^n)
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
 
@@ -29,6 +30,26 @@ public class Subsets {
             backtracking(nums, i + 1, list, res);
             list.removeLast();
         }
+    }
+
+    // [1,2,3]
+    // 1 -> [], [1] without 1, with 1
+    // 2 -> [], [1], [2], [1,2] without 2, with 2
+    // 3 -> [], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3] without 3, with 3
+    public List<List<Integer>> subsetsIterative(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+
+        res.add(new ArrayList<>()); // empty array
+        for (int n: nums) {
+            int size = res.size();
+            for (int i = 0; i < size; i++) {
+                List<Integer> newList = new ArrayList<>(res.get(i));    // without n
+                newList.add(n); // with n
+                res.add(newList);
+            }
+        }
+
+        return res;
     }
 
     public List<List<Integer>> subsets1(int[] nums) {
