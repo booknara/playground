@@ -9,6 +9,7 @@ import java.util.List;
  * https://leetcode.com/problems/subsets-ii/
  */
 public class SubsetsII {
+    // T:O(n * 2^n), S:O(n * 2^n)
     public List<List<Integer>> subsetsWithDup(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         if (nums == null || nums.length == 0) {
