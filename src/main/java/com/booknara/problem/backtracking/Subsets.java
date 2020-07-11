@@ -1,6 +1,7 @@
 package com.booknara.problem.backtracking;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,6 +10,28 @@ import java.util.List;
  */
 public class Subsets {
     public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+
+        res.add(new ArrayList<>()); // empty array
+        backtracking(nums, 0, new LinkedList<>(), res);
+        return res;
+    }
+
+    public void backtracking(int[] nums,
+                             int start,
+                             LinkedList<Integer> list,
+                             List<List<Integer>> res) {
+        if (start >= nums.length) return;
+
+        for (int i = start; i < nums.length; i++) {
+            list.addLast(nums[i]);
+            res.add(new ArrayList<>(list));
+            backtracking(nums, i + 1, list, res);
+            list.removeLast();
+        }
+    }
+
+    public List<List<Integer>> subsets1(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();
         if (nums == null || nums.length == 0) {
             return res;
@@ -34,7 +57,7 @@ public class Subsets {
     }
 
     // Iterative without backtracking
-    public List<List<Integer>> subsets1(int[] nums) {
+    public List<List<Integer>> subsets2(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
         result.add(new ArrayList<>());
 
