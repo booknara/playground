@@ -5,28 +5,30 @@ package com.booknara.problem.math;
  * https://leetcode.com/problems/reverse-integer/
  */
 public class ReverseInteger {
-    public int reverseSimpler(int x) {
+    public int reverse(int x) {
+        if (x == 0) return 0;
+
         int positive = 1;
         if (x < 0) {
             positive = -1;
             x *= positive;
         }
 
-        long value = 0;
+        long res = 0;
         while (x > 0) {
             int mod = x % 10;
-            value = value * 10 + mod;
-            if (value > Integer.MAX_VALUE) {
-                value = 0;
+            res = res * 10 + mod;
+            if (res > Integer.MAX_VALUE) {
+                res = 0;
                 break;
             }
             x /= 10;
         }
 
-        return (int) value * positive;
+        return (int) res * positive;
     }
 
-    public int reverse(int x) {
+    public int reverse1(int x) {
         int positive = 1;
         if (x < 0) {
             positive = -1;
