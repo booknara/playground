@@ -10,7 +10,7 @@ public class ObservableJust {
                 .subscribe(new Observer<String>() {
             @Override
             public void onSubscribe(Disposable d) {
-
+                System.out.println("onSubscribe() ");
             }
 
             @Override
