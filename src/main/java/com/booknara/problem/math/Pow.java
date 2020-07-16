@@ -23,27 +23,26 @@ public class Pow {
     }
 
     // Iterative
+    // T:O(logn), S:O(1)
     public double myPow1(double x, int n) {
+        // input check
+        if (x == 0) return 0;
         if (n == 0) return 1;
-        if (x == 1) return 1;
-        if (x == -1) {
-            if (n % 2 == 0) return 1;
-            else return -1;
+        if (x == 1 || n == 1) return x;
+
+        long N = n;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
         }
 
-        if (n == Integer.MIN_VALUE) return 0;
-        if (n < 0) {
-            n = -n;
-            x = 1/x;
+        double res = 1;
+        while (N > 0) {
+            if ((N & 1) == 1) res *= x;
+            x *= x;
+            N = N >> 1;
         }
 
-        double ret = 1.0;
-        while (n > 0) {
-            if ((n & 1) != 0)
-                ret *= x;
-            x = x * x;
-            n = n >> 1;
-        }
-        return ret;
+        return res;
     }
 }
