@@ -5,21 +5,22 @@ package com.booknara.problem.array;
  * https://leetcode.com/problems/remove-duplicates-from-sorted-array/
  */
 public class RemoveDuplicatesFromSortedArray {
+    // T:O(n), S:O(1)
     public int removeDuplicates(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
+        // input check
+        if (nums == null) return 0;
+        if (nums.length <= 1) return nums.length;
 
-        int loc = 1;
-        int num = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            if (nums[i] != num) {
-                nums[loc] = nums[i];
-                loc++;
-                num = nums[i];
+        int l = 1, r = 1;
+        while (r < nums.length) {
+            if (nums[r] != nums[r - 1]) {
+                nums[l] = nums[r];
+                l++;
             }
+
+            r++;
         }
 
-        return loc;
+        return l;
     }
 }
