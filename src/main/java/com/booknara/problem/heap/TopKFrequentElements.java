@@ -10,7 +10,7 @@ import java.util.Queue;
  * https://leetcode.com/problems/top-k-frequent-elements/
  */
 public class TopKFrequentElements {
-    // T:O(nlogn), S:O(n)
+    // T:O(nlogk), S:O(n)
     public int[] topKFrequent(int[] nums, int k) {
         // input check
         if (nums == null || nums.length == 0) return new int[]{};
