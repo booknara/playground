@@ -7,9 +7,49 @@ import java.util.*;
  * https://leetcode.com/problems/course-schedule/
  */
 public class CourseSchedule {
-    // T:O(∣E∣+∣V∣) where |V|∣V∣ is the number of courses, and |E|∣E∣ is the number of dependencies.
-    // S:O(∣E∣+∣V∣)
+    // T:O(∣E∣+∣V∣), S:O(∣E∣+∣V∣)
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        if (prerequisites == null || prerequisites.length == 0) {
+            return true;
+        }
+
+        // generate graph (pre - list of courses)
+        List<List<Integer>> graph = new ArrayList<>();
+        int[] inDegree = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for (int[] prerequisite: prerequisites) {
+            int course = prerequisite[0];
+            int pre = prerequisite[1];
+            graph.get(pre).add(course);
+            inDegree[course]++;
+        }
+
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (inDegree[i] == 0) {
+                stack.push(i);
+            }
+        }
+
+        int finished = 0;
+        while (!stack.isEmpty()) {
+            int course = stack.pop();
+            finished++;
+            for (int nei: graph.get(course)) {
+                inDegree[nei]--;
+                if (inDegree[nei] == 0) {
+                    stack.push(nei);
+                }
+            }
+        }
+
+        return finished == numCourses;
+    }
+
+    public boolean canFinish1(int numCourses, int[][] prerequisites) {
         if (numCourses == 0 || prerequisites == null || prerequisites.length == 0) {
             return true;
         }
@@ -50,7 +90,7 @@ public class CourseSchedule {
 
     // T:O(∣E∣+∣V∣) where |V|∣V∣ is the number of courses, and |E|∣E∣ is the number of dependencies.
     // S:O(∣E∣+∣V∣)
-    public boolean canFinish1(int numCourses, int[][] prerequisites) {
+    public boolean canFinish2(int numCourses, int[][] prerequisites) {
         if (numCourses <= 0) {
             return false;
         }
@@ -95,7 +135,7 @@ public class CourseSchedule {
     }
 
     // Need to improve, prerequisites -> List<List<Integer>>
-    public boolean canFinish2(int numCourses, int[][] prerequisites) {
+    public boolean canFinish3(int numCourses, int[][] prerequisites) {
         if (numCourses <= 0) {
             return false;
         }
