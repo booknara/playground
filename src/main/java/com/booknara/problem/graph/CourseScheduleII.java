@@ -1,9 +1,9 @@
-package com.booknara.problem.sort;
+package com.booknara.problem.graph;
 
 import java.util.*;
 
 /**
- * Leet code : 210. Course Schedule II (Medium)
+ * 210. Course Schedule II (Medium)
  * https://leetcode.com/problems/course-schedule-ii/
  */
 public class CourseScheduleII {
