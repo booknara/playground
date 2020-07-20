@@ -14,8 +14,8 @@ public class WiggleSort {
         }
 
         // 2 requirements
-        // odd element is bigger than the previous element
-        // even element is smaller than the previous element except 0-index element
+        // odd element is equal to or bigger than the previous element
+        // even element is equal to or smaller than the previous element except 0-index element
         for (int i = 1; i < nums.length; i++) {
             if ((i & 1) == 0) {
                 // even
