@@ -5,12 +5,14 @@ import com.booknara.problem.common.TreeNode;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 103. Binary Tree Zigzag Level Order Traversal (Medium)
  * https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
  */
 public class BinaryTreeZigzagLevelOrderTraversal {
+    // T:O(n), S:O(h)
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
@@ -40,5 +42,43 @@ public class BinaryTreeZigzagLevelOrderTraversal {
 
         dfs(node.left, level + 1, res);
         dfs(node.right, level + 1, res);
+    }
+
+    // T:O(n), S:O(h)
+    public List<List<Integer>> zigzagLevelOrder1(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+
+        int depth = 0;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+
+            LinkedList<Integer> list = new LinkedList<>();
+            for (int i = 0; i < len; i++) {
+                TreeNode n = queue.poll();
+                if ((depth & 1) == 0) {
+                    // even
+                    list.addLast(n.val);
+                } else {
+                    // odd
+                    list.addFirst(n.val);
+                }
+
+                if (n.left != null) {
+                    queue.offer(n.left);
+                }
+
+                if (n.right != null) {
+                    queue.offer(n.right);
+                }
+            }
+
+            res.add(list);
+            depth++;
+        }
+
+        return res;
     }
 }
