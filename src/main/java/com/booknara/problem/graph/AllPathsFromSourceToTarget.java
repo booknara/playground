@@ -16,28 +16,21 @@ public class AllPathsFromSourceToTarget {
         // input check
         if (graph == null || graph.length == 0) return res;
 
-        dfs(graph, 0, graph.length - 1, new HashSet<>(), new ArrayList<>(), res);
-
+        dfs(graph, 0, graph.length - 1, new HashSet<>(), res);
         return res;
     }
 
-    public void dfs(int[][] graph,
-                    int node,
-                    int dest,
-                    Set<Integer> visited,
-                    List<Integer> path,
-                    List<List<Integer>> res) {
-        if (visited.contains(node)) return;
+    public void dfs(int[][] graph, int src, int dst, Set<Integer> visited, List<List<Integer>> res) {
+        if (visited.contains(src)) return;
 
-        visited.add(node);
-        path.add(node);
-        if (node == dest) {
-            res.add(path);
+        visited.add(src);
+        if (src == dst) {
+            res.add(new ArrayList<>(visited));
             return;
         }
 
-        for (int ad: graph[node]) {
-            dfs(graph, ad, dest, new HashSet<>(visited), new ArrayList<>(path), res);
+        for (int s: graph[src]) {
+            dfs(graph, s, dst, new HashSet<>(visited), res);
         }
     }
 }
