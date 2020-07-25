@@ -7,30 +7,33 @@ package com.booknara.problem.array;
 public class MaximumSwap {
     // T:O(n), S:(1)
     public int maximumSwap(int num) {
-        if (num == 0) {
-            return num;
-        }
+        if (num < 10) return num;
 
         char[] array = String.valueOf(num).toCharArray();
-        int[] nums = new int[10];
+        int[] nums = new int[10]; // 0 ~ 9
         for (int i = 0; i < array.length; i++) {
             nums[array[i] - '0'] = i;
         }
 
+        // check the number from 0 index to find bigger number
         for (int i = 0; i < array.length; i++) {
-            // only check the higher index number(e.g. 9->none, 8-> index of 9)
+            // 9 <= number > array[i] - '0'
             for (int j = 9; j > array[i] - '0'; j--) {
                 if (nums[j] > i) {
-                    // swap i and j
-                    //System.out.println("swap : " + i + ", " + j);
-                    char temp = array[i];
-                    array[i] = array[nums[j]];
-                    array[nums[j]] = temp;
+                    //System.out.println(j + "," + (array[i] - '0'));
+                    swap(array, nums[j], i);
                     return Integer.parseInt(new String(array));
                 }
             }
         }
 
+        // no swap
         return num;
+    }
+
+    public void swap(char[] array, int i, int j) {
+        char c = array[i];
+        array[i] = array[j];
+        array[j] = c;
     }
 }
