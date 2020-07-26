@@ -12,38 +12,32 @@ import java.util.Map;
  * https://leetcode.com/problems/find-duplicate-subtrees/
  */
 public class FindDuplicateSubtrees {
-    Map<String, Integer> map;
-    List<TreeNode> res;
+    // T:O(n), S:(n)
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-        res = new ArrayList<>();
-        if (root == null) {
-            return res;
-        }
+        List<TreeNode> res = new ArrayList<>();
+        if (root == null) return res;
 
-        map = new HashMap<>();
-        dfs(root);
+        Map<String, Integer> map = new HashMap<>();
+        inorder(root, map, res);
 
         return res;
     }
 
-    public String dfs(TreeNode node) {
+    public String inorder(TreeNode node, Map<String, Integer> map, List<TreeNode> res) {
         if (node == null) {
-            return "#";
+            return "x";
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(node.val);
-        builder.append(",");
-        builder.append(dfs(node.left));
-        builder.append(",");
-        builder.append(dfs(node.right));
-        String serial = builder.toString();
-        //System.out.println(serial);
-        map.put(serial, map.getOrDefault(serial, 0) + 1);
-        if (map.get(serial) == 2) {
+        String left = inorder(node.left, map, res);
+        String right = inorder(node.right, map, res);
+
+        String val = node.val + "," + left + "," + right;
+        int count = map.getOrDefault(val, 0);
+        if (count == 1) {
             res.add(node);
         }
+        map.put(val, count + 1);
 
-        return serial;
+        return val;
     }
 }
