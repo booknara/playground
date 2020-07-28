@@ -7,9 +7,64 @@ import java.util.*;
  * https://leetcode.com/problems/task-scheduler/
  */
 public class TaskScheduler {
-    // 05/06/2020 version
     // T: O(n * m), S:O(n), n: the number of tasks, m: interval
     public int leastInterval(char[] tasks, int n) {
+        if (n == 0) return tasks.length;
+
+        int[] bucket = new int[26];
+        for (int i = 0; i < tasks.length; i++) {
+            bucket[tasks[i] - 'A']++;
+        }
+
+        // max heap
+        PriorityQueue<Element> pq = new PriorityQueue<>((e1, e2) -> {
+            return Integer.compare(e2.n, e1.n);
+        });
+
+        for (int i = 0; i < 26; i++) {
+            if (bucket[i] != 0) {
+                pq.offer(new Element((char)('A' - i), bucket[i]));
+            }
+        }
+
+        int res = 0;
+        while (!pq.isEmpty()) {
+            List<Element> list = new ArrayList<>();
+            for (int i = 0; i < n + 1; i++) {
+                if (pq.isEmpty() && list.isEmpty()) {
+                    return res;
+                }
+
+                if (!pq.isEmpty()) {
+                    Element e = pq.poll();
+                    e.n--;
+                    if (e.n > 0) {
+                        list.add(e);
+                    }
+                }
+
+                res++;
+            }
+
+            pq.addAll(list);
+        }
+
+        return res;
+    }
+
+    static class Element {
+        char c;
+        int n;
+
+        Element(char c, int n) {
+            this.c = c;
+            this.n = n;
+        }
+    }
+
+    // 05/06/2020 version
+    // T: O(n * m), S:O(n), n: the number of tasks, m: interval
+    public int leastInterval1(char[] tasks, int n) {
         if (tasks == null || tasks.length == 0) {
             return 0;
         }
@@ -48,7 +103,7 @@ public class TaskScheduler {
     }
 
     // 03/10/2020 version
-    public int leastInterval1(char[] tasks, int n) {
+    public int leastInterval2(char[] tasks, int n) {
         if (tasks == null || tasks.length == 0) {
             return 0;
         }
