@@ -12,6 +12,7 @@ import java.util.Map;
 public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
     int rootIdx = 0;
     Map<Integer, Integer> map = new HashMap<>();
+    // T:O(n), S:O(n)
     public TreeNode buildTree(int[] inorder, int[] postorder) {
         if (inorder == null || inorder.length == 0) {
             return null;
@@ -35,4 +36,41 @@ public class ConstructBinaryTreeFromInorderAndPostorderTraversal {
 
         return root;
     }
+
+    // without global root index
+    public TreeNode buildTree1(int[] inorder, int[] postorder) {
+        // input check, inorder, postorder is not null
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+
+        return dfs(inorder, 0, inorder.length - 1,
+                postorder, 0, postorder.length - 1,
+                map);
+    }
+
+    public TreeNode dfs(int[] inorder, int inStart, int inEnd,
+                        int[] postorder, int postStart, int postEnd,
+                        Map<Integer, Integer> map) {
+        // base case
+        if (inStart > inEnd || postStart > postEnd) {
+            return null;
+        }
+
+        TreeNode node = new TreeNode(postorder[postEnd]);
+        int index = map.get(node.val);
+        int numOfLeft = index - inStart;
+
+        node.left = dfs(inorder, inStart, index - 1,
+                postorder, postStart, numOfLeft + postStart - 1,
+                map);
+
+        node.right = dfs(inorder, index + 1, inEnd,
+                postorder, numOfLeft + postStart, postEnd - 1,
+                map);
+
+        return node;
+    }
+
 }
