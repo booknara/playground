@@ -1,15 +1,59 @@
 package com.booknara.problem.heap;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * 767. Reorganize String (Medium)
  * https://leetcode.com/problems/reorganize-string/
  */
 public class ReorganizeString {
+    // T:O(n), S:O(m, the distinct number of characters)
     public String reorganizeString(String S) {
+        // input check, the length of s is in range [1, 500]
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c: S.toCharArray()) {
+            int count = map.getOrDefault(c, 0);
+            map.put(c, count + 1);
+        }
+
+        // max heap
+        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>((e1, e2) -> {
+            return Integer.compare(e2.getValue(), e1.getValue());
+        });
+
+        pq.addAll(map.entrySet());
+
+        char last = '0';
+        StringBuilder builder = new StringBuilder();
+
+        while (!pq.isEmpty()) {
+            List<Map.Entry<Character, Integer>> list = new ArrayList<>();
+            for (int i = 0; i < 2; i++) {
+                if (pq.isEmpty()) {
+                    break;
+                }
+
+                Map.Entry<Character, Integer> entry = pq.poll();
+                if (last == entry.getKey()) {
+                    return "";
+                }
+
+                last = entry.getKey();
+                builder.append(last);
+                entry.setValue(entry.getValue() - 1);
+
+                if (entry.getValue() > 0) {
+                    list.add(entry);
+                }
+            }
+
+            pq.addAll(list);
+        }
+
+        return builder.toString();
+    }
+
+    public String reorganizeString1(String S) {
         if (S == null || S.length() == 0) {
             return S;
         }
