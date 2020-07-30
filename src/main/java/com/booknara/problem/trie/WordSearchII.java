@@ -9,6 +9,13 @@ import java.util.List;
  * https://leetcode.com/problems/word-search-ii/
  */
 public class WordSearchII {
+    int[][] direction = new int[][] {
+            {-1, 0},
+            {1, 0},
+            {0, -1},
+            {0, 1}
+    };
+
     // Trie with Backtracking
     // T:O(4*3^L, L is the max length of words), S:O(n,  the total number of letters)
     public List<String> findWords(char[][] board, String[] words) {
@@ -49,10 +56,9 @@ public class WordSearchII {
 
         // backtracking
         board[r][c] = '#';  // visited indicator
-        dfs(board, r - 1, c, trie, res);
-        dfs(board, r + 1, c, trie, res);
-        dfs(board, r, c - 1, trie, res);
-        dfs(board, r, c + 1, trie, res);
+        for (int[] d: direction) {
+            dfs(board, r + d[0], c + d[1], trie, res);
+        }
         board[r][c] = ch;
     }
 
