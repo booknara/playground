@@ -4,7 +4,7 @@ import com.booknara.practice.rxjava.vo.Flight;
 import com.booknara.practice.rxjava.vo.Passenger;
 import com.booknara.practice.rxjava.vo.SmtpResponse;
 import com.booknara.practice.rxjava.vo.Ticket;
-import com.sun.tools.javac.util.Pair;
+import com.booknara.problem.common.Pair;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import org.jetbrains.annotations.NotNull;
@@ -67,11 +67,11 @@ public class TravelController {
                 .stream()
                 .flatMap(pair -> {
                     try {
-                        Future<SmtpResponse> future = pair.snd;
+                        Future<SmtpResponse> future = pair.getValue();
                         future.get(1, TimeUnit.SECONDS);
                         return Stream.empty();
                     } catch (Exception e) {
-                        Ticket ticket = pair.fst;
+                        Ticket ticket = pair.getKey();
                         return Stream.of(ticket);
                     }
                 })
