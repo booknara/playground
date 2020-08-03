@@ -5,14 +5,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Leet code : 509
- * The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence,
- * such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
- * F(0) = 0,   F(1) = 1
- * F(N) = F(N - 1) + F(N - 2), for N > 1.
- * {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, }
+ * 509. Fibonacci Number (Easy)
+ * https://leetcode.com/problems/fibonacci-number/
  */
 public class Fibonacci {
+    // T:O(n1), S:O(1)
+    public int fib(int N) {
+        if (N < 2) return N;
+
+        int[] dp = new int[N + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        int pp = 0;
+        for (int i = 2; i < N + 1; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        return dp[N];
+    }
+
     public int fib1(int N) {
         // Recursion
         if (N < 2) {
