@@ -23,7 +23,7 @@ public class PalindromeLinkedList {
             fast = fast.next.next;
         }
 
-        // For even length list
+        // For even length list, e.g. 1->2->3->2->1
         if (fast.next != null) {
             slow = slow.next;
         }
