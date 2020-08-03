@@ -5,31 +5,31 @@ package com.booknara.problem.string;
  * https://leetcode.com/problems/valid-palindrome/
  */
 public class ValidPalindrome {
+    // T:O(n), S:O(1)
     public boolean isPalindrome(String s) {
+        // input check
         if (s == null || s.length() == 0) {
             return true;
         }
 
         int l = 0, r = s.length() - 1;
         while (l < r) {
-            // check and skip non-alphanumeric on the left side
-            while (l < r && !Character.isLetterOrDigit(Character.toLowerCase(s.charAt(l)))) {
+            // skip empty string or non-alphanumeric characters
+            while (l < r) {
+                if (Character.isLetterOrDigit(s.charAt(l))) break;
                 l++;
             }
-
-            // check and skip non-alphanumeric on the right side
-            while (l < r && !Character.isLetterOrDigit(Character.toLowerCase(s.charAt(r)))) {
+            while (l < r) {
+                if (Character.isLetterOrDigit(s.charAt(r))) break;
                 r--;
             }
 
-            if (l > r) {
-                return true;
-            }
+            if (l == r) return true;
 
-            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) {
+            if (Character.toLowerCase(s.charAt(l))
+                    != Character.toLowerCase(s.charAt(r))) {
                 return false;
             }
-
             l++;
             r--;
         }
