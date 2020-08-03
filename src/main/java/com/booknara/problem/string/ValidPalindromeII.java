@@ -5,39 +5,32 @@ package com.booknara.problem.string;
  * https://leetcode.com/problems/valid-palindrome-ii/
  */
 public class ValidPalindromeII {
+    // T:O(n), S:O(1)
     public boolean validPalindrome(String s) {
-        if (s == null || s.length() < 2) {
-            return true;
-        }
-
+        // input check, non-empty string s
         int l = 0, r = s.length() - 1;
-        while (l <= r) {
-            if (s.charAt(l) == s.charAt(r)) {
-                l++;
-                r--;
-            } else {
+        int graceTime = 1;
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r)) {
                 // exclude one left character or exclude one right character
-                return dfs(s.substring(l + 1, r + 1))
-                        || dfs(s.substring(l, r));
+                return isPalindrome(s.substring(l, r))
+                        || isPalindrome(s.substring(l + 1, r + 1));
             }
+            l++;
+            r--;
         }
 
         return true;
     }
 
-    private boolean dfs(String s) {
-        if (s == null || s.length() < 2) {
-            return true;
-        }
-
+    public boolean isPalindrome(String s) {
         int l = 0, r = s.length() - 1;
-        while (l <= r) {
-            if (s.charAt(l) == s.charAt(r)) {
-                l++;
-                r--;
-            } else {
+        while (l < r) {
+            if (s.charAt(l) != s.charAt(r)) {
                 return false;
             }
+            l++;
+            r--;
         }
 
         return true;
