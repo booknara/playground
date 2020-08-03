@@ -2,6 +2,9 @@ package com.booknara.problem.list;
 
 import com.booknara.problem.common.ListNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 234. Palindrome Linked List (Easy)
  * https://leetcode.com/problems/palindrome-linked-list/
@@ -50,5 +53,30 @@ public class PalindromeLinkedList {
         }
 
         return curHead;
+    }
+
+    public boolean isPalindrome1(ListNode head) {
+        if (head == null) return true;
+
+        List<Integer> list = new ArrayList<>();
+        while (head != null) {
+            list.add(head.val);
+            head = head.next;
+        }
+
+        return isPalindrome(list);
+    }
+
+    public boolean isPalindrome(List<Integer> list) {
+        int l = 0, r = list.size() - 1;
+        while (l < r) {
+            if (!list.get(l).equals(list.get(r))) {
+                return false;
+            }
+            l++;
+            r--;
+        }
+
+        return true;
     }
 }
