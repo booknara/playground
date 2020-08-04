@@ -5,6 +5,7 @@ package com.booknara.problem.search.binary;
  * https://leetcode.com/problems/search-in-a-sorted-array-of-unknown-size/
  */
 public class SearchInSortedArrayOfUnknownSize {
+    // T:O(logn), S:O(1)
     public int search(ArrayReader reader, int target) {
         int right = 1;
         int left = 0;
@@ -30,6 +31,6 @@ public class SearchInSortedArrayOfUnknownSize {
     }
 
     interface ArrayReader {
-        public int get(int index);
+        int get(int index);
     }
 }
