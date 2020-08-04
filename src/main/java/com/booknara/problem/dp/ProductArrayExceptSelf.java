@@ -7,22 +7,20 @@ package com.booknara.problem.dp;
 public class ProductArrayExceptSelf {
     // T: O(n), S: O(1)
     public int[] productExceptSelf(int[] nums) {
-        // check input(assume the num of array is more than 1)
-        int[] res = new int[nums.length];
-        int product = 1;
-        for (int i = 0; i < nums.length; i++) {
-            // res[i] = the product value until res[i - 1]
-            res[i] = product;
-            product *= nums[i];
+        // input check, n > 1
+        int[] left = new int[nums.length];
+        left[0] = 1;
+        int right = 1;
+        for (int i = 1; i < nums.length; i++) {
+            left[i] = left[i - 1] * nums[i - 1];
         }
 
-        product = 1;
-        for (int i = nums.length - 1; i >= 0; i--) {
-            res[i] *= product;
-            product *= nums[i];
+        for (int i = nums.length - 2; i >= 0; i--) {
+            right = right * nums[i + 1];
+            left[i] = left[i] * right;
         }
 
-        return res;
+        return left;
     }
 
     // Time complexity: O(n), Space complexity: O(1)
@@ -58,43 +56,22 @@ public class ProductArrayExceptSelf {
 
     // Time complexity: O(n), Space complexity: O(n)
     public int[] productExceptSelf2(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return new int[0];
-        }
-
+        // input check, n > 1
         int[] left = new int[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            if (i == 0) {
-                left[i] = nums[i];
-            } else {
-                left[i] = left[i - 1] * nums[i];
-            }
-            //System.out.print(left[i] + ",");
-        }
-
-        System.out.println();
+        left[0] = 1;
         int[] right = new int[nums.length];
-        for (int i = nums.length - 1; i >= 0; i--) {
-            if (i == nums.length - 1) {
-                right[i] = nums[nums.length - 1];
-            } else {
-                right[i] = nums[i] * right[i + 1];
-            }
-            //System.out.print(right[i] + ",");
+        right[nums.length - 1] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            left[i] = left[i - 1] * nums[i - 1];
+        }
+        for (int i = nums.length - 2; i >= 0; i--) {
+            right[i] = right[i + 1] * nums[i + 1];
         }
 
         for (int i = 0; i < nums.length; i++) {
-            int l = 1;
-            if (i > 0) {
-                l = left[i - 1];
-            }
-            int r = 1;
-            if (i < nums.length - 1) {
-                r = right[i + 1];
-            }
-            nums[i] = l * r;
+            left[i] = left[i] * right[i];
         }
 
-        return nums;
+        return left;
     }
 }
