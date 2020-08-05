@@ -8,6 +8,7 @@ import java.util.List;
  * https://leetcode.com/problems/spiral-matrix/
  */
 public class SpiralMatrix {
+    // T:O(n^2), S:O(1)
     public List<Integer> spiralOrder(int[][] matrix) {
         List<Integer> res = new ArrayList<>();
         if (matrix == null || matrix.length == 0) {
