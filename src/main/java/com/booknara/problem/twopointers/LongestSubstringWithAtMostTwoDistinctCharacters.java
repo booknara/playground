@@ -5,6 +5,7 @@ package com.booknara.problem.twopointers;
  * https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/
  */
 public class LongestSubstringWithAtMostTwoDistinctCharacters {
+    // T:O(n), S:O(1)
     public int lengthOfLongestSubstringTwoDistinct(String s) {
         if (s == null || s.length() == 0) return 0;
 
