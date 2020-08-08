@@ -2,28 +2,45 @@ package com.booknara.problem.tree;
 
 import com.booknara.problem.common.TreeNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * 437. Path Sum III (Easy)
+ * 437. Path Sum III (Medium)
  * https://leetcode.com/problems/path-sum-iii/
  */
 public class PathSumIII {
-    public int pathSum(TreeNode root, int sum) {
-        if (root == null) {
-            return 0;
-        }
+    int res = 0;
+    // T:O(n), S:O(n)
+    public int pathSum1(TreeNode root, int sum) {
+        // input check
+        if (root == null) return 0;
 
-        return pathSumFrom(root, sum)
-                + pathSumFrom(root.left, sum)
-                + pathSumFrom(root.right, sum);
+        Map<Integer, Integer> map = new HashMap<>();
+        preorder(root, 0, sum, map);
+
+        return res;
     }
 
-    public int pathSumFrom(TreeNode node, int sum) {
-        if (node == null) {
-            return 0;
+    public void preorder(TreeNode node, int currSum, int sum, Map<Integer, Integer> map) {
+        if (node == null) return;
+
+        currSum += node.val;
+        if (currSum == sum) res++;
+        
+        res += map.getOrDefault(currSum - sum, 0);
+        int count = map.getOrDefault(currSum, 0);
+        map.put(currSum, count + 1);
+
+        if (node.left != null) {
+            preorder(node.left, currSum, sum, map);
         }
 
-        return (node.val == sum ? 1 : 0)
-                + pathSumFrom(node.left, sum - node.val)
-                + pathSumFrom(node.right, sum - node.val);
+        if (node.right != null) {
+            preorder(node.right, currSum, sum, map);
+        }
+
+        map.put(currSum, map.get(currSum) - 1);
     }
+
 }
