@@ -9,6 +9,7 @@ import java.util.*;
  * https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
  */
 public class VerticalOrderTraversalofBinaryTree {
+    // T:O(n*logn), S:O(n)
     public List<List<Integer>> verticalTraversal(TreeNode root) {
         List<List<Integer>> res = new ArrayList<>();
         if (root == null) {
@@ -61,4 +62,61 @@ public class VerticalOrderTraversalofBinaryTree {
             this.val = val;
         }
     }
+
+    // BFS, T:O(n*logn), S:O(n)
+    public List<List<Integer>> verticalTraversal1(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+
+        Map<Integer, PriorityQueue<Element>> map = new TreeMap<>();
+
+        Queue<Element> queue = new LinkedList<>();
+        queue.offer(new Element(root, 0, 0));
+
+        while (!queue.isEmpty()) {
+            int len = queue.size();
+            for (int i = 0; i < len; i++) {
+                Element e = queue.poll();
+                PriorityQueue<Element> pq = map.getOrDefault(e.x, new PriorityQueue<>((e1, e2) -> {
+                    if (e1.y == e2.y) {
+                        return e1.node.val - e2.node.val;
+                    }
+
+                    return e1.y - e2.y;
+                }));
+                pq.add(e);
+                map.put(e.x, pq);
+
+                if (e.node.left != null) {
+                    queue.offer(new Element(e.node.left, e.x - 1, e.y + 1));
+                }
+                if (e.node.right != null) {
+                    queue.offer(new Element(e.node.right, e.x + 1, e.y + 1));
+                }
+            }
+        }
+
+
+        for (PriorityQueue<Element> pq: map.values()) {
+            List<Integer> list = new ArrayList<>();
+            while (!pq.isEmpty()) {
+                list.add(pq.poll().node.val);
+            }
+            res.add(list);
+        }
+
+        return res;
+    }
+
+    static class Element {
+        TreeNode node;
+        int x;
+        int y;
+        Element(TreeNode node, int x, int y) {
+            this.node = node;
+            this.x = x;
+            this.y = y;
+        }
+    }
+
 }
