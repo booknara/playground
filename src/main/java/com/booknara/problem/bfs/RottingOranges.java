@@ -8,79 +8,83 @@ import java.util.Queue;
  * https://leetcode.com/problems/rotting-oranges/
  */
 public class RottingOranges {
-    private static final int INVALID = -1;
+    // T:O(n^2), S:O(n^2)
     public int orangesRotting(int[][] grid) {
-        if (grid == null || grid[0].length == 0) {
-            return INVALID;
-        }
-
-        int numOfFresh = 0;
+        // input check, grid.length >= 1
+        // collect all the rotten orange
         Queue<Cell> q = new LinkedList<>();
-        int rowMax = grid.length;
-        int colMax = grid[0].length;
-        for (int i = 0; i < rowMax; i++) {
-            for (int j = 0; j < colMax; j++) {
+        int fresh = 0, empty = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == 2) {
-                    // Rotten orange
-                    q.add(new Cell(i, j, 0));
-                } else if (grid[i][j] == 1) {
-                    // Fresh orange
-                    numOfFresh++;
+                    q.offer(new Cell(i, j));
+                } else if (grid[i][j] == 0) {
+                    empty++;
+                } else {
+                    fresh++;
                 }
             }
         }
 
-        // All cells are a rotten orange
-        if (numOfFresh == 0) return 0;
-        // All cells are a fresh orange
-        if (q.size() == 0) return INVALID;
+        // not exist rotten orange
+        if (empty == grid.length * grid[0].length) return 0;
+        if (fresh == grid.length * grid[0].length) return -1;
 
-        // BFS traversal
-        int time = 0;
+        int day = -1;
         while (!q.isEmpty()) {
-            Cell c = q.poll();
-            time = Math.max(time, c.t);     // For result
-            // Top
-            int i = c.i;
-            int j = c.j;
-            if (i > 0 && grid[i - 1][j] == 1) {
-                q.add(new Cell(i - 1, j, time + 1));
-                numOfFresh--;
-                grid[i - 1][j] = 2;
+            int len = q.size();
+            for (int i = 0; i < len; i++) {
+                Cell c = q.poll();
+
+                // top
+                if (c.r > 0 && grid[c.r - 1][c.c] == 1) {
+                    q.offer(new Cell(c.r - 1, c.c));
+                    grid[c.r - 1][c.c] = 2; // flag to indicate in process
+                }
+                // bottom
+                if (c.r < grid.length - 1 && grid[c.r + 1][c.c] == 1) {
+                    q.offer(new Cell(c.r + 1, c.c));
+                    grid[c.r + 1][c.c] = 2; // flag to indicate in process
+                }
+                // left
+                if (c.c > 0 && grid[c.r][c.c - 1] == 1) {
+                    q.offer(new Cell(c.r, c.c - 1));
+                    grid[c.r][c.c - 1] = 2; // flag to indicate in process
+                }
+                // right
+                if (c.c < grid[c.r].length - 1 && grid[c.r][c.c + 1] == 1) {
+                    q.offer(new Cell(c.r, c.c + 1));
+                    grid[c.r][c.c + 1] = 2; // flag to indicate in process
+                }
             }
-            // Bottom
-            if (i < rowMax - 1 && grid[i + 1][j] == 1) {
-                q.add(new Cell(i + 1, j, time + 1));
-                numOfFresh--;
-                grid[i + 1][j] = 2;
-            }
-            // Left
-            if (j > 0 && grid[i][j - 1] == 1) {
-                q.add(new Cell(i, j - 1, time + 1));
-                numOfFresh--;
-                grid[i][j - 1] = 2;
-            }
-            // Right
-            if (j < colMax - 1 && grid[i][j + 1] == 1) {
-                q.add(new Cell(i, j + 1, time + 1));
-                numOfFresh--;
-                grid[i][j + 1] = 2;
+            day++;
+        }
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    return -1;
+                }
             }
         }
 
-        //System.out.println("fresh one : " + numOfFresh);
-        return numOfFresh == 0 ? time : INVALID;
+        return day;
     }
 
-    class Cell {
-        int i;
-        int j;
-        int t;
+    static class Cell {
+        int r;
+        int c;
+        Cell(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
 
-        Cell (int i, int j, int t) {
-            this.i = i;
-            this.j = j;
-            this.t = t;
+        @Override
+        public String toString() {
+            return "Cell{" +
+                    "r=" + r +
+                    ", c=" + c +
+                    '}';
         }
     }
 }
