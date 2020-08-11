@@ -5,6 +5,7 @@ package com.booknara.problem.math;
  * https://leetcode.com/problems/excel-sheet-column-number/
  */
 public class ExcelSheetColumnNumber {
+    // T:O(n), S:O(1)
     public int titleToNumber(String s) {
         // input check, the len of S is bigger than 1
         int res = 0;
