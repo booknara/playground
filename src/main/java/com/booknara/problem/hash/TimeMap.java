@@ -9,6 +9,7 @@ import java.util.TreeMap;
  * https://leetcode.com/problems/time-based-key-value-store/
  */
 public class TimeMap {
+    // T:O(1), S:O(n)
     Map<String, TreeMap<Integer, String>> map;
     /** Initialize your data structure here. */
     public TimeMap() {
