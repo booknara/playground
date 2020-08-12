@@ -9,6 +9,7 @@ import java.util.List;
  * https://leetcode.com/problems/pascals-triangle-ii/
  */
 public class PascalsTriangleII {
+    // T:O(n^2), S:O(n)
     public List<Integer> getRow(int rowIndex) {
         // input check
         if (rowIndex == 0) return Collections.singletonList(1);
