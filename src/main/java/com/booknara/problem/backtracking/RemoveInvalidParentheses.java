@@ -12,6 +12,7 @@ import java.util.Set;
 public class RemoveInvalidParentheses {
     int minIgnore = Integer.MAX_VALUE;
 
+    // T:O(2^n), S:O(n)
     public List<String> removeInvalidParentheses(String s) {
         Set<String> set = new HashSet<>();
         recur(s, 0, 0, 0, 0, new StringBuilder(), set);
