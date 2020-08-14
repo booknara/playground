@@ -10,6 +10,7 @@ import java.util.Set;
  * https://leetcode.com/problems/word-pattern-ii/
  */
 public class WordPatternII {
+    // T:O(n!/(n-m)!, exponential), S:(n)
     public boolean wordPatternMatch(String pattern, String str) {
         if (pattern.length() == 0 && str.length() == 0) return true;
         if (pattern.length() * str.length() == 0) return false;
