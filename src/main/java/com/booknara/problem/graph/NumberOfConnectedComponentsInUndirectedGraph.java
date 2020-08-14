@@ -5,6 +5,7 @@ package com.booknara.problem.graph;
  * https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
  */
 public class NumberOfConnectedComponentsInUndirectedGraph {
+    // T:O(n), S:O(n)
     public int countComponents(int n, int[][] edges) {
         // input check
         if (edges == null || edges.length == 0) return n;
@@ -28,6 +29,7 @@ public class NumberOfConnectedComponentsInUndirectedGraph {
         return res;
     }
 
+    // T:O(1) because of path compression, S:O(1)
     public int findRoot(int[] roots, int id) {
         // find
         while (roots[id] != id) {
