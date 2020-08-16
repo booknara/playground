@@ -20,3 +20,15 @@ public class BestTimeToBuyAndSellStock {
         return sell;
     }
 }
+
+/**
+ input : all the values of prices are non-negative
+ prices: [7,1,5,3,6,4]
+ profit = sell - buy = sell + (-buy)
+ int buy = Integer.MIN_VALUE, sell = 0;
+ loop 0 ~ n - 1
+ buy = Math.max(buy, -prices[i]);
+ sell = Math.max(sell, prices[i] + buy);
+
+ return sell;
+ */
