@@ -9,12 +9,15 @@ import java.util.Arrays;
 public class NonOverlappingIntervals {
     // O(n*logn)
     public int eraseOverlapIntervals(int[][] intervals) {
-        if (intervals == null || intervals.length == 0) {
-            return 0;
-        }
+        // input check
+        if (intervals == null || intervals.length == 0) return 0;
 
-        Arrays.sort(intervals, (a, b) -> {
-            return a[1] - b[1];
+        // each element of intervals has the only two elements
+        // And [x,y] -> x is smaller than y
+
+        // sort by the end value of the element
+        Arrays.sort(intervals, (e1, e2) -> {
+            return e1[1] - e2[1];
         });
 
         int res = 0;
@@ -22,25 +25,46 @@ public class NonOverlappingIntervals {
         int preE = intervals[0][1];
         for (int i = 1; i < intervals.length; i++) {
             if (preE <= intervals[i][0]) {
-                // Case #1
-                // non-overlapping
+                // case #1 (non-overlapping)
                 preS = intervals[i][0];
                 preE = intervals[i][1];
-            } else if (preE > intervals[i][0]) {
-                // Case #2
-                // a part overlapped
+            } else if (preS < intervals[i][0]) {
+                // case #2 (partly overlapping)
                 res++;
-            } else if (preS > intervals[i][0]) {
-                // Case #3
-                // fully overlapped
+            } else if (preS >= intervals[i][0]) {
+                // case #3 (fully overlapping)
                 res++;
-            } else {
-                // System.out.println("missing case?");
             }
-            // System.out.print(intervals[i][0] + " ");
-            // System.out.println(intervals[i][1]);
         }
 
         return res;
     }
 }
+
+// Given a collection of intervals(length: 2), find the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.
+// [[1,2],[2,3],[3,4],[1,3]]
+// 1,2
+//   2,3
+//     3,4
+// 1   3 -> remove the one
+
+// 2 2 2 1 (the number of over-lapping) -> the max value : 2
+// result max - 1
+
+// sort by the end value of the element
+// [1,2] 1,2
+// [1,3] 1,  3
+// [2,3]   2,3
+// [3,4]     3.4
+// there are three cases to compare a pre interval and current interval
+// 1. non-overlapping
+// [1,2] 1,2
+// [2,3]   2,3
+
+// 2. partly overlapping
+// [1,3] 1,  3
+// [2,4]   2,  4
+
+// 3. fully overlapping
+// [1,3] 1,  3
+// [1,4] 1,    4
