@@ -9,7 +9,6 @@ public class ValidPalindromeII {
     public boolean validPalindrome(String s) {
         // input check, non-empty string s
         int l = 0, r = s.length() - 1;
-        int graceTime = 1;
         while (l < r) {
             if (s.charAt(l) != s.charAt(r)) {
                 // exclude one left character or exclude one right character
