@@ -26,26 +26,46 @@ public class BestTimeBuySellStockWithCooldown {
 
     // T:O(n), S:O(n), DP
     public int maxProfit1(int[] prices) {
-        if (prices == null || prices.length <= 1) {
-            return 0;
-        }
-
-        // store the max profit for each time
         int[] buy = new int[prices.length + 1];
         int[] sell = new int[prices.length + 1];
+        buy[0] = Integer.MIN_VALUE;
+        // sell[0] = 0;
 
-        buy[0] = 0;
-        buy[1] = -prices[0];
-        sell[0] = 0;
-        sell[1] = 0;
+        for (int i = 1; i < prices.length + 1; i++) {
+            if (i > 1) {
+                buy[i] = Math.max(buy[i - 1], sell[i - 2] - prices[i - 1]);
+            } else {
+                buy[i] = -prices[i - 1];
+            }
 
-        for (int i = 2; i <= prices.length; i++) {
-            // the max profit to buy[i] is btw buy[i - 1](no transaction) and sell[i - 2] - prices[i - 1](make transaction 2day ago profit + yesterday price to buy(subtract))
-            buy[i] = Math.max(buy[i - 1], sell[i - 2] - prices[i - 1]);
-            // the max profit to sell[i] is btw sell[i - 1](no transaction) and buy[i - 1] + prices[i - 1], selling)
             sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i - 1]);
         }
 
         return sell[prices.length];
     }
 }
+
+/**
+ Input check: the value of prices is non-negative
+ Inupt: [1,2,3,0,2]
+ Output: 3 (1 -> 2, cooldown, 0 -> 2) = 1 + 2
+
+ profit = sell + (-buy)
+
+ int[] buy = new int[prices.length + 1];
+ int[] sell = new int[prices.length + 1];
+
+ loop i from 1 ~ (n - 1)
+ if (i > 1) {
+ buy[i] = max(buy[i - 1], sell[i - 2] - prices[i - 1]);
+ } else {
+ buy[i] = -prices[i - 1];
+ }
+
+ sell[i] = max(sell[i - 1], buy[i - 1] + prices[i - 1]);
+ [       1,  2,  3, 0,3]
+ buy : [-MIN, -1, -1, -1, 1, 1]
+ sell: [0,     0,  1,  2, 2, 3]
+
+ return sell
+ */
