@@ -1,4 +1,4 @@
-package com.booknara.problem.dfs;
+package com.booknara.problem.bfs;
 
 import java.util.LinkedList;
 import java.util.Queue;
