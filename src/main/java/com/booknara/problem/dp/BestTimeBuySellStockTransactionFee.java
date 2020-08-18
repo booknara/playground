@@ -1,41 +1,39 @@
 package com.booknara.problem.dp;
 
 /**
- * Leet code: 714. Best Time to Buy and Sell Stock with Transaction Fee (Medium)
+ * 714. Best Time to Buy and Sell Stock with Transaction Fee (Medium)
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
  */
 public class BestTimeBuySellStockTransactionFee {
+    // T:O(n), S:O(1)
     public int maxProfit(int[] prices, int fee) {
-        if (prices == null || prices.length == 0) {
-            return 0;
+        // input check: positive integer, fee >= 0
+
+        int buy = Integer.MIN_VALUE;
+        int sell = 0;
+        for (int i = 0; i < prices.length; i++) {
+            buy  = Math.max(buy,  sell - prices[i]);
+            sell = Math.max(sell, prices[i] + buy - fee);
         }
 
-        int cash = 0, hold = -prices[0];
-        for (int i = 1; i < prices.length; i++) {
-            cash = Math.max(cash, prices[i] + hold - fee);
-            hold = Math.max(hold, cash - prices[i]);
-        }
-
-        return cash;
-    }
-
-    public int maxProfitwithSpace(int[] prices, int fee) {
-        if (prices == null || prices.length == 0) {
-            return 0;
-        }
-
-        int n = prices.length;
-        int[] hold = new int[n];
-        int[] sell = new int[n];
-        hold[0] = -prices[0];
-        for (int i = 1; i < prices.length; i++) {
-            sell[i] = Math.max(sell[i - 1], hold[i - 1] + prices[i] - fee);
-            hold[i] = Math.max(hold[i - 1], sell[i - 1] - prices[i]);
-            System.out.print("price: " + prices[i]);
-            System.out.print(" sell: " + sell[i]);
-            System.out.println(" hold: " + hold[i]);
-        }
-
-        return sell[n - 1];
+        return sell;
     }
 }
+
+/**
+ Input : positive integer, fee >= 0
+ prices = [1, 3, 2, 8, 4, 9], fee = 2
+
+ profit = selling price + (-buying price) - fee
+
+ buy = Integer.MIN_VALUE;
+ sell = 0;
+ buy  = max(buy,  sell - prices[i]);
+ sell = max(sell, prices[i] + buy - fee);
+
+ prices = [1, 3, 2, 8, 4, 9], fee = 2
+ buy : -1, -1, -1, -1, 1, 1
+ sell:  0,  0, -1,  5, 5, 8
+
+ return sell;
+ */
