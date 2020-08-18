@@ -1,9 +1,8 @@
 package com.booknara.problem.hash;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 438. Find All Anagrams in a String (Medium)
@@ -49,49 +48,63 @@ public class FindAllAnagramsInString {
         return res;
     }
 
-    // O(|s| * |p|)
+    // T:O(n), S:O(1)
     public List<Integer> findAnagrams1(String s, String p) {
         List<Integer> res = new ArrayList<>();
-        if (s == null || s.length() == 0) {
-            return res;
-        }
+        // input check, non-empty string p
+        if (s.length() == 0) return res;
+        if (s.length() < p.length()) return res;
 
-        Set<Character> set = new HashSet<>();
+        int[] pBucket = new int[26];
         for (char c: p.toCharArray()) {
-            set.add(c);
+            pBucket[c - 'a']++;
         }
 
-        int len = p.length();
-        String pAnagram = getUniqueAnagram(p);
-        for (int i = 0; i < s.length() - len + 1; i++) {
-            if (!set.contains(s.charAt(i))) continue;
-
-            String part = s.substring(i, i + len);
-            if (isAnagram(part, pAnagram)) {
-                res.add(i);
+        int[] slice = new int[26];
+        int l = 0, r = 0;
+        while (r < s.length()) {
+            // 00, 01, 02
+            if (r - l < p.length()) {
+                slice[s.charAt(r) - 'a']++;
+                r++;
+                continue;
             }
+
+            // 03,41
+            // compare pBucket and slice
+            if (Arrays.equals(pBucket, slice)) {
+                res.add(l);
+            }
+            slice[s.charAt(r) - 'a']++;
+            slice[s.charAt(l) - 'a']--;
+            r++;
+            l++;
+        }
+
+        // the remaining comparision
+        if (Arrays.equals(pBucket, slice)) {
+            res.add(l);
         }
 
         return res;
     }
-
-    private boolean isAnagram(String s, String t) {
-        return getUniqueAnagram(s).equals(t);
-    }
-
-    private String getUniqueAnagram(String s) {
-        int[] count1 = new int[26];
-        int len = s.length();
-        for (int i = 0; i < len; i++) {
-            char c1 = s.charAt(i);
-            count1[c1 - 'a']++;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 26; i++) {
-            builder.append(count1[i]);
-        }
-
-        return builder.toString();
-    }
 }
+
+/**
+ s: "cbaebabacd"
+ p: "abc"
+
+ // lowercase English letters only
+ Slicing window
+ cbaebabacd
+ abc
+ abc
+ abc
+ abc
+ abc
+
+ c: 1, b: 1, a: 1
+ a: 1, b: 1, c: 1
+
+ find all the start indices of p's anagrams in s.
+ */
