@@ -48,4 +48,69 @@ public class GroupShiftedStrings {
 
         return res;
     }
+
+    /**
+     Given a string, we can "shift" each of its letter to its successive letter,
+     for example: "abc" -> "bcd". We can keep "shifting" which forms the sequence:
+
+     "abc" -> "bcd" -> ... -> "xyz" -> one group
+     Given a list of non-empty strings which contains only lowercase alphabets,
+     group all strings that belong to the same shifting sequence.
+
+     Example:
+     Input: ["abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"],
+     Output:
+     [
+     ["abc","bcd","xyz"],
+     ["az","ba"],
+     ["acef"],
+     ["a","z"]
+     ]
+
+     Input: non-empty string, lowercase alphabets only
+     "abc"
+     bcd -> ('b'- 'a') bcd -> abc
+     xyz -> ('x'- 'a') xyz -> abc
+
+     "az"
+     "ba" -> ('b' - 'a', 1) ba -> az. ba (66, 65) -> (65, 64 + 26)
+     After rearranging based on the first letter, if the rearranging number is negative, add 26
+     */
+
+    public List<List<String>> groupStrings1(String[] strings) {
+        // input check
+        List<List<String>> res = new ArrayList<>();
+        if (strings.length == 0) return res;
+
+        // Assumption input strings contains the lowercase letter
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (int i = 0; i < strings.length; i++) {
+            StringBuilder key = new StringBuilder();
+            String s = strings[i];
+            if (s.length() == 1) {
+                // "a", "b"
+                key.append("a");
+            } else {
+                // bcd -> offset = 'b' - 'a' = 1
+                for (int j = 1; j < s.length(); j++) {
+                    int diff = s.charAt(j) - s.charAt(j - 1);
+                    if (diff < 0) {
+                        diff += 26;
+                    }
+                    key.append(diff);
+                }
+            }
+
+            // after converting string to key
+            List<String> list = map.getOrDefault(key.toString(), new ArrayList<>());
+            list.add(s);
+            map.put(key.toString(), list);
+        }
+
+        res.addAll(map.values());
+
+        return res;
+    }
+
 }
