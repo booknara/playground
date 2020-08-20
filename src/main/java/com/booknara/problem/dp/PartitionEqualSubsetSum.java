@@ -7,27 +7,28 @@ package com.booknara.problem.dp;
 public class PartitionEqualSubsetSum {
     // T:O(n*m), S:O(n)
     public boolean canPartition(int[] nums) {
-        // input check (non-empty from problem statement)
+        // input check
+        if (nums == null || nums.length == 0) return false;
+
         int sum = 0;
         for (int n: nums) {
             sum += n;
         }
 
-        // sum is odd number which can't be divided by 2
-        if (sum % 2 != 0) return false;
-
-        sum /= 2;
-
-        boolean[] dp = new boolean[sum + 1];
-        for (int i = 1; i < sum + 1; i++) {
-            dp[i] = false;
+        // sum is odd, it can't be divided by 2
+        if (sum % 2 == 1) {
+            return false;
         }
-        dp[0] = true;
 
-        for (int i = 1; i < nums.length + 1; i++) {
+        // 0/1 knap-sack problem
+        sum /= 2;
+        boolean[] dp = new boolean[sum + 1];
+        dp[0] = true;
+        for (int num: nums) {
             for (int j = sum; j >= 0; j--) {
-                if (j >= nums[i - 1]) {         // possible and picked, otherwise use remaining value
-                    dp[j] = dp[j] || dp[j - nums[i - 1]];
+                if (j >= num) {
+                    // possible and picked, otherwise use remaining value
+                    dp[j] = dp[j] || dp[j - num];
                 }
             }
         }
@@ -65,7 +66,7 @@ public class PartitionEqualSubsetSum {
         while (j < nums.length && nums[index] == nums[j]) {
             j++;
         }
-        // recovery
+        // not used
         return backtracking(nums, j, target);
     }
 
