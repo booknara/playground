@@ -7,7 +7,7 @@ package com.booknara.problem.search.binary;
 public class KokoEatingBananas {
     // T:O(n*logw), n: the number of piles, w: the max number of piles, S:O(1)
     public int minEatingSpeed(int[] piles, int H) {
-        // input check (integers are all postive number)
+        // input check (integers are all posttive number)
         if (piles == null) return 0;
 
         // case #2: the number of piles (n <= H) impossible
