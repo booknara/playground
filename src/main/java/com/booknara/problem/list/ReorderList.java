@@ -7,6 +7,7 @@ import com.booknara.problem.common.ListNode;
  * https://leetcode.com/problems/reorder-list/
  */
 public class ReorderList {
+    // T:O(n), S:O(1)
     public void reorderList(ListNode head) {
         if (head == null || head.next == null) {
             return;
