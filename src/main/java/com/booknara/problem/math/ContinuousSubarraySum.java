@@ -8,33 +8,18 @@ import java.util.Map;
  * https://leetcode.com/problems/continuous-subarray-sum/
  */
 public class ContinuousSubarraySum {
+    // T:O(n), S:O(n)
     public boolean checkSubarraySum(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return false;
-        }
+        if (nums == null || nums.length == 0) return false;
 
-        // Key: sum % k, Value: index (to check a continuous subarray of size at least 2)
-        /* we can define a "group" relationship on the integers
-        (refer: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/congruence-modulo)
-        if the results of two integers i1 and i2 modulo k are the same, then we can say they are in the same group
-        e.g. 7 % 13 = 7 and 46 % 13 = 7, so we can think of 7 and 46 are in the same group
-        we can name the group using the result of modulo
-        if we know two integers i1 and i2 are in the same group d, then we have:
-        i1 = 13 * a + d and i2 = 13 * b + d where a and b are both integers
-        if then we calculate their difference, we can get: i1 - i2 = 13 * a - 13 * b + d - d = 13 * (a - b)
-        since a and b are both integers, (a - b) must be integers as well
-
-        Conclusion: if two integers are in the same group, their difference must be divisible by the divisor k
-        Now back to prefix sum, if we know that the difference of two prefix sum is divisible by k, then we
-        can learn that sum of the subarray corresponds to this difference must be divisible by k (aka, it is multiple of k
-        */
-        int sum = 0;
         Map<Integer, Integer> map = new HashMap<>();
         map.put(0, -1);
+        int sum = 0;
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
             if (k != 0) {
-                sum = sum % k;  // Key point!
+                // except k = 0
+                sum %= k;
             }
 
             if (map.containsKey(sum)) {
@@ -48,3 +33,25 @@ public class ContinuousSubarraySum {
         return false;
     }
 }
+
+/**
+ Given a list of non-negative numbers and a target integer k,
+ write a function to check if the array has a continuous subarray of size at least 2 that sums up to a multiple of k, that is, sums up to n*k where n is also an integer.
+
+ Input: 0 ~ N (integer)
+ subarray (2 ~ N)
+ [23, 2, 4, 6, 7],  k = 6
+
+ n*k = 6, 6*2, 6*3...
+ subarray sum % 6 == 0 -> true
+ how to get subarray sum, n % k = (0 ~ k - 1)
+ 23 % k(6) = 5
+ 26 % k(6) = 2
+ 30 % k(6) = 0
+ 36 % k(6) = 0
+ 43 % k(6) = 1
+ [0, -1] -> initial input
+ [5, 0] -> check whether key 5 exists in the map (no)
+ [2, 1] -> check whether key 2 exists in the map (no)
+ [0, 2] -> check whether key 0 exists in the map (yes) and check the index difference is more than 1 (subarray at least 2 size)
+ */
