@@ -26,9 +26,7 @@ public class ReorderList {
         ListNode halfHead = reverseLinkedList(slow);
 
         // Merge the first half and second half
-        ListNode cur = head;
-        ListNode cur2 = halfHead;
-        merge(cur, cur2);
+        merge(head, halfHead);
     }
 
     // Leetcode #206
@@ -46,7 +44,8 @@ public class ReorderList {
 
     private void merge(ListNode l1, ListNode l2) {
         while (l1 != null) {
-            ListNode n1 = l1.next, n2 = l2.next;
+            ListNode n1 = l1.next;
+            ListNode n2 = l2.next;
             l1.next = l2;
 
             if (n1 == null) break;
