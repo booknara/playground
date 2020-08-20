@@ -5,20 +5,20 @@ package com.booknara.problem.hash;
  * https://leetcode.com/problems/verifying-an-alien-dictionary/
  */
 public class VerifyingAlienDictionary {
-    int[] bucket;
+    // T:O(n*m), S:(1)
     public boolean isAlienSorted(String[] words, String order) {
         if (words == null || words.length == 0) {
             return true;
         }
 
-        bucket = new int[order.length()];
+        int[] bucket = new int[order.length()];
         for (int i = 0; i< order.length(); i++) {
             char c = order.charAt(i);
             bucket[c - 'a'] = i;
         }
 
         for (int i = 0; i < words.length - 1; i++) {
-            if (!order(words[i], words[i + 1])) {
+            if (!order(words[i], words[i + 1], bucket)) {
                 return false;
             }
         }
@@ -26,7 +26,7 @@ public class VerifyingAlienDictionary {
         return true;
     }
 
-    private boolean order(String s1, String s2) {
+    private boolean order(String s1, String s2, int[] bucket) {
         int m = s1.length();
         int n = s2.length();
         int i = 0;
