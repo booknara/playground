@@ -5,6 +5,7 @@ package com.booknara.problem.search.binary;
  * https://leetcode.com/problems/search-in-rotated-sorted-array/
  */
 public class SearchInRotatedSortedArray {
+    // T:O(logn), S:O(1)
     public int search(int[] nums, int target) {
         if (nums == null || nums.length == 0) return -1;
 
