@@ -1,14 +1,61 @@
 package com.booknara.problem.twopointers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 986. Interval List Intersections (Medium)
  * https://leetcode.com/problems/interval-list-intersections/
  */
 public class IntervalListIntersections {
-    // May 24, 2020 version
+    // Aug 21, 2020 version
+    // T:O(n + m), S:O(n + m)
     public int[][] intervalIntersection(int[][] A, int[][] B) {
+        // input check
+        if (A == null || B == null
+                || A.length * B.length == 0) return new int[][] {};
+
+        int idxA = 0, idxB = 0;
+        List<int[]> list = new ArrayList<>();
+        while (idxA < A.length && idxB < B.length) {
+            int[] e1 = A[idxA];
+            int[] e2 = B[idxB];
+
+            // the max of start points
+            int max = Math.max(e1[0], e2[0]);
+            // the min of end points
+            int min = Math.min(e1[1], e2[1]);
+            if (max <= min) {
+                list.add(new int[] {max, min});
+            }
+
+            // compare end value
+            if (e1[1] < e2[1]) {
+                idxA++;
+            } else if (e1[1] > e2[1]) {
+                idxB++;
+            } else {
+                // e1[1] == e2[1]
+                // [3,5], [4,5]
+                if (e1[0] < e2[0]) {
+                    idxA++;
+                } else {
+                    idxB++;
+                }
+            }
+        }
+
+        int[][] res = new int[list.size()][2];
+        int i = 0;
+        for (int[] e: list) {
+            res[i++] = e;
+        }
+
+        return res;
+    }
+
+    // May 24, 2020 version
+    public int[][] intervalIntersection1(int[][] A, int[][] B) {
         List<int[]> res = new ArrayList<>();
         if (A.length * B.length == 0) {
             return res.toArray(new int[res.size()][]);
@@ -35,7 +82,7 @@ public class IntervalListIntersections {
     }
 
     // Apr 9, 2020 version
-    public int[][] intervalIntersection1(int[][] A, int[][] B) {
+    public int[][] intervalIntersection2(int[][] A, int[][] B) {
         List<int[]> res = new ArrayList<>();
         // Input validation handling
         if (A == null || A.length == 0
@@ -54,11 +101,11 @@ public class IntervalListIntersections {
                     i++;
                 } else if (a[1] > b[1]) {
                     // case 2) a includes b entirely, b is an intersection
-                    res.add(new int[] {b[0], b[1]});
+                    res.add(new int[]{b[0], b[1]});
                     j++;
                 } else {
                     // case 3) a and b has an intersection partly, b[0] and a[1] is an intersection
-                    res.add(new int[] {b[0], a[1]});
+                    res.add(new int[]{b[0], a[1]});
                     i++;
                 }
             } else {
@@ -68,110 +115,16 @@ public class IntervalListIntersections {
                     j++;
                 } else if (b[1] > a[1]) {
                     // case 2) a includes b entirely, b is an intersection
-                    res.add(new int[] {a[0], a[1]});
+                    res.add(new int[]{a[0], a[1]});
                     i++;
                 } else {
                     // case 3) a and b has an intersection partly, b[0] and a[1] is an intersection
-                    res.add(new int[] {a[0], b[1]});
+                    res.add(new int[]{a[0], b[1]});
                     j++;
                 }
             }
         }
 
         return res.toArray(new int[res.size()][]);
-    }
-
-    // O(nlogn)
-    public int[][] intervalIntersection2(int[][] A, int[][] B) {
-        // Input validation
-        List<Integer> list = new ArrayList<>();
-        for (int[] i: A) {
-            list.add(i[0]);
-            list.add(-i[1]);
-        }
-        for (int[] i: B) {
-            list.add(i[0]);
-            list.add(-i[1]);
-        }
-
-        Collections.sort(list, (s, e) -> {
-            return Math.abs(s) - Math.abs(e);
-        });
-
-        List<int[]> res = new ArrayList<>();
-        int inc = 0;
-        Integer s = null;
-        // int s = 0;
-        for (int i: list) {
-            //System.out.println(i);
-            if (s != null && ((s < 0 && Math.abs(s) == i) || inc == 2)) {
-                System.out.println(s + "," + i);
-                res.add(new int[]{Math.abs(s), Math.abs(i)});
-            }
-
-            if (i >= 0) {
-                inc++;
-            } else {
-                inc--;
-            }
-
-            s = i;
-        }
-
-        return res.toArray(new int[0][]);
-    }
-
-    // T:O(n*logn), S:O(n + m);
-    public int[][] intervalIntersection3(int[][] A, int[][] B) {
-        List<int[]> res = new ArrayList<>();
-        if (A.length * B.length == 0) {
-            return res.toArray(new int[res.size()][]);
-        }
-
-        Queue<Interval> pq = new PriorityQueue<>((i1, i2) -> {
-            if (i1.time == i2.time) {
-                // i1, i2(false, true), i2, i1(true, false) order
-                return Boolean.compare(i2.start, i1.start);
-            }
-            return Integer.compare(i1.time, i2.time);
-        });
-
-        for (int[] i: A) {
-            pq.offer(new Interval(true, i[0]));
-            pq.offer(new Interval(false, i[1]));
-        }
-
-        for (int[] i: B) {
-            pq.offer(new Interval(true, i[0]));
-            pq.offer(new Interval(false, i[1]));
-        }
-
-        int count = 0;
-        int prev = 0;
-        while (!pq.isEmpty()) {
-            Interval interval = pq.poll();
-            if (count == 2) {
-                res.add(new int[] {prev, interval.time});
-            }
-
-            if (interval.start) {
-                count++;
-            } else {
-                count--;
-            }
-
-            prev = interval.time;
-        }
-
-        return res.toArray(new int[res.size()][]);
-    }
-
-    static class Interval {
-        boolean start; // true: start, false: end
-        int time;
-        Interval(boolean start, int time) {
-            this.start = start;
-            this.time = time;
-        }
     }
 }
