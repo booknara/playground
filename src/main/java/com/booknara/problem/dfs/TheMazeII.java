@@ -5,9 +5,9 @@ package com.booknara.problem.dfs;
  * https://leetcode.com/problems/the-maze-ii/
  */
 public class TheMazeII {
-    int min = Integer.MAX_VALUE;
     int[][] dirs = new int[][] { {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
+    // T:O(n*m) or O(n*m*max(m, n), S:O(n*m)
     public int shortestDistance(int[][] maze, int[] start, int[] destination) {
         int[][] distance = new int[maze.length][maze[0].length];
         for (int i = 0; i < maze.length; i++) {
