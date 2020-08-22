@@ -9,6 +9,7 @@ import java.util.Map;
  */
 public class SubarraySumEqualsK {
     // Using Hash(one pass)
+    // T:O(n), S:O(n)
     public int subarraySum(int[] nums, int k) {
         if (nums == null || nums.length == 0) {
             return 0;
