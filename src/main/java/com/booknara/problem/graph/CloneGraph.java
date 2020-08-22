@@ -10,6 +10,7 @@ import java.util.Map;
  * https://leetcode.com/problems/clone-graph/
  */
 public class CloneGraph {
+    // T:O(n), S:O(n)
     Map<Node, Node> map = new HashMap<>();
     public Node cloneGraph(Node node) {
         if (node == null) {
@@ -30,6 +31,27 @@ public class CloneGraph {
 
 
         return clone;
+    }
+
+    public Node cloneGraph1(Node node) {
+        // input check
+        if (node == null) return null;
+
+        Node newNode = new Node(node.val);
+        map.put(node, newNode);
+
+        for (Node n: node.neighbors) {
+            Node temp;
+            if (map.containsKey(n)) {
+                temp = map.get(n);
+            } else {
+                temp = cloneGraph(n);
+            }
+
+            newNode.neighbors.add(temp);
+        }
+
+        return newNode;
     }
 
     class Node {
