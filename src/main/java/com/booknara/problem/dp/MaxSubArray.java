@@ -21,3 +21,11 @@ public class MaxSubArray {
         return total;
     }
 }
+/**
+ Given an integer array nums, find the contiguous subarray (containing at least one number)
+ which has the largest sum and return its sum.
+ element = [-2, 1,-3,4,-1,2,1,-5,4]
+ max     = [-2, 1,-2,4, 3,5,6, 1,5]
+ total.  = [-2, 1, 1,4, 4,5,6, 6,6]
+ [4,-1,2,1], res = 6
+ */
