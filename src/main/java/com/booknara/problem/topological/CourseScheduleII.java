@@ -1,4 +1,4 @@
-package com.booknara.problem.graph;
+package com.booknara.problem.topological;
 
 import java.util.*;
 
