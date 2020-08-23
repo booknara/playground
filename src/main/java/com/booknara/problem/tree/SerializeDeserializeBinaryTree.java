@@ -7,56 +7,55 @@ import com.booknara.problem.common.TreeNode;
  * https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
  */
 public class SerializeDeserializeBinaryTree {
-    public class Codec {
-
-        // Encodes a tree to a single string.
-        public String serialize(TreeNode root) {
-            if (root == null) {
-                return null;
-            }
-
-            StringBuilder builder = new StringBuilder();
-            dfsSerialize(builder, root);
-
-            return builder.toString();
+    // Encodes a tree to a single string.
+    // T:O(n), S:O(n)
+    public String serialize(TreeNode root) {
+        if (root == null) {
+            return null;
         }
 
-        public void dfsSerialize(StringBuilder builder, TreeNode node) {
-            if (node == null) {
-                builder.append("#");
-                return;
-            }
+        StringBuilder builder = new StringBuilder();
+        dfsSerialize(builder, root);
 
-            builder.append(node.val);
-            builder.append(",");
-            dfsSerialize(builder, node.left);
-            builder.append(",");
-            dfsSerialize(builder, node.right);
+        return builder.toString();
+    }
+
+    public void dfsSerialize(StringBuilder builder, TreeNode node) {
+        if (node == null) {
+            builder.append("#");
+            return;
         }
 
-        // Decodes your encoded data to tree.
-        public TreeNode deserialize(String data) {
-            if (data == null) {
-                return null;
-            }
+        builder.append(node.val);
+        builder.append(",");
+        dfsSerialize(builder, node.left);
+        builder.append(",");
+        dfsSerialize(builder, node.right);
+    }
 
-            String[] array = data.split(",");
-            int[] pointer = new int[1];
-            return dfsDeserialize(array, pointer);
+    // Decodes your encoded data to tree.
+    // T:O(n), S:O(n)
+    public TreeNode deserialize(String data) {
+        if (data == null) {
+            return null;
         }
 
-        public TreeNode dfsDeserialize(String[] array, int[] pointer) {
-            if (array[pointer[0]].equals("#")) {
-                pointer[0]++;
-                return null;
-            }
+        String[] array = data.split(",");
+        int[] pointer = new int[1];
+        return dfsDeserialize(array, pointer);
+    }
 
-            TreeNode node = new TreeNode(Integer.parseInt(array[pointer[0]]));
+    public TreeNode dfsDeserialize(String[] array, int[] pointer) {
+        if (array[pointer[0]].equals("#")) {
             pointer[0]++;
-            node.left = dfsDeserialize(array, pointer);
-            node.right = dfsDeserialize(array, pointer);
-
-            return node;
+            return null;
         }
+
+        TreeNode node = new TreeNode(Integer.parseInt(array[pointer[0]]));
+        pointer[0]++;
+        node.left = dfsDeserialize(array, pointer);
+        node.right = dfsDeserialize(array, pointer);
+
+        return node;
     }
 }
