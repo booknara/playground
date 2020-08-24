@@ -8,6 +8,7 @@ import java.util.Stack;
  */
 public class ValidParentheses {
     // version: 04/16/2020
+    // T:O(n), S:O(n)
     public boolean isValid(String s) {
         if (s == null || s.length() == 0) {
             return true;
@@ -34,6 +35,7 @@ public class ValidParentheses {
         return stack.isEmpty();
     }
 
+    // T:O(n), S:O(n)
     public boolean isValid1(String s) {
         // input check
         if (s == null || s.length() == 0) return true;
