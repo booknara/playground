@@ -34,41 +34,30 @@ public class ValidParentheses {
         return stack.isEmpty();
     }
 
-    private boolean open(char c) {
-        return (c == '(' || c == '{' || c == '[');
-    }
-
-    // version: 02/12/2020
     public boolean isValid1(String s) {
-        if (s.length() == 0) {
-            return true;
-        }
+        // input check
+        if (s == null || s.length() == 0) return true;
 
         Stack<Character> stack = new Stack<>();
-        char i = s.charAt(0);
-        if (i == ')' || i == '}' || i == ']') {
-            return false;
-        }
-
         for (char c: s.toCharArray()) {
+
+            // open bracket
             if (c == '(' || c == '{' || c == '[') {
-                // open case
                 stack.push(c);
-            } else {
-                // close case
-                if (stack.size() == 0) {
-                    return false;
+            } else if (c == ')' || c == '}' || c == ']') {
+                if (stack.isEmpty()) return false;
+                char pop = stack.pop();
+                if ((c == ')' && pop == '(')
+                        || (c == '}' && pop == '{')
+                        || (c == ']' && pop == '[')) {
+                    continue;
                 }
 
-                char o = stack.pop();
-                if ((c == ')' && o != '(')
-                        || (c == '}' && o != '{')
-                        || (c == ']' && o != '[')) {
-                    return false;
-                }
+                return false;
             }
         }
 
-        return stack.size() == 0;
+        return stack.isEmpty();
     }
+
 }
