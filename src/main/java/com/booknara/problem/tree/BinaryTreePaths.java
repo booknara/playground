@@ -13,31 +13,24 @@ public class BinaryTreePaths {
     // T:O(n), S:(h)
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> res = new ArrayList<>();
-        if (root == null) {
-            return res;
-        }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(root.val);
-        dfs(root, builder, res);
+        dfs(root, new StringBuilder(), res);
         return res;
     }
 
-    public void dfs(TreeNode node, StringBuilder s, List<String> list) {
+    public void dfs(TreeNode node, StringBuilder builder, List<String> res) {
+        // base case
+        if (node == null) return;
+
         if (node.left == null && node.right == null) {
-            list.add(s.toString());
+            builder.append(node.val);
+            res.add(builder.toString());
+            return;
         }
 
-        if (node.left != null) {
-            StringBuilder builder = new StringBuilder(s.toString());
-            builder.append("->").append(node.left.val);
-            dfs(node.left, builder, list);
-        }
-
-        if (node.right != null) {
-            StringBuilder builder = new StringBuilder(s.toString());
-            builder.append("->").append(node.right.val);
-            dfs(node.right, builder, list);
-        }
+        builder.append(node.val);
+        builder.append("->");
+        dfs(node.left, new StringBuilder(builder.toString()), res);
+        dfs(node.right, new StringBuilder(builder.toString()), res);
     }
 }
