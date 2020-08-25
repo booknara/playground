@@ -7,6 +7,7 @@ import java.util.Stack;
  * https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
  */
 public class MinimumRemoveValidParentheses {
+    // T:O(n), S:O(1)
     public String minRemoveToMakeValidBetter(String s) {
         if (s == null || s.length() == 0) {
             return "";
