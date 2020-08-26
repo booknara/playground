@@ -12,6 +12,7 @@ public class ShortestPathInBinaryMatrix {
             {0, -1}, {0, 1},
             {1, -1}, {1, 0}, {1, 1}};
 
+    // T:O(n^2), S:O(n^2)
     public int shortestPathBinaryMatrix(int[][] grid) {
         if (grid.length == 0) return -1;
 
