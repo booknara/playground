@@ -7,7 +7,7 @@ import com.booknara.problem.common.TreeNode;
  * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
  */
 public class LongestCommonAncestorOfBinaryTree {
-    // T: O(n, the number of nodes), S: O(n, the number of nodes in case of skewed binary tree)
+    // T: O(n), S: O(n)
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null) {
             return null;
@@ -31,4 +31,37 @@ public class LongestCommonAncestorOfBinaryTree {
         // LCA
         return root;
     }
+
+    TreeNode res;
+    public TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
+        // input check
+        if (root == null) return null;
+
+        dfs(root, p, q);
+        return res;
+    }
+
+    public boolean dfs(TreeNode node, TreeNode p, TreeNode q) {
+        // base case
+        if (node == null) return false;
+
+        boolean left = dfs(node.left, p, q);
+        boolean right = dfs(node.right, p, q);
+        if (left && right) {
+            res = node;
+            return true;
+        }
+
+        if ((right || left) && node.val == p.val) {
+            res = node;
+            return true;
+        }
+        if ((right || left) && node.val == q.val) {
+            res = node;
+            return true;
+        }
+
+        return left || right || node.val == p.val || node.val == q.val;
+    }
+
 }
