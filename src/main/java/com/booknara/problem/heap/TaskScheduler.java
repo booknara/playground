@@ -9,17 +9,19 @@ import java.util.*;
 public class TaskScheduler {
     // T: O(n * m), S:O(n), n: the number of tasks, m: interval
     public int leastInterval(char[] tasks, int n) {
+        // input check
         if (n == 0) return tasks.length;
+        if (tasks.length == 0) return 0;
+
+        // Sort descending by n
+        PriorityQueue<Element> pq = new PriorityQueue<>((e1, e2) -> {
+            return e2.n - e1.n;
+        });
 
         int[] bucket = new int[26];
-        for (int i = 0; i < tasks.length; i++) {
-            bucket[tasks[i] - 'A']++;
+        for (char c : tasks) {
+            bucket[c - 'A']++;
         }
-
-        // max heap
-        PriorityQueue<Element> pq = new PriorityQueue<>((e1, e2) -> {
-            return Integer.compare(e2.n, e1.n);
-        });
 
         for (int i = 0; i < 26; i++) {
             if (bucket[i] != 0) {
