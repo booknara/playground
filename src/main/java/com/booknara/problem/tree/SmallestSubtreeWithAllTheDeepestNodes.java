@@ -17,15 +17,15 @@ public class SmallestSubtreeWithAllTheDeepestNodes {
         // input check
         if (root == null) return null;
 
-        return dfs(root, 0).node;
+        return dfs(root).node;
     }
 
-    public Pair dfs(TreeNode node, int depth) {
+    public Pair dfs(TreeNode node) {
         // base case
         if (node == null) return new Pair(null, 0);
 
-        Pair left = dfs(node.left, depth);
-        Pair right = dfs(node.right, depth);
+        Pair left = dfs(node.left);
+        Pair right = dfs(node.right);
         if (left.depth == right.depth) {
             return new Pair(node, right.depth + 1);
         }
