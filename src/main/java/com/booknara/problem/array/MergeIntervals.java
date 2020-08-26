@@ -5,48 +5,54 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Leet code : 56. Merge Intervals (Medium)
- * Given a collection of intervals, merge all overlapping intervals.
- *
- * Example 1:
- *
- * Input: [[1,3],[2,6],[8,10],[15,18]]
- * Output: [[1,6],[8,10],[15,18]]
- * Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
- *
- * Example 2:
- * Input: [[1,4],[4,5]]
- * Output: [[1,5]]
- * Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+ * 56. Merge Intervals (Medium)
+ * https://leetcode.com/problems/merge-intervals/
  */
 public class MergeIntervals {
+    // T:O(n*logn) S:O(n)
     public int[][] merge(int[][] intervals) {
-        List<int[]> ans = new ArrayList<>();
-        if (intervals == null || intervals.length == 0) {
-            return ans.toArray(new int[0][]);
-        }
+        if (intervals.length == 0) return new int[0][0];
+        if (intervals.length == 1) return intervals;
 
-        Arrays.sort(intervals, (o1, o2) -> o1[0] - o2[0]);
-        int s = -1;
-        int e = -1;
-        for (int i = 0; i < intervals.length; i++) {
-            // System.out.println(intervals[i][0] + ", " + intervals[i][1]);
-            if (i == 0) {
-                s = intervals[i][0];
-                e = intervals[i][1];
-                continue;
+        // sort ascending
+        Arrays.sort(intervals, (i1, i2) -> {
+            if (i1[0] == i2[0]) {
+                return i1[1] - i2[1];
             }
 
-            if (e >= intervals[i][0]) {
-                e = Math.max(e, intervals[i][1]);
+            return i1[0] - i2[0];
+        });
+
+        List<int[]> list = new ArrayList<>();
+        int[] prev = intervals[0];
+        for (int i = 1; i < intervals.length; i++) {
+            int[] cur = intervals[i];
+            // not overlapped
+            if (prev[1] < cur[0]) {
+                list.add(prev);
+                prev = cur;
             } else {
-                ans.add(new int[] {s, e});
-                s = intervals[i][0];
-                e = intervals[i][1];
+                // updated the end
+                prev[1] = Math.max(prev[1], cur[1]);
             }
         }
+        // handle the last interval
+        list.add(prev);
 
-        ans.add(new int[] {s, e});
-        return ans.toArray(new int[ans.size()][]);
+        int[][] res = new int[list.size()][2];
+        for (int i = 0; i < list.size(); i++) {
+            res[i] = list.get(i);
+        }
+
+        return res;
     }
 }
+/**
+ Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+ Output: [[1,6],[8,10],[15,18]]
+
+ [1,2],[1,3] = [1,Math.max(2,3)]
+ [1,2],[3,4] = []
+ [1,3],[2,4] = [1,4]
+ [1,4],[2,3]
+ */
