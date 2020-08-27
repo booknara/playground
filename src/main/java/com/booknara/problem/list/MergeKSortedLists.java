@@ -23,8 +23,6 @@ public class MergeKSortedLists {
             return n1.val - n2.val;
         });
 
-//        PriorityQueue<ListNode> minQueue = new PriorityQueue<>(Comparator.comparing(ListNode::getVal));
-
         for (ListNode node: lists) {
             if (node != null) {
                 minQueue.offer(node);
