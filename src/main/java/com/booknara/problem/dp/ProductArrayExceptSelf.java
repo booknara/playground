@@ -75,3 +75,13 @@ public class ProductArrayExceptSelf {
         return left;
     }
 }
+/**
+ Given an array nums of n integers where n > 1,
+ return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+ Input:  [ 1, 2,3,4]
+ Output: [24,12,8,6]
+
+ left:   [ 1, 1,2,6]
+ right:  [24,12,4,1]
+ Output: [24,12,8,6] left[i] * right[i]
+ */
