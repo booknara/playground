@@ -1,4 +1,4 @@
-package com.booknara.problem.hash;
+package com.booknara.problem.twopointers;
 
 /**
  * 76. Minimum Window Substring (Hard)
