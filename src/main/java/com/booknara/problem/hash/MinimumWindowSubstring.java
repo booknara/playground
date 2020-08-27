@@ -1,48 +1,49 @@
 package com.booknara.problem.hash;
 
 /**
- * Leet code : Minimum Window Substring(Hard)
- * Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
- *
- * Example:
- * Input: S = "ADOBECODEBANC", T = "ABC"
- * Output: "BANC"
+ * 76. Minimum Window Substring (Hard)
+ * https://leetcode.com/problems/minimum-window-substring/
  */
 public class MinimumWindowSubstring {
-    // Time complexity: O(2S + N), Space complexity: O(S)
+    // Time complexity: O(n), Space complexity: O(1)
     public String minWindow(String s, String t) {
-        if (s.length() == 0 || t.length() == 0 || s.length() < t.length()) {
-            return "";
-        }
+        // input check
+        if (s.length() == 0 || t.length() == 0) return "";
 
-        int[] map = new int[128];
+        int[] bucket = new int[128];
         for (char c: t.toCharArray()) {
-            map[c]++;
+            bucket[c]++;
         }
-
-        int required = t.length();
-        int begin = 0;
-        int l = 0, r = 0, len = Integer.MAX_VALUE;
+        // [2,1,1] = "AABC"
+        // two pointers
+        int l = 0, r = 0;
+        int len = t.length();       // required the total number of string contained
+        int min = Integer.MAX_VALUE;
         String res = "";
         while (r < s.length()) {
             char c = s.charAt(r);
-            map[c]--;
-            if (map[c] >= 0) required--;
+            bucket[c]--;
+            if (bucket[c] >= 0) {
+                len--;
+            }
 
-            while(required == 0) {
-                c = s.charAt(l);
-                map[c]++;
-                if (map[c] > 0) {
-                    if (r - l + 1 < len) {
-                        begin = l;
-                        len = r - l + 1;
-                        res = s.substring(begin, begin + len);
-                    }
-                    required++;
+            // "ADOBECODEAB"
+            while (len == 0) {
+                char d = s.charAt(l);
+                bucket[d]++;
+                if (bucket[d] > 0) {
+                    len++;
+                }
+
+                // (r, l)
+                if (r - l + 1 < min) {
+                    res = s.substring(l, r + 1);
+                    min = r - l + 1;
                 }
 
                 l++;
             }
+
             r++;
         }
 
