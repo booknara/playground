@@ -15,18 +15,17 @@ public class NumberOfConnectedComponentsInUndirectedGraph {
             roots[i] = i;
         }
 
-        int res = n;
         for (int[] e: edges) {
             int root1 = findRoot(roots, e[0]);
             int root2 = findRoot(roots, e[1]);
             // union
             if (root1 != root2) {
                 roots[root1] = root2;
-                res--;
+                n--;
             }
         }
 
-        return res;
+        return n;
     }
 
     // T:O(1) because of path compression, S:O(1)
