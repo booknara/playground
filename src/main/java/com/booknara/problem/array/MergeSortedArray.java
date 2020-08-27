@@ -5,6 +5,7 @@ package com.booknara.problem.array;
  * https://leetcode.com/problems/merge-sorted-array/
  */
 public class MergeSortedArray {
+    // T:O(n+m), S:O(1)
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int idx = m + n - 1;
         m = m - 1;
