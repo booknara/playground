@@ -5,146 +5,105 @@ package com.booknara.problem.string;
  * https://leetcode.com/problems/integer-to-english-words/
  */
 public class IntegerToEnglishWords {
+    // T:O(1), S:O(1)
     public String numberToWords(int num) {
-        if (num == 0) {
-            return "Zero";
-        }
+        if (num == 0) return "Zero";
 
         StringBuilder builder = new StringBuilder();
-        int count = 0;
+        int unit = 0;
+        // 1234567891
         while (num > 0) {
-            int mod = num % 1000;
-            num /= 1000;
-
-            if (mod != 0) {
-                builder.insert(0, getWords(mod) + " " + getUnit(count));
+            // 1_000_000
+            if (num % 1000 != 0) {
+                String s = " " + getNumber(num % 1000) + " " + getUnit(unit);
+                builder.insert(0, s);
             }
 
-            count++;
+            num /= 1000;
+            unit++;
         }
 
         return builder.toString().trim();
     }
 
-    private String getUnit(int count) {
-        switch (count) {
-            case 0:
-                return "";
-            case 1:
-                return "Thousand ";
-            case 2:
-                return "Million ";
-            case 3:
-                return "Billion ";
-            default:
-                return "";
-        }
-    }
-
-    private String getWords(int num) {
-        boolean start = false;
-        StringBuilder builder = new StringBuilder();
+    public String getNumber(int num) {
+        StringBuilder res = new StringBuilder();
+        // 123
         int h = num / 100;
         if (h != 0) {
-            // Hundred digit
-            builder.append(getSingleWord(h) + " Hundred");
-            start = true;
+            // 123 -> 23
+            num %= 100;
+            res.append(" " + getSingleWord(h) + " Hundred");
         }
 
-        num %= 100;
         if (num > 10 && num < 20) {
-            builder.append((start ? " " : "") + getTeenWord(num) + "");
-            return builder.toString();
+            // 13
+            //return res.append(" " + getTeenWord(num));
+            return res.append(" " + getTeenWord(num)).toString().trim();
+        } else {
+            // 23 or 30
+            int t = num / 10;
+            if (t != 0) {
+                res.append(" " + getTenWord(t));
+                num %= 10;
+            }
         }
 
-        int t = num / 10;
-        if (t != 0) {
-            // Ten digit
-            builder.append((start ? " " : "") + getTenWord(t) + "");
-            start = true;
+        if (num > 0) {
+            res.append(" " + getSingleWord(num));
         }
 
-        num %= 10;
-        if (num != 0) {
-            //Single digit
-            builder.append((start ? " " : "") + getSingleWord(num) + "");
-        }
-
-        return builder.toString();
+        return res.toString().trim();
     }
 
-    private String getSingleWord(int num) {
-        switch (num) {
-            case 1:
-                return "One";
-            case 2:
-                return "Two";
-            case 3:
-                return "Three";
-            case 4:
-                return "Four";
-            case 5:
-                return "Five";
-            case 6:
-                return "Six";
-            case 7:
-                return "Seven";
-            case 8:
-                return "Eight";
-            case 9:
-                return "Nine";
-            default:
-                return "";
-        }
+    public String getUnit(int c) {
+        if (c == 0) return "";
+        if (c == 1) return "Thousand";
+        if (c == 2) return "Million";
+        if (c == 3) return "Billion";
+
+        return "";
     }
 
-    private String getTenWord(int num) {
-        switch (num) {
-            case 1:
-                return "Ten";
-            case 2:
-                return "Twenty";
-            case 3:
-                return "Thirty";
-            case 4:
-                return "Forty";
-            case 5:
-                return "Fifty";
-            case 6:
-                return "Sixty";
-            case 7:
-                return "Seventy";
-            case 8:
-                return "Eighty";
-            case 9:
-                return "Ninety";
-            default:
-                return "";
-        }
+    public String getTeenWord(int n) {
+        if (n == 11) return "Eleven";
+        if (n == 12) return "Twelve";
+        if (n == 13) return "Thirteen";
+        if (n == 14) return "Fourteen";
+        if (n == 15) return "Fifteen";
+        if (n == 16) return "Sixteen";
+        if (n == 17) return "Seventeen";
+        if (n == 18) return "Eighteen";
+        if (n == 19) return "Nineteen";
+
+        return "";
     }
 
-    private String getTeenWord(int num) {
-        switch (num) {
-            case 11:
-                return "Eleven";
-            case 12:
-                return "Twelve";
-            case 13:
-                return "Thirteen";
-            case 14:
-                return "Fourteen";
-            case 15:
-                return "Fifteen";
-            case 16:
-                return "Sixteen";
-            case 17:
-                return "Seventeen";
-            case 18:
-                return "Eighteen";
-            case 19:
-                return "Nineteen";
-            default:
-                return "";
-        }
+    public String getTenWord(int n) {
+        if (n == 1) return "Ten";
+        if (n == 2) return "Twenty";
+        if (n == 3) return "Thirty";
+        if (n == 4) return "Forty";
+        if (n == 5) return "Fifty";
+        if (n == 6) return "Sixty";
+        if (n == 7) return "Seventy";
+        if (n == 8) return "Eighty";
+        if (n == 9) return "Ninety";
+
+        return "";
+    }
+
+    public String getSingleWord(int n) {
+        if (n == 1) return "One";
+        if (n == 2) return "Two";
+        if (n == 3) return "Three";
+        if (n == 4) return "Four";
+        if (n == 5) return "Five";
+        if (n == 6) return "Six";
+        if (n == 7) return "Seven";
+        if (n == 8) return "Eight";
+        if (n == 9) return "Nine";
+
+        return "";
     }
 }
