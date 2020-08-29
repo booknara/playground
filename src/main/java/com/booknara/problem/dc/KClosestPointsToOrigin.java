@@ -11,47 +11,53 @@ import java.util.Queue;
 public class KClosestPointsToOrigin {
     // O(n^2), but best/average O(n) Quick select
     public int[][] kClosest(int[][] points, int K) {
-        if (points == null || points.length <= K) {
-            return points;
-        }
+        if (points == null || points.length <= K) return points;
 
-        int left = 0, right = points.length;
-
+        // [[18],[26],[20],[53],[41],[25]], K = 4
+        int left = 0, right = points.length - 1;    // 0, 5
         while (left < right) {
-            int partition = getPartition(points, left, right, right - 1);
+            // 4,5
+            int partition = getPartition(points, left, right);
+            // 3
             if (partition == K) {
-                return Arrays.copyOf(points, K);
+                break;
             }
 
             if (partition < K) {
-                left = partition;
+                // Kth value exists after partition index
+                left = partition + 1;
             } else {
-                right = partition;
+                // Kth value exsite before partition index
+                right = partition - 1;
             }
         }
 
-        return null;
+        return Arrays.copyOf(points, K);
     }
 
-    public int getPartition(int[][] points, int left, int right, int pivot) {
-        int pDistance = getDistance(points, pivot);
-        int border = left;
+    public int getPartition(int[][] points, int left, int right) {
+        // [[18],[26],[20],[53],[41],[25]]
+        // 0, 5
+        int lastValue = getDistance(points[right]); // 25, pick the last index value as pivotValue for simplicity
+        int partition = left;   // 0
         for (int i = left; i < right; i++) {
-            if (getDistance(points, i) < pDistance) {
-                swap(points, i, border);
-                border++;
+            if (getDistance(points[i]) < lastValue) {
+                swap(points, partition, i);
+                partition++;
             }
         }
-
-        // Move pivot to its final place
-        swap(points, border, pivot);
-
-        return border;
+        // [[18],[20],[26],[53],[41],[25]]
+        // Until this partition index, all the values before this index are less than lastValue
+        swap(points, partition, right);
+        // [[18],[20],[25],[53],[41],[26]]
+        // 3
+        return partition;
     }
 
     // Get distance
-    public int getDistance(int[][] points, int i) {
-        return points[i][0] * points[i][0] + points[i][1] * points[i][1];
+    // distance p[0] * p[0], p[1] * p[1], no need to do square root
+    public int getDistance(int[] p) {
+        return (p[0] * p[0]) + (p[1] * p[1]);
     }
 
     public void swap(int[][] points, int i, int j) {
@@ -92,3 +98,14 @@ public class KClosestPointsToOrigin {
         return res;
     }
 }
+/**
+ Input: points = [[3,3],[5,-1],[-2,4]], K = 2
+ Output: [[3,3],[-2,4]]
+ Method 1: Max Heap maintaning up to K size() -> 31ms, // T:O(n*logK), S:O(k)
+ Method 2: Quick Select -> 3ms // T:O(n^2), S:O(1), Best T:O(n)
+ [18, 26, 20], K = 2
+
+ Pivot = 20
+ [18,]
+
+ */
