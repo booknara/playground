@@ -2,10 +2,9 @@ package com.booknara.problem.heap;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 /**
- * Leet code: 215. Kth Largest Element in an Array (Medium)
+ * 215. Kth Largest Element in an Array (Medium)
  * https://leetcode.com/problems/kth-largest-element-in-an-array/
  */
 public class KthLargestElementInArray {
@@ -26,48 +25,47 @@ public class KthLargestElementInArray {
         return pq.poll();
     }
 
-    public int findKthLargestFaster(int[] nums, int k) {
-        if (nums == null || nums.length == 0 || k == 0) {
-            return 0;
+    public int findKthLargest1(int[] nums, int k) {
+        // input check
+        if (nums.length == 0 || nums.length < k) {
+            new IllegalArgumentException("invalid inut");
         }
 
-        int size = nums.length;
-        return quickSelect(nums, 0, size - 1, size - k);
-    }
+        if (nums.length == 0 && k == 1) return nums[0];
 
-    public int quickSelect(int[] nums, int low, int high, int k) {
-        if (low == high) {
-            return nums[low];
-        }
+        // [-1,2,0], 1
+        k = nums.length - k;    // k = 2
+        int left = 0, right = nums.length - 1;  // [0,2]
+        while (left <= right) {
+            int partition = getPartition(nums, left, right);
+            // [-1,0,2], partition = 1
+            // System.out.println(partition);
+            if (partition == k) return nums[k];
 
-        Random random = new Random();
-        int pivotIdx = low + random.nextInt(high - low);
-        int partition = partitioning(nums, low, high, pivotIdx);
-        if (partition == k) {
-            return nums[k];
-        }
-
-        if (partition < k) {
-            return quickSelect(nums, partition + 1, high, k);
-        }
-
-        return quickSelect(nums, low, partition - 1, k);
-    }
-
-    public int partitioning(int[] nums, int low, int high, int pivotIdx) {
-        int pivotLoc = low, pivot = nums[pivotIdx];
-        swap(nums, pivotIdx, high);
-
-        for (int i = low; i <= high; i++) {
-            if (nums[i] < pivot) {
-                swap(nums, i, pivotLoc);
-                pivotLoc++;
+            if (partition < k) {
+                left = partition + 1;
+            } else {
+                right = partition - 1;
             }
         }
 
-        swap(nums, high, pivotLoc);
+        return 0;
+    }
+    // [0,2], [2,2]
+    public int getPartition(int[] nums, int left, int right) {
+        int pivotValue = nums[right];   // 0
+        int partition = left;   // 0
+        for (int i = left; i < right; i++) {
+            if (nums[i] < pivotValue) {
+                swap(nums, partition, i);
+                partition++;
+            }
+        }
 
-        return pivotLoc;
+        swap(nums, partition, right);
+
+        // [-1,0,2], 2 -> [-1,-0,2], 2
+        return partition;
     }
 
     public void swap(int[] nums, int i, int j) {
