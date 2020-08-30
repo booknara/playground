@@ -2,8 +2,63 @@ package com.booknara.problem.math;
 
 import java.util.Arrays;
 
+/**
+ * 31. Next Permutation (Medium)
+ * https://leetcode.com/problems/next-permutation/
+ */
 public class NextPermutation {
+    //T:O(n), S:O(1)
     public void nextPermutation(int[] nums) {
+        if (nums == null || nums.length == 0) return;
+
+        int m = nums.length;
+        int desIdx = -1;
+        for (int i = m - 2; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                desIdx = i;
+                break;
+            }
+        }
+
+        // the max number
+        if (desIdx == -1) {
+            int l = 0, r = m - 1;
+            while (l < r) {
+                swap(nums, l, r);
+                l++;
+                r--;
+            }
+            return;
+        }
+
+        // found desIdx
+        for (int i = m - 1; i > desIdx; i--) {
+            if (nums[i] > nums[desIdx]) {
+                swap(nums, desIdx, i);
+                break;
+            }
+        }
+
+        int l = desIdx + 1, r = m - 1;
+        while (l < r) {
+            swap(nums, l, r);
+            l++;
+            r--;
+        }
+    }
+
+    /**
+     123 -> 132
+     231 -> 312
+
+     231 -> find decreasing number (2) and replace(swap) the number with the next bigger number after that
+     swap the numbers between the index after the decreasing number and the last index
+     321 -> replace 3 (before 2)
+
+     5987654 -> 6 987 5 54
+     6455789
+     */
+    public void nextPermutation1(int[] nums) {
         if (nums == null || nums.length <= 1) return;
 
         int inverse = -1;
@@ -36,7 +91,7 @@ public class NextPermutation {
         }
     }
 
-    public void nextPermutation1(int[] nums) {
+    public void nextPermutation2(int[] nums) {
         if (nums == null || nums.length == 0) {
             return;
         }
