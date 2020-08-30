@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
  * https://leetcode.com/problems/kth-largest-element-in-an-array/
  */
 public class KthLargestElementInArray {
+    // T:O(n*logk), S:O(k)
     public int findKthLargest(int[] nums, int k) {
         if (nums == null || nums.length == 0 || k > nums.length || k == 0) {
             return -1;
@@ -25,6 +26,7 @@ public class KthLargestElementInArray {
         return pq.poll();
     }
 
+    // T:O(n^2), S:O(1)
     public int findKthLargest1(int[] nums, int k) {
         // input check
         if (nums.length == 0 || nums.length < k) {
