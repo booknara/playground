@@ -13,6 +13,7 @@ public class MinimumNumberOfArrowsToBurstBalloons {
         if (points == null || points.length == 0) return 0;
         if (points.length == 1) return 1;
 
+        // ascending sort by the end value, then start value
         Arrays.sort(points, (p1, p2) -> {
             if (p1[1] == p2[1]) {
                 return p1[0] - p2[0];
@@ -20,19 +21,31 @@ public class MinimumNumberOfArrowsToBurstBalloons {
 
             return p1[1] - p2[1];
         });
-        int res = 1;
-        int start = points[0][0];
+
+        int count = 1;
         int end = points[0][1];
         for (int i = 1; i < points.length; i++) {
+            // next start is greater than the current end, then increment count
             if (end < points[i][0]) {
-                res++;
+                count++;
                 end = points[i][1];
             }
         }
 
-        return res;
+        return count;
     }
 
+/**
+ if xstart ≤ x ≤ xend.
+
+ Input:
+ [[10,16], [2,8], [1,6], [7,12]]
+ [1        6]
+     [2          8]
+             [7          12]
+                    [10         16]
+
+ */
     // T:O(n*logn), S:O(n)
     public int findMinArrowShots1(int[][] points) {
         if (points == null || points.length == 0) return 0;
