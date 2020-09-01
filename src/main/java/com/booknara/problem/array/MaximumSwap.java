@@ -7,33 +7,56 @@ package com.booknara.problem.array;
 public class MaximumSwap {
     // T:O(n), S:(1)
     public int maximumSwap(int num) {
+        // input check
         if (num < 10) return num;
 
-        char[] array = String.valueOf(num).toCharArray();
-        int[] nums = new int[10]; // 0 ~ 9
-        for (int i = 0; i < array.length; i++) {
-            nums[array[i] - '0'] = i;
+        char[] s = String.valueOf(num).toCharArray();
+        int[] bucket = new int[10];
+        for (int i = 0; i < s.length; i++) {
+            int n = Character.getNumericValue(s[i]);
+            bucket[n] = i;
         }
 
-        // check the number from 0 index to find bigger number
-        for (int i = 0; i < array.length; i++) {
-            // 9 <= number > array[i] - '0'
-            for (int j = 9; j > array[i] - '0'; j--) {
-                if (nums[j] > i) {
-                    //System.out.println(j + "," + (array[i] - '0'));
-                    swap(array, nums[j], i);
-                    return Integer.parseInt(new String(array));
+        for (int i = 0; i < s.length; i++) {
+            int n = Character.getNumericValue(s[i]);
+            for (int j = 9; j > n; j--) { // [9 ~ 3]
+                if (bucket[j] > i) {
+                    swap(s, i, bucket[j]);
+                    return Integer.parseInt(new String(s));
                 }
             }
         }
 
-        // no swap
         return num;
     }
 
-    public void swap(char[] array, int i, int j) {
-        char c = array[i];
-        array[i] = array[j];
-        array[j] = c;
+    public void swap(char[] s, int i, int j) {
+        char temp = s[i];
+        s[i] = s[j];
+        s[j] = temp;
     }
 }
+/**
+ Input: 2736
+ Output: 7236
+
+ Input: 2739
+ Input: 9732
+
+ Input:  9824
+ Output: 9842
+ 0,1,2,3,4,5,6,7,8,9
+ bucket = [0,0,2,0,3,0,0,0,1,0]
+ char[] s = String.valueOf(num).toCharArray();
+ for (int i = 0; i < s.length; i++) {
+ int n = Character.getNumericValue(s[i]));
+ for (int j = 9; j > n; j--) { // [9 ~ 3]
+ if (bucket[j] > i) {
+ swap(s, i, bucket[j]);
+ return Integer.parseInt(s);
+ }
+ }
+ }
+
+ return num;
+ */
