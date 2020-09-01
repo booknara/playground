@@ -18,25 +18,26 @@ public class RandomPickWithWeight {
 
     // T:O(logn), S:O(1)
     public int pickIndex() {
+        // edge case
         if (prefixSum.length == 1) {
-            // no need to check possiblity because of the only one element
             return 0;
         }
 
-        Random r = new Random();
-        // add 1 because nextInt() returns inclusive ~ exclusive
-        int num = r.nextInt(prefixSum[prefixSum.length - 1]) + 1;
-        // Use binary search because w(prefix sum) is ascending(prerequisite) and better than linear search
-        int left = 0, right = prefixSum.length - 1;
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (num > prefixSum[mid]) {
-                left = mid + 1;
+        int sum = prefixSum[prefixSum.length - 1];
+        int random = new Random().nextInt(sum) + 1; // randomly generate a number(0 ~ sum - 1) + 1
+
+        int l = 0, r = prefixSum.length - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+
+            // if random value is greater than prefixSum[m], then the answer is surely greater than m
+            if (random > prefixSum[m]) {
+                l = m + 1;
             } else {
-                right = mid;
+                r = m;
             }
         }
 
-        return left;
+        return l;
     }
 }
