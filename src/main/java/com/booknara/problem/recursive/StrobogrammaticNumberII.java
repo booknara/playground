@@ -9,30 +9,41 @@ import java.util.List;
  * https://leetcode.com/problems/strobogrammatic-number-ii/
  */
 public class StrobogrammaticNumberII {
-    // T:O(5^(N/2)), S:O(1)
+    // T:O(5^(N/2)), 5 recursive branches + decreased by half, S:O(1)
     public List<String> findStrobogrammatic(int n) {
+        // input check
         return dfs(n, n);
     }
 
+    // 4
     public List<String> dfs(int n, int m) {
+        // base case
         if (n == 0) return Arrays.asList("");
         if (n == 1) return Arrays.asList("0", "1", "8");
 
         List<String> list = dfs(n - 2, m);
-
         List<String> res = new ArrayList<>();
-
-        for (int i = 0; i < list.size(); i++) {
+        for (String s: list) {
             if (n != m) {
-                // only add it inside
-                res.add("0" + list.get(i) + "0");
+                res.add("0" + s + "0"); //
             }
-            res.add("1" + list.get(i) + "1");
-            res.add("6" + list.get(i) + "9");
-            res.add("9" + list.get(i) + "6");
-            res.add("8" + list.get(i) + "8");
+            res.add("1" + s + "1");
+            res.add("6" + s + "9");
+            res.add("8" + s + "8");
+            res.add("9" + s + "6");
         }
 
         return res;
     }
 }
+/**
+ Input:  n = 2
+ Output: ["11","69","88","96"]
+
+ n = 3 = 1 + 1 + 1
+ none of "0" + ? + "0" depending on n
+ "1" + ? + "1"
+ "6" + ? + "9"
+ "8" + ? + "8"
+ "9" + ? + "6"
+ */
