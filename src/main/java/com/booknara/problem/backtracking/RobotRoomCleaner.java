@@ -8,35 +8,56 @@ import java.util.Set;
  * https://leetcode.com/problems/robot-room-cleaner/
  */
 public class RobotRoomCleaner {
-    Robot robot;
-    Set<Pair<Integer, Integer>> visited = new HashSet<>();
-    // up, right, down, left
-    int[][] directions = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-
+    Set<String> visited = new HashSet<>();
+    // T:O(4^n-m), n: the total number of cell in the room, m: the number of blocked cell
     public void cleanRoom(Robot robot) {
-        this.robot = robot;
-        backtracking(0, 0, 0);
+        // start at [0, 0],
+        // direction = 0 (top), 90 (right), 180(bottom), 270(left)
+        // assume that the starting point[0,0] is accessible
+        backtracking(robot, 0, 0, 0);
     }
 
-    public void backtracking(int r, int c, int d) {
-        visited.add(new Pair(r, c));
+    public void backtracking(Robot robot, int r, int c, int d) {
+        String key = r + "-" + c;
+        if (visited.contains(key)) {
+            return;
+        }
+
+        visited.add(key);
         robot.clean();
 
+        // visit 4 directions
         for (int i = 0; i < 4; i++) {
-            int newD = (d + i) % 4;
-            int newRow = r + directions[newD][0];
-            int newCol = c + directions[newD][1];
+            if (robot.move()) {
+                int newR = r;
+                int newC = c;
+                // direction = 0 (top), 1 (bottom), 2(left), 3(right)
+                switch (d) {
+                    case 0:
+                        newR = r - 1;
+                        break;
+                    case 90:
+                        newC = c + 1;
+                        break;
+                    case 180:
+                        newR = r + 1;
+                        break;
+                    case 270:
+                        newC = c - 1;
+                        break;
+                }
 
-            if (!visited.contains(new Pair(newRow, newCol)) && robot.move()) {
-                backtracking(newRow, newCol, newD);
-                revert();
+                backtracking(robot, newR, newC, d);
+                goBack(robot);
             }
 
-            robot.turnRight();
+            robot.turnLeft();
+            d += 90;
+            d %= 360;
         }
     }
 
-    public void revert() {
+    public void goBack(Robot robot) {
         robot.turnRight();
         robot.turnRight();
         robot.move();
@@ -50,32 +71,4 @@ public class RobotRoomCleaner {
         void turnRight();
         void clean();
     }
-
-    class Pair<K, V> {
-        K row;
-        V col;
-
-        public Pair(K row, V col) {
-            this.row = row;
-            this.col = col;
-        }
-    }
-    /**
-     * // This is the robot's control interface.
-     * // You should not implement it, or speculate about its implementation
-     * interface Robot {
-     *     // Returns true if the cell in front is open and robot moves into the cell.
-     *     // Returns false if the cell in front is blocked and robot stays in the current cell.
-     *     public boolean move();
-     *
-     *     // Robot will stay in the same cell after calling turnLeft/turnRight.
-     *     // Each turn will be 90 degrees.
-     *     public void turnLeft();
-     *     public void turnRight();
-     *
-     *     // Clean the current cell.
-     *     public void clean();
-     * }
-     */
-
 }
