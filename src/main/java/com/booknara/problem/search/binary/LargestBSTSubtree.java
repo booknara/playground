@@ -23,17 +23,18 @@ public class LargestBSTSubtree {
             return new Element(0, Integer.MAX_VALUE, Integer.MIN_VALUE);
         }
 
-        Element left = dfs(node.left);
-        Element right = dfs(node.right);
-        if (left.size == -1 || right.size ==  -1 || node.val <= left.max || right.min <= node.val) {
-            // not BST
+        Element leftE = dfs(node.left);
+        Element rightE = dfs(node.right);
+        if (leftE.size == -1 || rightE.size == -1
+                || leftE.max >= node.val || rightE.min <= node.val) {
+            // not BST tree
             return new Element(-1, 0, 0);
         }
 
-        int count = left.size + right.size + 1;
+        int count = leftE.size + leftE.size + 1;
         max = Math.max(max, count);
 
-        return new Element(count, Math.min(left.min, node.val), Math.max(right.max, node.val));
+        return new Element(count, Math.min(leftE.min, node.val), Math.max(leftE.max, node.val));
     }
 
     static class Element {
