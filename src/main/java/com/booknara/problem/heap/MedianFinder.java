@@ -3,7 +3,7 @@ package com.booknara.problem.heap;
 import java.util.PriorityQueue;
 
 /**
- * Leet code : 295. Find Median from Data Stream (Hard)
+ * 295. Find Median from Data Stream (Hard)
  * https://leetcode.com/problems/find-median-from-data-stream/
   */
 class MedianFinder {
@@ -13,52 +13,32 @@ class MedianFinder {
     /** initialize your data structure here. */
     public MedianFinder() {
         minHeap = new PriorityQueue<>((i1, i2) -> {
-            return i1.compareTo(i2);
+            return i1 - i2;
         });
         maxHeap = new PriorityQueue<>((i1, i2) -> {
-            return i2.compareTo(i1);
+            return i2 - i1;
         });
     }
 
     public void addNum(int num) {
-        if (minHeap.size() == 0 && maxHeap.size() == 0) {
-            minHeap.offer(num);
-            return;
-        }
-
+        // if the size of min/max heap is equal, the value will be inserted into max heap
         if (minHeap.size() == maxHeap.size()) {
-            if (minHeap.peek() > num) {
-                maxHeap.offer(num);
-            } else {
-                minHeap.offer(num);
-            }
-        } else if (minHeap.size() > maxHeap.size()) {
-            if (minHeap.peek() > num) {
-                maxHeap.offer(num);
-            } else {
-                maxHeap.offer(minHeap.poll());
-                minHeap.offer(num);
-            }
+            minHeap.offer(num);
+            int higherMin = minHeap.poll();
+            maxHeap.offer(higherMin);
         } else {
-            if (maxHeap.peek() > num) {
-                minHeap.offer(maxHeap.poll());
-                maxHeap.offer(num);
-            } else {
-                minHeap.offer(num);
-            }
+            // max heap has one more value than min heap
+            maxHeap.offer(num);
+            int lowerMax = maxHeap.poll();
+            minHeap.offer(lowerMax);
         }
     }
 
     public double findMedian() {
-        double median = 0;
         if (minHeap.size() == maxHeap.size()) {
-            median = (minHeap.peek() + maxHeap.peek()) / 2.0;
-        } else if (minHeap.size() > maxHeap.size()) {
-            median = (double) minHeap.peek();
-        } else {
-            median = (double) maxHeap.peek();
+            return (minHeap.peek() + maxHeap.peek()) / 2.0;
         }
 
-        return median;
+        return maxHeap.peek();
     }
 }
