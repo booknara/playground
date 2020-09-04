@@ -10,29 +10,71 @@ import java.util.List;
 public class InsertInterval {
     // T:O(n), S:O(1)
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        if (newInterval == null || newInterval.length == 0) return intervals;
+        // input check
+        if (newInterval == null) return intervals;
 
         List<int[]> res = new ArrayList<>();
-        for (int[] i: intervals) {
-            // non-overlapped cases
-            if (newInterval == null || i[1] < newInterval[0]) {
-                // appearing i before newInterval or already handled newInterval
-                res.add(i);
-            } else if (newInterval[1] < i[0]) {
-                // appearing i after newInterval and wrapped up merging newInterval
+        // assume intervals data sorted
+        for (int[] interval: intervals) {
+            if (newInterval == null || interval[1] < newInterval[0]) {
+                // non-overlapped
+                res.add(interval);
+            } else if (newInterval[1] < interval[0]) {
                 res.add(newInterval);
-                res.add(i);
+                res.add(interval);
                 newInterval = null;
             } else {
-                // overlapped cases
-                int front = Math.min(i[0], newInterval[0]);
-                int back = Math.max(i[1], newInterval[1]);
-                newInterval = new int[] {front, back};
+                // overlapped
+                newInterval = new int[] { Math.min(interval[0], newInterval[0]),
+                        Math.max(interval[1], newInterval[1])};
             }
         }
 
-        if (newInterval == null) return res.toArray(new int[res.size()][]);
-        res.add(newInterval);
-        return res.toArray(new int[res.size()][]);
+        if (newInterval != null) {
+            // intervals is empty
+            res.add(newInterval);
+        }
+
+        int[][] output = new int[res.size()][2];
+        // convert List<int[]> to int[][]
+        for (int i = 0; i < res.size(); i++) {
+            output[i] = res.get(i);
+        }
+
+        return output;
     }
 }
+/**
+ case 1
+ [1,     3]      [6,     9]
+ [2      5]
+
+ case 2
+ [1,     3]      [6,     9]
+ [4      7]
+
+ case 3
+ [1,     3]      [6,     9]
+ [4 5]
+
+ case 4
+ [1,     3]      [6,     9]
+ [2              7]
+
+ case 5
+ [1,     3]      [6,     9]
+ [0                          10]
+
+ Rule #1: check whether interval and new interval are overlappend ()
+ not overlapped case or already handled
+ interval.end < newInterval.start -> add interval to result (case #3)
+
+ overlapped case
+ newInteval.start < interval.end
+ new interval = min(interval.start, newInterval.start), max(interval.end, newInterval.end)
+
+ close case
+ new interval.end < interval.start
+ add new interval and interval to result
+ new interval = null
+ */
