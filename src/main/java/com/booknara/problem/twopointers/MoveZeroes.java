@@ -1,4 +1,4 @@
-package com.booknara.problem.array;
+package com.booknara.problem.twopointers;
 
 /**
  * 283. Move Zeroes (Easy)
