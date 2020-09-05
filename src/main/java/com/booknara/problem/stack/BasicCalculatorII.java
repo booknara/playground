@@ -2,7 +2,12 @@ package com.booknara.problem.stack;
 
 import java.util.Stack;
 
+/**
+ * 227. Basic Calculator II (Medium)
+ * https://leetcode.com/problems/basic-calculator-ii/
+ */
 public class BasicCalculatorII {
+    // T:O(n), S:O(n)
     public int calculate(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -41,5 +46,53 @@ public class BasicCalculatorII {
         }
 
         return total;
+    }
+
+    // T:O(n), S:O(n)
+    public int calculate1(String s) {
+        // input check
+        if (s == null || s.length() == 0) return 0;
+
+        // Input: "3+2*2"
+        // Output: 7
+        Stack<Integer> stack = new Stack<>();
+        int num = 0;
+        s = s.trim();
+        char sign = '+';   // 0:+, 1:-, 2:*. 3:/
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ' ') {
+                continue;
+            }
+
+            if (Character.isDigit(c)) {
+                num *= 10;
+                num += c - '0';
+            }
+
+            // for the last number (i == s.length() - 1)
+            if (!Character.isDigit(c) || i == s.length() - 1) {
+                // symbol here
+                // there are two way
+                if (sign == '+' || sign == '-') {
+                    // add stack
+                    stack.push(sign == '+' ? num : -num); // [3,+2]
+                } else {
+                    // calculate
+                    int prev = stack.pop();
+                    stack.push(sign == '*' ? prev * num : prev / num);
+                }
+
+                num = 0;
+                sign = c;
+            }
+        }
+
+        int res = 0;
+        while (!stack.isEmpty()) {
+            res += stack.pop();
+        }
+
+        return res;
     }
 }
