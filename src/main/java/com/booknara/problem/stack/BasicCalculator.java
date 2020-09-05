@@ -7,7 +7,7 @@ import java.util.Stack;
  * https://leetcode.com/problems/basic-calculator/
  */
 public class BasicCalculator {
-    // T:O(n), S:O(2m, the number of '(')
+    // T:O(n), S:O(2m, m = the number of '(')
     public int calculate(String s) {
         if (s == null || s.length() == 0) {
             return 0;
