@@ -26,21 +26,23 @@ public class Pow {
     // T:O(logn), S:O(1)
     public double myPow1(double x, int n) {
         // input check
-        if (x == 0) return 0;
+        if (x == 0) return x;
         if (n == 0) return 1;
-        if (x == 1 || n == 1) return x;
+        if (n == 1) return x;
 
+        // negative handling
         long N = n;
-        if (N < 0) {
+        if (n < 0) {
+            N = -n;
             x = 1 / x;
-            N = -N;
         }
 
-        double res = 1;
-        while (N > 0) {
-            if ((N & 1) == 1) res *= x;
-            x *= x;
-            N = N >> 1;
+        double res = 1.0;
+        while (N != 0) {
+            // two cases
+            if ((N & 1) == 1) res = res * x;
+            x = x * x;
+            N = N >>> 1;
         }
 
         return res;
