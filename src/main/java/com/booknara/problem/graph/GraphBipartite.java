@@ -10,13 +10,13 @@ import java.util.Queue;
 public class GraphBipartite {
     // T:O(v + e), S:O(v)
     public boolean isBipartite(int[][] graph) {
-        if (graph == null || graph.length == 0) {
-            return true;
-        }
+        // input check
+        if (graph == null || graph.length == 0) return true;
 
-        // 0: not visited, 1: red, 2: blue
+        // O: undetermined, 1:red:, 2:blue
+        // [0,0,0,0]
         int[] colors = new int[graph.length];
-        for (int i = 0; i < colors.length; i++) {
+        for (int i = 0; i < graph.length; i++) {
             if (colors[i] == 0) {
                 if (!isBipartite(graph, colors, i)) return false;
             }
@@ -25,21 +25,20 @@ public class GraphBipartite {
         return true;
     }
 
-    private boolean isBipartite(int[][] graph, int[] colors, int source) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(source);
-        colors[source] = 1;  // 1: blue, 2: red
-        while (!queue.isEmpty()) {
-            int v = queue.poll();
-            int next = colors[v] == 1 ? 2 : 1;
-            for (int n: graph[v]) {
-                if (colors[n] == 0) {
-                    // color is not decided
-                    colors[n] = next;
-                    queue.offer(n);
-                } else if (colors[n] != next) {
-                    // not bipartite graph because neighbor node has same color
-                    return false;
+    public boolean isBipartite(int[][] graph, int[] colors, int i) {
+        Queue<Integer> q = new LinkedList<>();
+        colors[i] = 1;
+        q.offer(i);
+        while (!q.isEmpty()) {
+            int n = q.poll();
+            int color = colors[n];
+            for (int nei: graph[n]) {
+                if (colors[nei] == color) return false; // the neighbor has the same color, valid
+
+                if (colors[nei] == 0) {
+                    // undetermined
+                    colors[nei] = (color == 1) ? 2 : 1;
+                    q.offer(nei);
                 }
             }
         }
@@ -47,3 +46,12 @@ public class GraphBipartite {
         return true;
     }
 }
+/**
+ [0,0,0,0]
+ Input: [
+ 0:[1,3]
+ 1:[0,2]
+ 2:[1,3]
+ 3:[0,2]
+ ]
+ */
