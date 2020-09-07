@@ -24,6 +24,7 @@ public class SudokuSolver {
         backtracking(board, 0, 0);
     }
 
+    // main backtracking logic
     public void backtracking(char[][] board, int r, int c) {
         // there are two cases ('.' or 'number')
         if (board[r][c] == '.') {
