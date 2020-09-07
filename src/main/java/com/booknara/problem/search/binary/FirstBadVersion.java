@@ -1,6 +1,6 @@
-package com.booknara.problem.tree;
+package com.booknara.problem.search.binary;
 
-import static com.booknara.problem.tree.FirstBadVersion.VersionControl.isBadVersion;
+import static com.booknara.problem.search.binary.FirstBadVersion.VersionControl.isBadVersion;
 
 /**
  * 278. First Bad Version (Easy)
