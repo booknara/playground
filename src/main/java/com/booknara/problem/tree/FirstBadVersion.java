@@ -7,6 +7,7 @@ import static com.booknara.problem.tree.FirstBadVersion.VersionControl.isBadVers
  * https://leetcode.com/problems/first-bad-version/
  */
 public class FirstBadVersion {
+    // T:O(logn), S:O(1)
     public int firstBadVersion(int n) {
         // input check
         if (n == 0) return -1; // new IllegalArgmentException("invalid input");
