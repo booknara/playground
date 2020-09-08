@@ -1,79 +1,70 @@
 package com.booknara.problem.stack;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
+/**
+ * 772. Basic Calculator III (Hard)
+ * https://leetcode.com/problems/basic-calculator-iii/
+ */
 public class BasicCalculatorIII {
+    // T:O(n), S:O(n)
     public int calculate(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
+        // input check
+        if (s == null || s.length() == 0) return 0;
+        Queue<Character> q = new LinkedList<>();
+        for (char c: s.toCharArray()) {
+            if (c == ' ') continue;
+            q.offer(c);
         }
+        q.offer('+');   // for the last number
+        return calc(q);
+    }
 
-        int num;
-        Stack<Integer> nums = new Stack<>();
-        Stack<Character> operands = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
+    public int calc(Queue<Character> q) {
+        int num = 0;
+        char sign = '+';
+        Stack<Integer> stack = new Stack<>();
+        while (!q.isEmpty()) {
+            char c = q.poll();
             if (Character.isDigit(c)) {
-                num = Character.getNumericValue(c);
-                while (i < s.length() - 1 && Character.isDigit(s.charAt(i + 1))) {
-                    num = num * 10 + Character.getNumericValue(s.charAt(i + 1));
-                    i++;
-                }
-                nums.push(num);
-                num = 0;
+                num = num * 10 + c - '0';
             } else if (c == '(') {
-                operands.push(c);
-            } else if (c == ')') {
-                while (operands.peek() != '(') {
-                    nums.push(operation(operands.pop(), nums.pop(), nums.pop()));
-                }
-                operands.pop(); // remove '('
-            } else if (c == '+' || c == '-' || c == '*' || c == '/') {
-                while (!operands.empty() && precedence(c, operands.peek())) {
-                    nums.push(operation(operands.pop(), nums.pop(), nums.pop()));
-                }
-
-                if (c == '-') {
-                    if (nums.isEmpty()) { // case1: 1st non-empty characer is the negative number
-                        // To deal with "-1+4*3/3/3": add 0 to num stack if the first char is '-'; -> -1 + 4 => 0-1+4
-                        nums.push(0);
-                    } else { // case2: 1st non-empty characer in parentheses is the negative number
-                        // To deal with "1-(-7)": add 0 to num stack if the first char after '(' is '-'. -> 1-(-7) => 1-(0-7)
-                        int index = i - 1;
-                        while (index >= 0 && s.charAt(index) == ' ') {
-                            index--;
-                        }
-                        if (s.charAt(index) == '(') {
-                            nums.push(0);
-                        }
-                    }
+                num = calc(q);
+            } else {
+                // +, -, *, /, )
+                if (sign == '+') {
+                    stack.push(num);
+                } else if (sign == '-') {
+                    stack.push(-num);
+                } else if (sign == '*') {
+                    stack.push(stack.pop() * num);
+                } else if (sign == '/') {
+                    stack.push(stack.pop() / num);
                 }
 
-                operands.push(c);
+                sign = c;
+                num = 0;
+                if (c == ')') {
+                    break;
+                }
             }
         }
 
-        while (!operands.isEmpty()) {
-            nums.push(operation(operands.pop(), nums.pop(), nums.pop()));
+        int sum = 0;
+        while (!stack.isEmpty()) {
+            sum += stack.pop();
         }
 
-        return nums.pop();
-    }
-
-    public int operation(char op, int b, int a) {
-        switch (op) {
-            case '+': return a + b;
-            case '-': return a - b;
-            case '*': return a * b;
-            case '/': return a / b;
-        }
-
-        return 0;
-    }
-
-    public boolean precedence(char op1, char op2) {
-        if (op2 == '(' || op2 == ')') return false; // (, ) handling because they are higher priority than the other operands
-        if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) return false; // *, / handling because they are higher priority than +, -
-        return true;
+        return sum;
     }
 }
+/**
+ input characters: (, ), +, -, *, /, non-negative integers, white space
+
+ "2*(5+5*2)/3+(6/2+8)"
+ "2*(?)/3+(?)"
+
+ (5+5*2)
+ */
