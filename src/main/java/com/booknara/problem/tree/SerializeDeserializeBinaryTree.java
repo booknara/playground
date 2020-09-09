@@ -2,25 +2,30 @@ package com.booknara.problem.tree;
 
 import com.booknara.problem.common.TreeNode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 297. Serialize and Deserialize Binary Tree (Hard)
  * https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
  */
 public class SerializeDeserializeBinaryTree {
+
     // Encodes a tree to a single string.
     // T:O(n), S:O(n)
     public String serialize(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
+        if (root == null) return "";
 
-        StringBuilder builder = new StringBuilder();
-        dfsSerialize(builder, root);
+        StringBuilder res = new StringBuilder();
+        convertTree(root, res);
+        System.out.println(res.toString());
 
-        return builder.toString();
+        return res.toString();
     }
 
-    public void dfsSerialize(StringBuilder builder, TreeNode node) {
+    // pre-order traverse
+    public void convertTree(TreeNode node, StringBuilder builder) {
+        // base case
         if (node == null) {
             builder.append("#");
             return;
@@ -28,34 +33,52 @@ public class SerializeDeserializeBinaryTree {
 
         builder.append(node.val);
         builder.append(",");
-        dfsSerialize(builder, node.left);
+        convertTree(node.left, builder);
         builder.append(",");
-        dfsSerialize(builder, node.right);
+        convertTree(node.right, builder);
     }
 
     // Decodes your encoded data to tree.
     // T:O(n), S:O(n)
     public TreeNode deserialize(String data) {
-        if (data == null) {
-            return null;
+        if (data.length() == 0) return null;
+
+        Queue<String> q = new LinkedList<>();
+        String[] nodes = data.split(",");
+        for (String s: nodes) {
+            q.offer(s);
         }
 
-        String[] array = data.split(",");
-        int[] pointer = new int[1];
-        return dfsDeserialize(array, pointer);
+        return dfs(q);
     }
 
-    public TreeNode dfsDeserialize(String[] array, int[] pointer) {
-        if (array[pointer[0]].equals("#")) {
-            pointer[0]++;
+    // [1,2,#,#,3,4,#,#,5,#,#] -> []
+    public TreeNode dfs(Queue<String> q) {
+        // base case
+        if (q.isEmpty()) return null;
+
+        String s = q.poll();
+        if (s.equals("#")) {
             return null;
         }
 
-        TreeNode node = new TreeNode(Integer.parseInt(array[pointer[0]]));
-        pointer[0]++;
-        node.left = dfsDeserialize(array, pointer);
-        node.right = dfsDeserialize(array, pointer);
+        //      1
+        //   2    3
+        //      4   5
+        TreeNode node = new TreeNode(Integer.parseInt(s));
+        node.left = dfs(q);
+        node.right = dfs(q);
 
         return node;
     }
 }
+/**
+ 1
+ / \
+ 2   3
+ / \
+ 4   5
+
+ Pre-order traverse
+ [1,2,#,#,3,4,#,#,5,#,#]
+ */
