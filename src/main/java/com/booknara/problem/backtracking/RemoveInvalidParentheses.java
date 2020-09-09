@@ -14,53 +14,67 @@ public class RemoveInvalidParentheses {
 
     // T:O(2^n), S:O(n)
     public List<String> removeInvalidParentheses(String s) {
+        List<String> res = new ArrayList<>();
+        if (s == null) return res;
+
+        StringBuilder builder = new StringBuilder();
         Set<String> set = new HashSet<>();
-        recur(s, 0, 0, 0, 0, new StringBuilder(), set);
+        backtracking(s, 0, 0, 0, 0, builder, set);
 
         return new ArrayList<>(set);
     }
 
-    public void recur(String s,
-                      int index,
-                      int leftCount,
-                      int rightCount,
-                      int ignoreCount,
-                      StringBuilder builder,
-                      Set<String> set) {
+    public void backtracking(String s, int index, int openCount, int closeCount, int ignore,
+                             StringBuilder builder, Set<String> res) {
+        // base case
         if (index == s.length()) {
-            if (leftCount == rightCount) {
-                // valid parentheses
-                if (ignoreCount <= minIgnore) {
-                    String ans = builder.toString();
-                    if (ignoreCount < minIgnore) {
-                        minIgnore = ignoreCount;
-                        set.clear();   // clear all the previous results
-                    }
+            // not valid parenthese
+            if (openCount != closeCount) return;
 
-                    set.add(builder.toString());
+            // three cases(less, equal, more)
+            if (ignore <= minIgnore) {
+                if (ignore < minIgnore) {
+                    minIgnore = ignore;
+                    res.clear();
                 }
+                res.add(builder.toString());
             }
+            return;
+        }
+
+        if (s.charAt(index) != '(' && s.charAt(index) != ')') {
+            // letters
+            builder.append(s.charAt(index));
+            backtracking(s, index + 1, openCount, closeCount, ignore, builder, res);
+            builder.deleteCharAt(builder.length() - 1);
         } else {
-            char c = s.charAt(index);
-            int len = builder.length();
-            if (c != '(' && c != ')') {
-                builder.append(c);
-                recur(s, index + 1, leftCount, rightCount, ignoreCount, builder, set);
-                builder.deleteCharAt(len);
+            // Case #1 (ignore)
+            backtracking(s, index + 1, openCount, closeCount, ignore + 1, builder, res);
+
+            if (s.charAt(index) == '(') {
+                // Case # 2 (backtracking)
+                // Case 2-1 ('(')
+                builder.append("(");
+                backtracking(s, index + 1, openCount + 1, closeCount, ignore, builder, res);
+                builder.deleteCharAt(builder.length() - 1);
             } else {
-                // ignore
-                recur(s, index + 1, leftCount, rightCount, ignoreCount + 1, builder, set);
-
-                builder.append(c);
-                // keep
-                if (c == '(') {
-                    recur(s, index + 1, leftCount + 1, rightCount, ignoreCount, builder, set);
-                } else if (rightCount < leftCount) {
-                    recur(s, index + 1, leftCount, rightCount + 1, ignoreCount, builder, set);
+                // Case 2-1 (')'), closeCount is supposed to be less or equal to openCount
+                if (openCount > closeCount) {
+                    builder.append(")");
+                    backtracking(s, index + 1, openCount, closeCount + 1, ignore, builder, res);
+                    builder.deleteCharAt(builder.length() - 1);
                 }
-
-                builder.deleteCharAt(len);
             }
         }
     }
 }
+/**
+ Input: "()())()"
+ Output: ["()()()", "(())()"]
+
+ Rule 1: Open parenthese >= close parenthese
+ Rule 2: When index == s.length(), open parenthese == close parenthese, check minimum ignore count
+ - if same, add the string to result
+ - if less than previous count, clear and add
+ - if more than previous count, skip
+ */
