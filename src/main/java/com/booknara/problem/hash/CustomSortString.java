@@ -11,36 +11,34 @@ public class CustomSortString {
     // T:O(n), S:O(n)
     public String customSortString(String S, String T) {
         // input check
-        if (T == null || T.length() == 0) return "";
+        if (S == null || S.length() == 0) return T;
 
+        // 1. Create and fill Set from S
         Set<Character> set = new HashSet<>();
         for (char c: S.toCharArray()) {
             set.add(c);
         }
-
-        StringBuilder builder = new StringBuilder();
+        // 2. find any characters from T which is not present in S
+        // 3. count each chacacter for T using bucket
+        StringBuilder res = new StringBuilder();
         int[] bucket = new int[26];
         for (char c: T.toCharArray()) {
             if (!set.contains(c)) {
-                builder.append(c);
-                continue;
+                res.append(c);
+            } else {
+                bucket[c - 'a']++;
             }
-            bucket[c - 'a']++;
         }
 
-        StringBuilder res = new StringBuilder();
+        // 4. Iterate S characters and print characters based on bucket count
         for (char c: S.toCharArray()) {
-            int idx = c - 'a';
-            if (bucket[idx] == 0) {
-                continue;
-            }
+            if (bucket[c - 'a'] == 0) continue; // not present in T
 
-            for (int i = 0; i < bucket[idx]; i++) {
+            for (int i = 0; i < bucket[c - 'a']; i++) {
                 res.append(c);
             }
         }
 
-        res.append(builder.toString());
         return res.toString();
     }
 }
