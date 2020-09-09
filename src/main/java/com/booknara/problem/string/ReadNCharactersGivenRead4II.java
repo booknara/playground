@@ -8,23 +8,23 @@ import com.booknara.problem.common.Reader4;
  */
 public class ReadNCharactersGivenRead4II extends Reader4 {
     private int pos = 0;
-    private int res = 0;
-    private char[] mBuf = new char[4];
+    private int read = 0;
+    private final char[] buf4 = new char[4];
 
     //T:O(n), S:O(1)
     public int read(char[] buf, int n) {
         int ptr = 0;
         while (ptr < n) {
             if (pos == 0) {
-                res = read4(mBuf);
+                read = read4(buf4);
             }
-            if (res == 0) break;
+            if (read == 0) break;
 
-            while (ptr < n && pos < res) {
-                buf[ptr++] = mBuf[pos++];
+            while (ptr < n && pos < read) {
+                buf[ptr++] = buf4[pos++];
             }
 
-            if (pos >= res) pos = 0;
+            if (pos >= read) pos = 0;
         }
 
         return ptr;
