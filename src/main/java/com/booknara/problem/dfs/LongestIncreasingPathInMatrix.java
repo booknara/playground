@@ -72,6 +72,45 @@ public class LongestIncreasingPathInMatrix {
         return path[r][c];
     }
 
+    // T:O(n*m), S:O(n*m)
+    public int longestIncreasingPath1(int[][] matrix) {
+        // input check
+        if (matrix == null || matrix.length == 0) return 0;
+
+        int totalMax = 1;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] path = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (path[i][j] == 0) {
+                    path[i][j] = dfs(matrix, true, i, j, i, j, path);
+                }
+                totalMax = Math.max(totalMax, path[i][j]);
+            }
+        }
+
+        return totalMax;
+    }
+
+    public int dfs(int[][] matrix, boolean init, int preR, int preC, int r, int c, int[][] path) {
+        // base case (out of range, already have the path value, descreasing)
+        if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[r].length) return 0;
+        if (!init && matrix[preR][preC] >= matrix[r][c]) return 0;
+        if (path[r][c] != 0) return path[r][c];
+
+        // four directions
+        int left = dfs(matrix, false, r, c, r, c - 1, path) + 1;
+        int right = dfs(matrix, false, r, c, r, c + 1, path) + 1;
+        int up = dfs(matrix, false, r, c, r - 1, c, path) + 1;
+        int down = dfs(matrix, false, r, c, r + 1, c, path) + 1;
+
+        int max = getMax(left, right, up, down);
+        path[r][c] = max;
+
+        return max;
+    }
+
     public int getMax(int m1, int m2, int m3, int m4) {
         return Math.max(m1, Math.max(m2, Math.max(m3, m4)));
     }
