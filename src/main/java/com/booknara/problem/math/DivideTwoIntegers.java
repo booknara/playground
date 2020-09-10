@@ -7,11 +7,11 @@ package com.booknara.problem.math;
 public class DivideTwoIntegers {
     // O(logn), left shift operator
     public int divide(int dividend, int divisor) {
+        // edge case handling
         int quotient = 0;
-        // edge case
         if (dividend == Integer.MIN_VALUE) {
-            if (divisor == -1) return Integer.MAX_VALUE;
             if (divisor == 1) return Integer.MIN_VALUE;
+            if (divisor == -1) return Integer.MAX_VALUE; //overflow
             if (divisor == Integer.MIN_VALUE) return 1;
             dividend += Math.abs(divisor);
             quotient++;
@@ -19,9 +19,9 @@ public class DivideTwoIntegers {
 
         if (dividend == 0) return 0;
         if (divisor == 1) return dividend;
-        if (divisor == Integer.MIN_VALUE) return 0;
+        if (divisor == -1) return -dividend;
+        if (divisor == Integer.MIN_VALUE) return 0; // biggest range value = 0
 
-        // assume that divisor shouldn't be zero
         boolean negative = false;
         if (dividend < 0 && divisor > 0) negative = true;
         if (dividend > 0 && divisor < 0) negative = true;
@@ -29,11 +29,18 @@ public class DivideTwoIntegers {
         dividend = Math.abs(dividend);
         divisor = Math.abs(divisor);
 
+        // O(n)
+        // while (dividend > divisor) {
+        //     dividend -= divisor;
+        //     quotient++;
+        // }
+
+        // O(logn)
         while (dividend >= divisor) {
             int accum = divisor, count = 1;
-            while (dividend - accum >= accum) { // Note here
-                accum <<= 1;
-                count <<= 1;
+            while (dividend - accum >= accum) {
+                accum = accum << 1;
+                count = count << 1;
             }
 
             dividend -= accum;
