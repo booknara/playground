@@ -6,7 +6,7 @@ package com.booknara.problem.greedy;
  */
 public class MinimumDeletionCostToAvoidRepeatingLetters {
     // T:O(n), S:O(1)
-    // The main idea is to add all the values except for the max cost
+    // The main idea is to add all the costs except for the max cost
     public int minCost(String s, int[] cost) {
         // input check
         if (s == null || s.length() <= 1) return 0;
