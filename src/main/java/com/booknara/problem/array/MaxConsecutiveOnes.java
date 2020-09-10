@@ -5,20 +5,23 @@ package com.booknara.problem.array;
  * https://leetcode.com/problems/max-consecutive-ones/
  */
 public class MaxConsecutiveOnes {
+    // T:O(n), S:O(1)
     public int findMaxConsecutiveOnes(int[] nums) {
+        // input check
+        if (nums == null || nums.length == 0) return 0;
+
+        int max = 0;
         int count = 0;
-        int maxCount = 0;
-
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == 1) {
-                count += 1;
+        for (int n: nums) {
+            // two input cases
+            if (n == 0) {
+                count = 0;  // 0
             } else {
-                count = 0;
+                count++;    // 1
+                max = Math.max(max, count);
             }
-
-            maxCount = count > maxCount ? count : maxCount;
         }
 
-        return maxCount;
+        return max;
     }
 }
