@@ -1,4 +1,4 @@
-package com.booknara.problem.array;
+package com.booknara.problem.search.binary;
 
 /**
  * 1060. Missing Element in Sorted Array (Medium)
