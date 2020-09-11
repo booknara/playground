@@ -5,7 +5,35 @@ package com.booknara.problem.array;
  * https://leetcode.com/problems/missing-element-in-sorted-array/
  */
 public class MissingElementInSortedArray {
+    // T:O(logn), S:O(1)
     public int missingElement(int[] nums, int k) {
+        // input check (1 <= nums)
+        int l = 0, r = nums.length - 1;
+        // [4,10], 10 - 4 = 6 - 1 = 5 (missing element)
+        int missingNum = nums[r] - nums[l] - (r - l);
+        if (missingNum < k) {
+            // Input: A = [1,4], K = 3
+            // [2,3] missing number, [5]
+            return nums[r] + k - missingNum;
+        }
+
+        // [4,7,9,10], k = 1
+        while (l + 1 < r) {
+            int m = l + (r - l) / 2; // [0,3], m = 1
+            missingNum = nums[m] - nums[l] - (m - l); // m = 1 (val:7)
+            if (k > missingNum) {
+                l = m;
+                k -= missingNum;
+            } else {
+                r = m;
+            }
+        }
+
+        return nums[l] + k;
+    }
+
+    // T:O(n), S:O(1)
+    public int missingElement1(int[] nums, int k) {
         if (nums == null || nums.length == 0 || k == 0) {
             return 0;
         }
