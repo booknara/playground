@@ -7,37 +7,36 @@ import java.util.Random;
  * https://leetcode.com/problems/random-pick-with-weight/
  */
 public class RandomPickWithWeight {
-    int[] prefixSum;
+    int[] sum;
     public RandomPickWithWeight(int[] w) {
         for (int i = 1; i < w.length; i++) {
-            // get prefix sum
             w[i] += w[i - 1];
         }
-        prefixSum = w;
+
+        sum = w;
     }
 
     // T:O(logn), S:O(1)
     public int pickIndex() {
-        // edge case
-        if (prefixSum.length == 1) {
-            return 0;
-        }
+        // edge case that there is the only one element, return 0 index
+        if (sum.length == 1) return 0;
 
-        int sum = prefixSum[prefixSum.length - 1];
-        int random = new Random().nextInt(sum) + 1; // randomly generate a number(0 ~ sum - 1) + 1
+        int l = 0;
+        int r = sum.length - 1;
+        int random = new Random().nextInt(sum[sum.length - 1]) + 1; // [1 ~ r]
 
-        int l = 0, r = prefixSum.length - 1;
+        // [0,1,4,8], [0,3], random = 2;, [0,1]
         while (l < r) {
-            int m = l + (r - l) / 2;
+            int m = l + (r - l) / 2;    // 4(1), 1(0)
+            if (random == sum[m]) return m;
 
-            // if random value is greater than prefixSum[m], then the answer is surely greater than m
-            if (random > prefixSum[m]) {
-                l = m + 1;
+            if (random < sum[m]) {
+                r = m;  // [0, 1]
             } else {
-                r = m;
+                l = m + 1;
             }
         }
 
-        return l;
+        return r;
     }
 }
