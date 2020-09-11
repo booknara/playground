@@ -1,53 +1,42 @@
 package com.booknara.problem.backtracking;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
- * Leet code: 46. Permutations(Medium)
- * Given a collection of distinct integers, return all possible permutations.
- *
- * Example:
- * Input: [1,2,3]
- * Output:
- * [
- *   [1,2,3],
- *   [1,3,2],
- *   [2,1,3],
- *   [2,3,1],
- *   [3,1,2],
- *   [3,2,1]
- * ]
+ * 46. Permutations (Medium)
+ * https://leetcode.com/problems/permutations/
  */
 public class Permutations {
+    // T:O(n!), S:(n!)
     public List<List<Integer>> permute(int[] nums) {
-        List<List<Integer>> output = new ArrayList<>();
-        if (nums == null || nums.length == 0) {
-            return output;
-        }
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) return res;
 
-        List<Integer> ans = new ArrayList<>();
-        for (int n: nums) {
-            ans.add(n);
-        }
-
-        int len = nums.length;
-        dfs(ans, len, 0, output);
-
-        return output;
+        backtracking(nums, 0, res);
+        return res;
     }
 
-    public void dfs(List<Integer> source, int len, int first, List<List<Integer>> output) {
-        if (first == len) {
-            output.add(new ArrayList<>(source));
+    public void backtracking(int[] nums, int idx, List<List<Integer>> res) {
+        if (idx == nums.length) {
+            List<Integer> list = new ArrayList<>();
+            for (int n: nums) {
+                list.add(n);
+            }
+            res.add(list);
             return;
         }
-        for (int i = first; i < len; i++) {
-            Collections.swap(source, first, i);
-            dfs(source, len, first + 1, output);
-            Collections.swap(source, first, i);
+
+        for (int i = idx; i < nums.length; i++) {
+            swap(nums, idx, i);
+            backtracking(nums, idx + 1, res);
+            swap(nums, idx, i);
         }
     }
 
+    public void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
 }
