@@ -21,11 +21,12 @@ public class RangeSumOfBST {
 
         // inclusive
         if (node.val >= L && node.val <= R) {
+            //System.out.println(node.val);
             sum += node.val;
         }
 
-        dfs(node.left, L, R);
-        dfs(node.right, L, R);
+        if (L < node.val) dfs(node.left, L, R);
+        if (node.val < R) dfs(node.right, L, R);
     }
 
     // Recursive method. Time: O(n), Space: O(h), height of BST
