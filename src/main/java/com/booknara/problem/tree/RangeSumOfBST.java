@@ -2,7 +2,8 @@ package com.booknara.problem.tree;
 
 import com.booknara.problem.common.TreeNode;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 938. Range Sum of BST (Easy)
@@ -25,32 +26,34 @@ public class RangeSumOfBST {
             sum += node.val;
         }
 
+        // Keep deep down to left node if node.val is bigger than L
         if (L < node.val) dfs(node.left, L, R);
+        // Keep deep down to right node if node.val is smaller than R
         if (node.val < R) dfs(node.right, L, R);
     }
 
-    // Recursive method. Time: O(n), Space: O(h), height of BST
-    public int rangeSumBSTIterative(TreeNode root, int L, int R) {
-        if (root == null) {
-            return 0;
-        }
+    // iterative method. Time: O(n), Space: O(h), height of BST
+    public int rangeSumBST1(TreeNode root, int L, int R) {
+        if (root == null) return 0;
 
         int sum = 0;
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        while(!stack.empty()) {
-            TreeNode node = stack.pop();
-            if (node != null) {
-                if (node.val >= L && node.val <= R) {
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+
+                if (L <= node.val && node.val <= R) {
                     sum += node.val;
                 }
 
-                if (L < node.val) {
-                    stack.push(node.left);
+                if (L < node.val && node.left != null) {
+                    q.offer(node.left);
                 }
 
-                if (R > node.val) {
-                    stack.push(node.right);
+                if (node.val < R && node.right != null) {
+                    q.offer(node.right);
                 }
             }
         }
