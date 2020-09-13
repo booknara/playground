@@ -1,4 +1,4 @@
-package com.booknara.problem.hash;
+package com.booknara.problem.twopointers;
 
 import org.junit.Assert;
 import org.junit.Test;
