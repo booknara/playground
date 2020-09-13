@@ -7,16 +7,15 @@ package com.booknara.problem.twopointers;
 public class MoveZeroes {
     // T:O(n), S:O(1)
     public void moveZeroes(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return;
-        }
+        if (nums == null || nums.length == 0) return;
 
-        int zero = 0;
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] != 0) {
-                swap(nums, i, zero);
-                zero++;
+        int l = 0, r = 0;
+        while (r < nums.length) {
+            if (nums[r] != 0) {
+                swap(nums, l, r);
+                l++;
             }
+            r++;
         }
     }
 
