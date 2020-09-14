@@ -3,36 +3,34 @@ package com.booknara.problem.hash;
 import java.util.*;
 
 /**
- * Leet code : 49. Group Anagrams (Medium)
+ * 49. Group Anagrams (Medium)
  * https://leetcode.com/problems/group-anagrams/
  */
 public class GroupAnagrams {
     // Time complexity: O(n * k), n: the number of strings, k: the maximum length of string
     public List<List<String>> groupAnagrams(String[] strs) {
-        if (strs == null || strs.length == 0) {
-            return null;
-        }
+        List<List<String>> res = new ArrayList<>();
+        if (strs == null || strs.length == 0) return res;
 
         Map<String, List<String>> map = new HashMap<>();
-        for (String s: strs) {
-            int[] count = new int[26];
-            for (char c: s.toCharArray()) {
-                count[c - 'a']++;
+        for (String str: strs) {
+            int[] bucket = new int[26];
+            for (char c: str.toCharArray()) {
+                bucket[c - 'a']++;
             }
 
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < 26; i++) {
-                builder.append(count[i]);
+                builder.append("#").append(bucket[i]);
             }
 
-            String key = builder.toString();
-            if (!map.containsKey(key)) {
-                map.put(key, new ArrayList<>());
-            }
-            map.get(key).add(s);
+            List<String> list = map.getOrDefault(builder.toString(), new ArrayList<>());
+            list.add(str);
+            map.put(builder.toString(), list);
         }
 
-        return new ArrayList<>(map.values());
+        res.addAll(map.values());
+        return res;
     }
 
     // Time complexity: O(n * klogk), n: the number of strings, k: the maximum length of string
