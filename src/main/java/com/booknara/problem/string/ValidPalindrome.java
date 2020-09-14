@@ -7,29 +7,19 @@ package com.booknara.problem.string;
 public class ValidPalindrome {
     // T:O(n), S:O(1)
     public boolean isPalindrome(String s) {
-        // input check
-        if (s == null || s.length() == 0) {
-            return true;
-        }
+        if (s == null || s.length() == 0) return true;
 
         int l = 0, r = s.length() - 1;
         while (l < r) {
-            // skip empty string or non-alphanumeric characters
-            while (l < r) {
-                if (Character.isLetterOrDigit(s.charAt(l))) break;
-                l++;
-            }
-            while (l < r) {
-                if (Character.isLetterOrDigit(s.charAt(r))) break;
-                r--;
-            }
+            // filtering left character, only alphanumeric
+            while (l < r && !Character.isLetterOrDigit(s.charAt(l))) l++;
+            // filtering right character, only alphanumeric
+            while (l < r && !Character.isLetterOrDigit(s.charAt(r))) r--;
 
-            if (l == r) return true;
+            if (l >= r) return true;
 
-            if (Character.toLowerCase(s.charAt(l))
-                    != Character.toLowerCase(s.charAt(r))) {
-                return false;
-            }
+            if (Character.toLowerCase(s.charAt(l)) != Character.toLowerCase(s.charAt(r))) return false;
+
             l++;
             r--;
         }
