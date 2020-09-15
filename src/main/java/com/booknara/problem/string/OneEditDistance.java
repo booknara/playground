@@ -37,8 +37,49 @@ public class OneEditDistance {
         return true;
     }
 
-    // T:O(n), S:O(1)
     public boolean isOneEditDistance1(String s, String t) {
+        if (s.length() == 0 && t.length() == 0) return false;
+
+        if (Math.abs(s.length() - t.length()) > 1) return false;
+
+        int m = s.length();
+        int n = t.length();
+        int[][] dp = new int[m + 1][n + 1];
+        // init setting (col)
+        for (int i = 0; i < dp[0].length; i++) {
+            dp[0][i] = i;
+        }
+        // init setting (row)
+        for (int i = 0; i < dp.length; i++) {
+            dp[i][0] = i;
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (s.charAt(i) == t.charAt(j)) {
+                    dp[i + 1][j + 1] = dp[i][j];
+                } else {
+                    dp[i + 1][j + 1] = getMin(dp[i][j], dp[i][j + 1], dp[i + 1][j]) + 1;
+                }
+            }
+        }
+
+        // only one edit can be true
+        return dp[m][n] == 1;
+    }
+
+    public int getMin(int i, int j, int k) {
+        return Math.min(i, Math.min(j, k));
+    }
+    /**
+     Input: s = "ab", t = "acb"
+     T  a  a  a
+     0  1  2  3
+     a  1  0  1  2
+     a  2  1  1  1
+     */
+    // T:O(n), S:O(1)
+    public boolean isOneEditDistance2(String s, String t) {
         if (s.equals(t)) return false;
 
         int sLen = s.length();
