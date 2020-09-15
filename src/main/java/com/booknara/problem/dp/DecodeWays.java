@@ -7,25 +7,22 @@ package com.booknara.problem.dp;
 public class DecodeWays {
     // DP solution, T:O(n), S:O(n)
     public int numDecodings(String s) {
-        if (s == null || s.length() == 0) {
-            return 0;
-        }
+        // input check
+        if (s == null || s.length() == 0) return 0;
 
-        // dp array size : s.length() + 2 because of two init values dp[0] = 0, dp[1] = 1
         int[] dp = new int[s.length() + 2];
-        dp[0] = 0;
+        dp[0] = 1;
         dp[1] = 1;
 
         for (int i = 0; i < s.length(); i++) {
-            // one digit (1 ~ 9), skip 0
+            // one digit
             if (s.charAt(i) != '0') {
                 dp[i + 2] = dp[i + 1];
             }
 
-            // not allow to make two digits because of substring function
-            if (i - 1 < 0) {
-                continue;
-            }
+            // two digits
+            if (i < 1) continue;    // not allow to make two digits because of substring function
+
             // two digits (10 ~ 26)
             int d = Integer.parseInt(s.substring(i - 1, i + 1));
             if (d >= 10 && d <= 26) {
@@ -33,7 +30,7 @@ public class DecodeWays {
             }
         }
 
-        return dp[s.length() + 1];
+        return dp[dp.length - 1];
     }
 
     // Recursive method: TLE, T:O(2^n), S:O(h)
