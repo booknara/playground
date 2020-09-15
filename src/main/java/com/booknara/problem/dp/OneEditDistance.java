@@ -1,4 +1,4 @@
-package com.booknara.problem.string;
+package com.booknara.problem.dp;
 
 /**
  * 161. One Edit Distance (Medium)
