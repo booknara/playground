@@ -81,4 +81,47 @@ public class MultiplyStrings {
 
         return new BigInteger(builder.reverse().toString());
     }
+
+    // T:O(n * m), S:O(n + m)
+    public String multiply2(String num1, String num2) {
+        // input check
+        if (num1.length() == 0 || num2.length() == 0) return "";
+
+        int[] nums = new int[num1.length() + num2.length()];
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int multi = num1.charAt(i) - '0' * num2.charAt(j) - '0';  // can be two digits
+                int mod = multi % 10 + nums[i + j + 1];
+                int quo = multi / 10 + nums[i + j];
+                if (mod > 9) {
+                    mod -= 10;
+                    quo++;
+                }
+
+                int carry = 0;
+                if (quo > 9) {
+                    quo -= 10;
+                    carry = 1;
+                }
+                nums[i + j + 1] = mod;
+                nums[i + j] = quo;
+                if (carry == 1) nums[i + j - 1] += carry;
+            }
+        }
+
+        StringBuilder builder = new StringBuilder();
+        boolean start = false;
+        for (int n: nums) {
+            if (n == 0) {
+                if (start) builder.append(n);
+
+                continue;
+            }
+
+            start = true;
+            builder.append(n);
+        }
+
+        return builder.length() == 0 ? "0" : builder.toString();
+    }
 }
