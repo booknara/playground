@@ -65,4 +65,75 @@ public class ValidateIPAddress {
 
         return "IPv6";
     }
+
+    // T:O(n), S:O(1)
+    public String validIPAddress1(String IP) {
+        if (IP == null || IP.length() == 0) return "Neither";
+
+        // input check
+        // IP string only contains ., :, letter, digit
+        if (IP.contains(".")) {
+            return isIPv4(IP) ? "IPv4" : "Neither";
+        }
+
+        return isIPv6(IP) ? "IPv6" : "Neither";
+    }
+
+    // "172.16.254.1"
+    public boolean isIPv4(String s) {
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '.') count++;
+        }
+        if (count != 3) return false;
+
+        String[] parts = s.split("\\.");
+        if (parts.length != 4) return false;
+
+        for (int i = 0; i < parts.length; i++) {
+            String p = parts[i];
+            if (p.length() == 0 || p.length() > 3) return false;
+
+            for (int j = 0; j < p.length(); j++) {
+                char c = p.charAt(j);
+                if (j == 0) {
+                    if (c == '0' && p.length() > 1) return false; // leading zero
+                }
+
+                if (!Character.isDigit(c)) return false;
+            }
+
+            int num = Integer.parseInt(p);
+            if (num < 0 || num > 255) return false;
+        }
+
+        return true;
+    }
+
+    public boolean isIPv6(String s) {
+        int count = 0;
+        for (char c : s.toCharArray()) {
+            if (c == ':') count++;
+        }
+        if (count != 7) return false;
+
+        String[] parts = s.split(":");
+        if (parts.length != 8) return false;
+
+        for (int i = 0; i < parts.length; i++) {
+            String p = parts[i];
+            if (p.length() == 0 || p.length() > 4) return false;
+
+            for (int j = 0; j < p.length(); j++) {
+                char c = p.charAt(j);
+                if (Character.isDigit(c)) continue;
+                if (c >= 'a' && c <= 'f') continue;
+                if (c >= 'A' && c <= 'F') continue;
+
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
