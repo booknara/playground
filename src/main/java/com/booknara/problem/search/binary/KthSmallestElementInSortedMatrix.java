@@ -1,4 +1,4 @@
-package com.booknara.problem.heap;
+package com.booknara.problem.search.binary;
 
 import com.booknara.problem.common.Pair;
 
