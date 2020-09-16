@@ -26,17 +26,18 @@ public class KthSmallestElementInSortedMatrix {
             // mid value is in the matrix all the time
             // because if mid is not in the matrix, while loop can't finish and keep looping
             // until the final answer is found in the matrix
-            if (getSmallerNumber(matrix, mid) >= k) {
-                r = mid;
-            } else {
+            int kth = getKthNumber(matrix, mid);
+            if (kth < k) {
                 l = mid + 1;
+            } else {
+                r = mid;
             }
         }
 
         return r;
     }
 
-    public int getSmallerNumber(int[][] matrix, int m) {
+    public int getKthNumber(int[][] matrix, int m) {
         // start from top, right corner
         int res = 0;
         int i = 0, j = matrix[0].length - 1;
