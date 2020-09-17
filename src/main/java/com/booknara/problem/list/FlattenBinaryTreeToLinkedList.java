@@ -11,6 +11,29 @@ import java.util.Stack;
 public class FlattenBinaryTreeToLinkedList {
     // T:O(n), S:O(h)
     public void flatten(TreeNode root) {
+        if (root == null) return;
+
+        flatten(root.left);
+        flatten(root.right);
+
+        if (root.left != null) {
+            TreeNode left = root.left;
+            root.left = null;
+            if (root.right != null) {
+                TreeNode right = root.right;
+                TreeNode temp = left;
+                // find the right leaf node of left node
+                while (temp.right != null) {
+                    temp = temp.right;
+                }
+                temp.right = right;
+            }
+
+            root.right = left;
+        }
+    }
+
+    public void flatten1(TreeNode root) {
         // input check
         if (root == null) return;
         Stack<TreeNode> stack = new Stack<>();
@@ -36,7 +59,7 @@ public class FlattenBinaryTreeToLinkedList {
         }
     }
 
-    public void flatten1(TreeNode root) {
+    public void flatten2(TreeNode root) {
         getTail(root);
     }
 
@@ -59,7 +82,7 @@ public class FlattenBinaryTreeToLinkedList {
     }
 
     Stack<TreeNode> stack;
-    public void flatten2(TreeNode root) {
+    public void flatten3(TreeNode root) {
         if (root == null) return;
 
         stack = new Stack<>();
