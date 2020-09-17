@@ -7,24 +7,21 @@ import com.booknara.problem.common.ListNode;
  * https://leetcode.com/problems/merge-two-sorted-lists/
  */
 public class MergeTwoSortedLists {
+    // T:O(n + m), S:O(1)
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        if (l1 == null || l2 == null) {
-            return l1 == null ? l2 : l1;
-        }
-
         ListNode head = new ListNode(0);
         ListNode cur = head;
         while (l1 != null && l2 != null) {
-            ListNode node;
-            if (l1.val < l2.val) {
-                node = l1;
+            if (l1.val <= l2.val) {
+                // add l1 to cur
+                cur.next = l1;
                 l1 = l1.next;
             } else {
-                node = l2;
+                // add l2 to cur
+                cur.next = l2;
                 l2 = l2.next;
             }
 
-            cur.next = node;
             cur = cur.next;
         }
 
