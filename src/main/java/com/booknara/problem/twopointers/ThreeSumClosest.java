@@ -7,39 +7,35 @@ import java.util.Arrays;
  * https://leetcode.com/problems/3sum-closest/
  */
 public class ThreeSumClosest {
-    // input : integer array, integer target
-    // output : the sum of the three integers which is the closest to target
+    // T:(n^2), S:O(1)
     public int threeSumClosest(int[] nums, int target) {
-        // input check, nums.length >= 3
-        Arrays.sort(nums);  // sort ascending
-
-        int sum = 3 * 10 * 10 * 10; // max number of array element 10^3 * 3(numbers)
+        // input check nums >= 3
+        long sum = Integer.MAX_VALUE;
+        Arrays.sort(nums);  // ascending order
         for (int i = 0; i < nums.length - 2; i++) {
-            int l = i + 1;  // no need to check i or less than i
-            int r = nums.length - 1;
-            int tempSum = 0;
+            int pivot = nums[i];
+            int l = i + 1, r = nums.length - 1;
+
             while (l < r) {
-                tempSum = nums[i] + nums[l] + nums[r];
-                if (tempSum == target) return target;
+                int localSum = pivot + nums[l] + nums[r];
+                if (localSum == target) return target;
 
                 // check existing sum and current best sum
-                if (Math.abs(sum - target) > Math.abs(tempSum - target)) {
-                    sum = tempSum;
+                if (Math.abs(localSum - target) < Math.abs(sum - target)) {
+                    sum = localSum;
                 }
 
-                if (nums[l] + nums[r] + nums[i] - target < 0) {
+                if (localSum < target) {
                     // increase
                     l++;
-                    if (l == i) l++;
                 } else {
                     // decrease
                     r--;
-                    if (r == i) r--;
                 }
             }
         }
 
-        return sum;
+        return (int) sum;
     }
 
     public int threeSumClosest1(int[] nums, int target) {
