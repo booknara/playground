@@ -46,4 +46,43 @@ public class VerifyingAlienDictionary {
         // One of strings is a subset
         return m <= n;
     }
+
+    public boolean isAlienSorted1(String[] words, String order) {
+        // input check words >= 1
+        // order.length == 26
+        int[] bucket = new int[26];
+        for (int i = 0; i < order.length(); i++) {
+            char c = order.charAt(i);
+            bucket[c - 'a'] = i;
+        }
+
+        // bucket has numbers. like bucket['h'- 'a'] = 0
+        for (int i = 1; i < words.length; i++) {
+            // compare two words
+            String pre = words[i - 1];
+            String cur = words[i];
+            int j = 0;
+            boolean guarantee = false;
+            while (j < pre.length() && j < cur.length()) {
+                if (bucket[pre.charAt(j) - 'a'] == bucket[cur.charAt(j) - 'a']) {
+                    j++;
+                    continue;
+                }
+
+                if (bucket[pre.charAt(j) - 'a'] > bucket[cur.charAt(j) - 'a']) {
+                    return false;
+                }
+
+                guarantee = true;
+                break;
+            }
+
+            if (!guarantee) {
+                if (pre.length() > cur.length()) return false;
+            }
+        }
+
+        return true;
+    }
+
 }
