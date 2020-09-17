@@ -11,21 +11,18 @@ import java.util.Stack;
 public class ValidateBST {
     // T:O(n), S:O(h)
     public boolean isValidBST(TreeNode root) {
-        return isBST(root, null, null);
+        if (root == null) return true;
+
+        return dfs(root, null, null);
     }
 
-    public boolean isBST(TreeNode node, Integer min, Integer max) {
-        if (node == null) {
-            return true;
-        }
+    public boolean dfs(TreeNode node, Integer min, Integer max) {
+        if (node == null) return true;
 
         if (min != null && min >= node.val) return false;
-        if (max != null && max <= node.val) return false;
+        if (max != null && node.val >= max) return false;
 
-        if (!isBST(node.left, min, node.val)) return false;
-        if (!isBST(node.right, node.val, max)) return false;
-
-        return true;
+        return dfs(node.left, min, node.val) && dfs(node.right, node.val, max);
     }
 
     public boolean isValidBST1(TreeNode root) {
