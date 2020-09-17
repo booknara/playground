@@ -2,66 +2,107 @@ package com.booknara.problem.list;
 
 import com.booknara.problem.common.ListNode;
 
+import java.util.Stack;
+
 /**
  * 445. Add Two Numbers II (Medium)
  * https://leetcode.com/problems/add-two-numbers-ii/
  */
 public class AddTwoNumbersII {
+    // T:O(max(n, m) + 1), S:O(max(n, m))
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1 == null && l2 == null) return null;
-        if (l1 == null) return l2;
-        if (l2 == null) return l1;
+        // input check, non-empty linked list
 
-        //System.out.println("l1");
-        ListNode r1 = reverse(l1);
-        //System.out.println("l2");
-        ListNode r2 = reverse(l2);
-
-        return reverse(sum(r1, r2));
-    }
-
-    public ListNode sum(ListNode node1, ListNode node2) {
         ListNode head = new ListNode(0);
         ListNode cur = head;
+        ListNode reverse1 = reverse(l1);
+        ListNode reverse2 = reverse(l2);
         int carry = 0;
-        while (node1 != null || node2 != null || carry != 0) {
-            int num1 = 0;
-            if (node1 != null) {
-                num1 = node1.val;
-                node1 = node1.next;
+        while (reverse1 != null || reverse2 != null || carry == 1) {
+            int num1 = 0, num2 = 0;
+            if (reverse1 != null) {
+                num1 = reverse1.val;
+                reverse1 = reverse1.next;
             }
 
-            int num2 = 0;
-            if (node2 != null) {
-                num2 = node2.val;
-                node2 = node2.next;
+            if (reverse2 != null) {
+                num2 = reverse2.val;
+                reverse2 = reverse2.next;
             }
 
-            int num = num1 + num2 + carry;
-            if (num > 9) {
-                carry = 1;
-            } else {
-                carry = 0;
-            }
-            num = num % 10;
-            cur.next = new ListNode(num);
+            int sum = num1 + num2 + carry;
+            carry = sum / 10;
+            sum %= 10;
+
+            cur.next = new ListNode(sum);
             cur = cur.next;
+        }
+
+        return reverse(head.next);
+    }
+
+    public ListNode reverse(ListNode node) {
+        // reverse node. e.g. 1->2->3 => 3->2->1
+        ListNode head = new ListNode(0);
+        head.next = node;
+        while (node.next != null) {
+            ListNode temp = node.next;
+            node.next = temp.next;
+            temp.next = head.next;
+            head.next = temp;
         }
 
         return head.next;
     }
 
-    public ListNode reverse(ListNode node) {
-        // reverse node. e.g. 1->2->3 => 3->2->1
-        ListNode head = node;
-        while (node.next != null) {
-            ListNode p = node.next;
-            node.next = p.next;
+    // T:O(max(n, m) + 1), S:O(max(n + m))
+    public ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
+        // input check, non-empty linked list
 
-            p.next = head;
-            head = p;
+        ListNode head = new ListNode(0);
+
+        int carry = 0;
+        Stack<ListNode> stack1 = new Stack<>();
+        while (l1 != null) {
+            stack1.push(l1);
+            l1 = l1.next;
         }
 
-        return head;
+        Stack<ListNode> stack2 = new Stack<>();
+        while (l2 != null) {
+            stack2.push(l2);
+            l2 = l2.next;
+        }
+
+        while (!stack1.isEmpty() || !stack2.isEmpty() || carry == 1) {
+            int num1 = 0, num2 = 0;
+            if (!stack1.isEmpty()) {
+                num1 = stack1.pop().val;
+            }
+
+            if (!stack2.isEmpty()) {
+                num2 = stack2.pop().val;
+            }
+
+            int sum = num1 + num2 + carry;
+            carry = sum / 10;
+            sum %= 10;
+
+            ListNode list = new ListNode(sum);
+            list.next = head.next;
+            head.next = list;
+        }
+
+        return head.next;
     }
 }
+/**
+
+ 5 -> 6 -> 4
+ 6 -> 5 -> 4
+ 4 -> 6 -> 5
+
+ [7,2,4,3]
+   [5,6,4]
+ [7,8,0,7] -> [7,0,8,7]
+ */
