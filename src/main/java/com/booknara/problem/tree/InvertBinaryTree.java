@@ -19,4 +19,24 @@ public class InvertBinaryTree {
 
         return root;
     }
+
+    // T:O(n), S:O(h)
+    public TreeNode invertTree1(TreeNode root) {
+        if (root == null) return root;
+
+        traverse(root);
+        return root;
+    }
+
+    public void traverse(TreeNode node) {
+        if (node == null) return;
+
+        TreeNode temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+
+        traverse(node.left);
+        traverse(node.right);
+    }
+
 }
