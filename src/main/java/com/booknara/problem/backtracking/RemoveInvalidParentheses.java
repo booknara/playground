@@ -42,14 +42,14 @@ public class RemoveInvalidParentheses {
             return;
         }
 
+        if (ignore > minIgnore) return;
+
         if (s.charAt(index) != '(' && s.charAt(index) != ')') {
             // letters
             builder.append(s.charAt(index));
             backtracking(s, index + 1, openCount, closeCount, ignore, builder, res);
             builder.deleteCharAt(builder.length() - 1);
         } else {
-            // Case #1 (ignore)
-            backtracking(s, index + 1, openCount, closeCount, ignore + 1, builder, res);
 
             if (s.charAt(index) == '(') {
                 // Case # 2 (backtracking)
@@ -66,6 +66,10 @@ public class RemoveInvalidParentheses {
                 }
             }
         }
+
+        // Case #1 (ignore)
+        backtracking(s, index + 1, openCount, closeCount, ignore + 1, builder, res);
+
     }
 }
 /**
