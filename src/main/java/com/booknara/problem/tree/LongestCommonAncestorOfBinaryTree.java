@@ -2,6 +2,9 @@ package com.booknara.problem.tree;
 
 import com.booknara.problem.common.TreeNode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * 236. Lowest Common Ancestor of a Binary Tree (Medium)
  * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
@@ -64,4 +67,40 @@ public class LongestCommonAncestorOfBinaryTree {
         return left || right || node.val == p.val || node.val == q.val;
     }
 
+    // T: O(n), S: O(n)
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        // p, q exist in the true
+        if (root == null) return null;
+
+        int min, max;
+        if (p.val < q.val) {
+            min = p.val;
+            max = q.val;
+        } else {
+            min = q.val;
+            max = p.val;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+
+                if (node.val == min || node.val == max) return node;
+
+                if (min < node.val && node.val < max) return node;
+
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+
+        return null;
+    }
 }
