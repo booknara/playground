@@ -19,9 +19,7 @@ public class AlienDictionary {
         for (String w: words) {
             for (char c: w.toCharArray()) {
                 inDegree[c - 'a'] = 0;
-                if (!graph.containsKey(c)) {
-                    graph.put(c, new ArrayList<>());
-                }
+                graph.putIfAbsent(c, new ArrayList<>());
             }
         }
 
@@ -80,6 +78,7 @@ public class AlienDictionary {
             }
         }
 
+        // validation
         return builder.length() == graph.size() ? builder.toString() : "";
     }
 }
