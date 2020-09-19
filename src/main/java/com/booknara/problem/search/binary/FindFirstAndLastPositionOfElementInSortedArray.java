@@ -1,4 +1,4 @@
-package com.booknara.problem.tree.bst;
+package com.booknara.problem.search.binary;
 
 /**
  * 34. Find First and Last Position of Element in Sorted Array (Medium)
