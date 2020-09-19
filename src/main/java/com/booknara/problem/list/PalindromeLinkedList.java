@@ -2,7 +2,9 @@ package com.booknara.problem.list;
 
 import com.booknara.problem.common.ListNode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -31,6 +33,7 @@ public class PalindromeLinkedList {
         // Reverse second half node
         slow = reverse(slow);
 
+        // compare only half
         while (slow != null) {
             if (slow.val != head.val) {
                 return false;
@@ -54,6 +57,25 @@ public class PalindromeLinkedList {
 
         return curHead;
     }
+
+    /**
+
+     1->2->3->4
+     .  t
+
+     1->2->2->1
+     s     s
+     f     f
+     if (f.next != null) move one more
+
+     1->2->2->1
+     1->2
+     1->2->1
+     1->2
+     s  s
+     f     f
+
+     */
 
     public boolean isPalindrome1(ListNode head) {
         if (head == null) return true;
@@ -79,4 +101,24 @@ public class PalindromeLinkedList {
 
         return true;
     }
+
+    // T:O(n), S:O(n)
+    public boolean isPalindrome2(ListNode head) {
+        if (head == null) return true;
+
+        Deque<Integer> dq = new ArrayDeque<>();
+        while (head != null) {
+            dq.offerLast(head.val);
+            head = head.next;
+        }
+
+        while (dq.size() >= 2) {
+            int first = dq.pollFirst();
+            int last = dq.pollLast();
+            if (first != last) return false;
+        }
+
+        return true;
+    }
+
 }
