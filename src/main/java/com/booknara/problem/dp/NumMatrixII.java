@@ -5,27 +5,40 @@ package com.booknara.problem.dp;
  * https://leetcode.com/problems/range-sum-query-2d-immutable/
  */
 public class NumMatrixII {
-    int[][] dp;
-    // T:O(n^2), S:O(n^2)
+    int[][] matrix;
+
+    // T:O(n*m), S:O(1)
     public NumMatrixII(int[][] matrix) {
-        if (matrix == null || matrix.length == 0) {
-            return;
-        }
+        this.matrix = matrix;
 
-        int m = matrix.length, n = matrix[0].length;
-        dp = new int[m + 1][n + 1];
+        if (matrix == null || matrix.length == 0) return;
 
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                // each dp[i - 1][j] and dp[i][j - 1] already contains dp[i - 1][j - 1]
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1];
+        int m = matrix.length;
+        int n = matrix[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                }
+
+                int up = 0;
+                int left = 0;
+                int diagonal = 0;
+                if (i != 0) left = matrix[i - 1][j];
+                if (j != 0) up = matrix[i][j - 1];
+                if (i != 0 && j != 0) diagonal = matrix[i - 1][j - 1];
+
+                matrix[i][j] = left + up - diagonal + matrix[i][j];
             }
         }
     }
 
-    // T:O(1), S:O(1)
     public int sumRegion(int row1, int col1, int row2, int col2) {
-        // (row1, col1) ~ (row2, col2)
-        return dp[row2 + 1][col2 + 1] - dp[row2 + 1][col1] - dp[row1][col2 + 1] + dp[row1][col1];
+        int up = 0, left = 0, diagonal = 0;
+        if (row1 != 0) up = matrix[row1 - 1][col2];
+        if (col1 != 0) left = matrix[row2][col1 - 1];
+        if (row1 != 0 && col1 != 0) diagonal = matrix[row1 - 1][col1 - 1];
+
+        return matrix[row2][col2] - up - left + diagonal;
     }
 }
