@@ -7,9 +7,8 @@ package com.booknara.problem.tree.bst;
 public class FindFirstAndLastPositionOfElementInSortedArray {
     // T:O(logn), S:O(1)
     public int[] searchRange(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return new int[] {-1, -1};
-        }
+        int[] res = new int[] {-1, -1};
+        if (nums == null || nums.length == 0) return res;
 
         int l = 0, r = nums.length - 1;
         while (l < r) {
@@ -21,21 +20,27 @@ public class FindFirstAndLastPositionOfElementInSortedArray {
             }
         }
 
-        if (nums[r] != target) {
-            return new int[] {-1, -1};
-        }
+        // Not exist
+        if (nums[r] != target) return res;
 
-        // System.out.println(l);
-        // System.out.println(r);
-        int start = l;
-        int end = l + 1;
-        while (end < nums.length) {
-            if (nums[end] != target) {
+        // r = the first position of element
+        res[0] = r;
+        res[1] = r;
+        for (int i = r + 1; i < nums.length; i++) {
+            if (nums[i] != target) {
                 break;
             }
-            end++;
+            res[1] = i;
         }
 
-        return new int[] {start, end - 1};
+        return res;
     }
 }
+/**
+ Input: nums = [5,7,7,8,8,10], target = 8
+ Output: [3,4]
+
+ [0,1,2,3,4, 5] , [0,5] m = 2, value = 7 l = m + 1
+ [5,7,7,8,8,10]   [3,5] m = 4, value = 8 r = m;
+ [3,4] m = 3, value = 8, r = m;
+ */
