@@ -30,3 +30,20 @@ public class DiameterBinaryTree {
         return Math.max(l, r) + 1;
     }
 }
+/**
+ with root (3)
+ 1
+ / \
+ 2   3
+ / \
+ 4   5
+
+ without root (4)
+ 1
+ /
+ 2
+ / \
+ 4   5
+ /     \
+ 3       6
+ */
