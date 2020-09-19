@@ -92,4 +92,48 @@ public class Subsets {
 
         return result;
     }
+
+    // T:O(n*2^n), S:O(n*2^n)
+    public List<List<Integer>> subsets3(int[] nums) {
+        // input check
+        List<List<Integer>> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) return res;
+
+        List<Integer> list = new ArrayList<>(); // n times
+        traverse(nums, 0, list, res);
+
+        return res;
+    }
+
+    // T:O(2^n), S:O(2^n)
+    public void traverse(int[] nums, int index, List<Integer> list, List<List<Integer>> res) {
+        if (index == nums.length) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+
+        // ignore
+        traverse(nums, index + 1, list, res);
+
+        // insert
+        list.add(nums[index]);
+        traverse(nums, index + 1, list, res);
+        list.remove(list.size() - 1);
+    }
 }
+/**
+ Input: nums = [1,2,3]
+
+ each index has two case
+ ignore
+ insert
+ . . .
+ 3
+ 2 .
+ 3
+
+ 1 . .
+ 3
+ 2 .
+ 3
+ */
