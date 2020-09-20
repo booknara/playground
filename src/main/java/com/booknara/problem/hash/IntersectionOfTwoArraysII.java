@@ -56,12 +56,19 @@ public class IntersectionOfTwoArraysII {
         List<Integer> list = new ArrayList<>();
         int i = 0, j = 0;
         while (i < nums1.length && j < nums2.length) {
-            // Three cases
-            if (nums1[i] == nums2[j]) {
-                list.add(nums1[i]);
+            // while (i != 0 && i < nums1.length && nums1[i - 1] == nums1[i]) i++;
+            // while (j != 0 && j < nums2.length && nums2[j - 1] == nums2[j]) j++;
+
+            // if (i == nums1.length) break;
+            // if (j == nums2.length) break;
+
+            int n1 = nums1[i];
+            int n2 = nums2[j];
+            if (n1 == n2) {
+                list.add(n1);
                 i++;
                 j++;
-            } else if (nums1[i] < nums2[j]) {
+            } else if (n1 < n2) {
                 i++;
             } else {
                 j++;
