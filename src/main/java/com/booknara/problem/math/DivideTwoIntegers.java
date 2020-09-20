@@ -29,14 +29,8 @@ public class DivideTwoIntegers {
         dividend = Math.abs(dividend);
         divisor = Math.abs(divisor);
 
-        // O(n)
-        // while (dividend > divisor) {
-        //     dividend -= divisor;
-        //     quotient++;
-        // }
-
         // O(logn)
-        while (dividend >= divisor) {
+        while (dividend >= divisor) {   // [2,2] -> 1
             int accum = divisor, count = 1;
             while (dividend - accum >= accum) {
                 accum = accum << 1;
