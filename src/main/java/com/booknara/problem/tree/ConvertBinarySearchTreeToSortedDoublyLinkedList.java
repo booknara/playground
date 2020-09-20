@@ -11,9 +11,10 @@ public class ConvertBinarySearchTreeToSortedDoublyLinkedList {
     public Node treeToDoublyList(Node root) {
         if (root == null) return null;
 
-        Node head = null, prev = null;
-        // In-order traverse
+        Node head = new Node(0);
+        Node prev = null;
         Stack<Node> stack = new Stack<>();
+
         while (!stack.isEmpty() || root != null) {
             while (root != null) {
                 stack.push(root);
@@ -21,26 +22,31 @@ public class ConvertBinarySearchTreeToSortedDoublyLinkedList {
             }
 
             root = stack.pop();
-            if (prev == null) {
-                // the left most node
-                head = root;
-            } else {
-                root.left = prev;
+            if (prev != null) {
                 prev.right = root;
+                root.left = prev;
+            } else {
+                head.right = root; // the left most node
             }
-
-            // print
             prev = root;
             root = root.right;
         }
 
-        // prev : the right most node
-        prev.right = head;
-        head.left = prev;
+        prev.right = head.right;
+        head.right.left = prev;
 
-        return head;
+        return head.right;
     }
+    /**
+     Preorder traverse
 
+         4
+        / \
+       2   5
+      / \
+     1   3
+
+     */
     Node first = null, last = null;
     public Node treeToDoublyList1(Node root) {
         if (root == null) {
