@@ -7,30 +7,28 @@ package com.booknara.problem.dp;
 public class DecodeWays {
     // DP solution, T:O(n), S:O(n)
     public int numDecodings(String s) {
-        // input check
+        // Assume s is valid to generate decode ways
         if (s == null || s.length() == 0) return 0;
 
-        int[] dp = new int[s.length() + 2];
+        int[] dp = new int[s.length() + 1];
         dp[0] = 1;
-        dp[1] = 1;
-
         for (int i = 0; i < s.length(); i++) {
             // one digit
-            if (s.charAt(i) != '0') {
-                dp[i + 2] = dp[i + 1];
+            char c = s.charAt(i);
+            if (c != '0') {
+                dp[i + 1] = dp[i];
             }
 
             // two digits
-            if (i < 1) continue;    // not allow to make two digits because of substring function
-
-            // two digits (10 ~ 26)
-            int d = Integer.parseInt(s.substring(i - 1, i + 1));
-            if (d >= 10 && d <= 26) {
-                dp[i + 2] += dp[i];
+            if (i != 0) {
+                int two = Integer.parseInt(s.substring(i - 1, i + 1));
+                if (two >= 10 && two <= 26) {
+                    dp[i + 1] += dp[i - 1];
+                }
             }
         }
 
-        return dp[dp.length - 1];
+        return dp[s.length()];
     }
 
     // Recursive method: TLE, T:O(2^n), S:O(h)
