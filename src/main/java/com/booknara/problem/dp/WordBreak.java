@@ -9,35 +9,38 @@ import java.util.Set;
  * https://leetcode.com/problems/word-break/
  */
 public class WordBreak {
-    Set<String> set = new HashSet<>();
-    Boolean[] memo;
+    // T:O(n^2), S:O(n)
     public boolean wordBreak(String s, List<String> wordDict) {
-        if (s == null || s.length() == 0) {
-            return true;
-        }
+        // input check, s is non-empty, wordDic is non-empty
+        int n = s.length();
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true;
+        // list to set
+        Set<String> set = new HashSet<>(wordDict);
 
-        set.addAll(wordDict);
-        memo = new Boolean[s.length()];
-        return dfs(s, 0, memo);
-    }
+        for (int i = 0; i < n; i++) {
+            if (!dp[i]) continue;   // no need to follow up
 
-    public boolean dfs(String s, int start, Boolean[] memo) {
-        //System.out.println("start : " + start);
-        if (start == s.length()) {
-            return true;
-        }
-
-        if (memo[start] != null) {
-            return memo[start];
-        }
-
-        for (int i = start + 1; i <= s.length(); i++) {
-            if (set.contains(s.substring(start, i))
-                    && dfs(s, i, memo)) {
-                return memo[start] = true;
+            for (int j = i + 1; j < n + 1; j++) {
+                String sub = s.substring(i, j);
+                if (set.contains(sub)) {
+                    dp[j] = true;
+                }
             }
         }
 
-        return memo[start] = false;
+        return dp[s.length()];
     }
 }
+/**
+ Input: s = "applepenapple", wordDict = ["apple", "pen"]
+ 01234
+ "applepenapple"
+ tfffft
+ Output: true
+
+ Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+ "catsandog"
+ tffttfftft
+ Output: false
+ */
