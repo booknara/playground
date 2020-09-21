@@ -7,21 +7,14 @@ package com.booknara.problem.search.binary;
 public class FindMinimumInRotatedSortedArray {
     // T:O(logn), S:O(1)
     public int findMin(int[] nums) {
-        // input check
-        if (nums == null || nums.length == 0) return 0;
-
-        // not rotated, pivot is 0 index
-        if (nums[0] < nums[nums.length - 1]) return nums[0];
+        if (nums.length == 1) return nums[0];
 
         int l = 0, r = nums.length - 1;
         while (l < r) {
             int m = l + (r - l) / 2;
-            if (nums[l] < nums[r]) {
-                // pivot is at most left index
-                break;
-            }
+            if (nums[l] < nums[r]) return nums[l];
 
-            // add '=' because of [2, 1] edge case
+            // e.g. [2,1]
             if (nums[l] <= nums[m]) {
                 l = m + 1;
             } else {
@@ -29,6 +22,6 @@ public class FindMinimumInRotatedSortedArray {
             }
         }
 
-        return nums[l];
+        return nums[r];
     }
 }
