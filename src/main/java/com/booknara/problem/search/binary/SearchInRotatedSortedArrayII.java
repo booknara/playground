@@ -5,7 +5,7 @@ package com.booknara.problem.search.binary;
  * https://leetcode.com/problems/search-in-rotated-sorted-array-ii/
  */
 public class SearchInRotatedSortedArrayII {
-    // T:O(logn), S:O(1)
+    // T:O(n), S:O(1)
     public boolean search(int[] nums, int target) {
         if (nums == null || nums.length == 0) return false;
 
@@ -31,7 +31,8 @@ public class SearchInRotatedSortedArrayII {
                     r = m - 1; // [0,2]
                 }
             } else {
-                l++;
+                // nums[l] == nums[m], but it doesn't guarantee all the same value btw l and m
+                l++;    // T:O(n)
             }
         }
 
