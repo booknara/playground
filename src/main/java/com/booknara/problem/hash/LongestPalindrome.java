@@ -14,22 +14,23 @@ public class LongestPalindrome {
             bucket[c]++;
         }
 
-        boolean odd = false;
         int res = 0;
-        for (int i: bucket) {
-            if (i == 0) continue;
+        boolean odd = false;
+        for (int n: bucket) {
+            if (n == 0) continue;
 
-            if ((i & 1) == 1) {
-                // e.g. ccc
-                res += (i - 1);
-                odd = true;
+            if (n % 2 == 0) {
+                // even
+                res += n;
             } else {
-                // e.g. aa
-                res += i;
+                // odd (e.g. "acccddd")
+                res += (n - 1);
+                odd = true;
             }
         }
 
-        // e.g. aabbb -> 2 + 2 + 1(odd)
-        return odd ? res + 1 : res;
+        if (odd) res++;
+
+        return res;
     }
 }
