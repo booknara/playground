@@ -99,4 +99,71 @@ public class WallsAndGates {
             this.d = d;
         }
     }
+
+    public void wallsAndGates2(int[][] rooms) {
+        // input check
+        if (rooms == null || rooms.length == 0) return;
+
+        int m = rooms.length;
+        int n = rooms[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (rooms[i][j] == 0) {
+                    updateCell(rooms, i, j);
+                }
+            }
+        }
+    }
+
+    public void updateCell(int[][] rooms, int r, int c) {
+        Queue<Cell> q = new LinkedList<>();
+        q.offer(new Cell(r, c, 0));
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Cell cell = q.poll();
+
+                // update if the new distance is less than the existing value
+                if (rooms[cell.r][cell.c] > cell.level) {
+                    rooms[cell.r][cell.c] = cell.level;
+                }
+
+                // four directions
+                // up
+                if (cell.r > 0 && rooms[cell.r - 1][cell.c] != -1
+                        && rooms[cell.r - 1][cell.c] > rooms[cell.r][cell.c]) {
+                    q.offer(new Cell(cell.r - 1, cell.c, cell.level + 1));
+                }
+                // down
+                if (cell.r < rooms.length - 1 && rooms[cell.r + 1][cell.c] != -1
+                        && rooms[cell.r + 1][cell.c] > rooms[cell.r][cell.c]) {
+                    q.offer(new Cell(cell.r + 1, cell.c, cell.level + 1));
+                }
+                // left
+                if (cell.c > 0 && rooms[cell.r][cell.c - 1] != -1
+                        && rooms[cell.r][cell.c - 1] > rooms[cell.r][cell.c]) {
+                    q.offer(new Cell(cell.r, cell.c - 1, cell.level + 1));
+                }
+                // right
+                if (cell.c < rooms[0].length - 1 && rooms[cell.r][cell.c + 1] != -1
+                        && rooms[cell.r][cell.c + 1] > rooms[cell.r][cell.c]) {
+                    q.offer(new Cell(cell.r, cell.c + 1, cell.level + 1));
+                }
+            }
+        }
+    }
+
+    static class Cell {
+        int r;
+        int c;
+        int level;
+
+        Cell(int r, int c, int level) {
+            this.r = r;
+            this.c = c;
+            this.level = level;
+        }
+    }
+
 }
