@@ -7,13 +7,15 @@ package com.booknara.problem.dp;
 public class BestTimeBuySellStockTransactionFee {
     // T:O(n), S:O(1)
     public int maxProfit(int[] prices, int fee) {
-        // input check: positive integer, fee >= 0
+        if (prices == null || prices.length <= 1) return 0;
 
-        int buy = Integer.MIN_VALUE;
-        int sell = 0;
-        for (int i = 0; i < prices.length; i++) {
-            buy  = Math.max(buy,  sell - prices[i]);
-            sell = Math.max(sell, prices[i] + buy - fee);
+        int profit = 0;
+        int buy = Integer.MIN_VALUE, sell = 0;
+        for (int p: prices) {
+            // buy = max(buy, sell - p) -> the existing profit - p
+            // profit = buy + p;
+            buy = Math.max(buy, sell - p);
+            sell = Math.max(sell, buy + p - fee);
         }
 
         return sell;
