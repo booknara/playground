@@ -26,22 +26,23 @@ public class LongestCommonSubsequence {
     }
 
     public int longestCommonSubsequence1(String text1, String text2) {
-        if (text1 == null || text1.length() == 0
-                || text2 == null || text2.length() == 0) {
-            return 0;
-        }
+        if (text1.length() == 0 || text2.length() == 0) return 0;
 
-        int[][] memo = new int[text1.length() + 1][text2.length() + 1];
-        for (int i = 1; i < text1.length() + 1; i++) {
-            for (int j = 1; j < text2.length() + 1; j++) {
-                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
-                    memo[i][j] = memo[i - 1][j - 1] + 1;
+        int m = text1.length();
+        int n = text2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // i = text1, j = text2
+                if (text1.charAt(i) == text2.charAt(j)) {
+                    dp[i + 1][j + 1] = dp[i][j] + 1;
                 } else {
-                    memo[i][j] = Math.max(memo[i - 1][j], memo[i][j - 1]);
+                    dp[i + 1][j + 1] = Math.max(dp[i][j + 1], dp[i + 1][j]);
                 }
             }
         }
 
-        return memo[text1.length()][text2.length()];
+        return dp[m][n];
     }
 }
