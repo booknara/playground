@@ -7,13 +7,15 @@ package com.booknara.problem.string;
 public class ValidPalindromeII {
     // T:O(n), S:O(1)
     public boolean validPalindrome(String s) {
-        // input check, non-empty string s
+        // input check, non-empty string
+        if (s.length() <= 2) return true;
+
+        // "abc"
         int l = 0, r = s.length() - 1;
         while (l < r) {
             if (s.charAt(l) != s.charAt(r)) {
-                // exclude one left character or exclude one right character
-                return isPalindrome(s.substring(l, r))
-                        || isPalindrome(s.substring(l + 1, r + 1));
+                // skip l or r
+                return isPalindrome(s, l + 1, r) || isPalindrome(s, l, r - 1);
             }
             l++;
             r--;
@@ -22,8 +24,7 @@ public class ValidPalindromeII {
         return true;
     }
 
-    public boolean isPalindrome(String s) {
-        int l = 0, r = s.length() - 1;
+    public boolean isPalindrome(String s, int l, int r) {
         while (l < r) {
             if (s.charAt(l) != s.charAt(r)) {
                 return false;
