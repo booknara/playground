@@ -11,21 +11,18 @@ import java.util.Stack;
 public class KthSmallestElementInBST {
     // T:O(h + k, h: the height of tree, k: kth element), S:O(n)
     public int kthSmallest(TreeNode root, int k) {
-        // Given problem description, root can't be null (1 ≤ k ≤ BST's total elements)
-        // Inorder iterative traverse means to retrieve from the smallest to the biggest number.
+        // root is not null, 1 <= k <= a total elements
         Stack<TreeNode> stack = new Stack<>();
         TreeNode cur = root;
-        int i = 1;
-        while (cur != null || !stack.isEmpty()) {
+        while (!stack.isEmpty() || cur != null) {
             while (cur != null) {
                 stack.push(cur);
                 cur = cur.left;
             }
 
+            k--;
             cur = stack.pop();
-            // System.out.println(cur.val);
-            if (i == k) return cur.val;
-            i++;
+            if (k == 0) return cur.val;
             cur = cur.right;
         }
 
