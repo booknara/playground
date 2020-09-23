@@ -1,5 +1,7 @@
 package com.booknara.problem.dp;
 
+import java.util.Arrays;
+
 /**
  * 309. Best Time to Buy and Sell Stock with Cooldown (Medium)
  * https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
@@ -26,22 +28,27 @@ public class BestTimeBuySellStockWithCooldown {
 
     // T:O(n), S:O(n), DP
     public int maxProfit1(int[] prices) {
-        int[] buy = new int[prices.length + 1];
-        int[] sell = new int[prices.length + 1];
-        buy[0] = Integer.MIN_VALUE;
-        // sell[0] = 0;
+        if (prices == null || prices.length <= 1) return 0;
 
-        for (int i = 1; i < prices.length + 1; i++) {
-            if (i > 1) {
-                buy[i] = Math.max(buy[i - 1], sell[i - 2] - prices[i - 1]);
+        // buy[i]  = max(buy[i - 1], sell[i - 2] - p)
+        // sell[i] = max(sell[i - 1], buy[i - 1] + p)
+        int[] buy = new int[prices.length];
+        Arrays.fill(buy, Integer.MIN_VALUE);
+        buy[0] = -prices[0];
+
+        int[] sell = new int[prices.length];
+        sell[0] = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (i == 1) {
+                buy[i] = Math.max(buy[i - 1], -prices[i]);
             } else {
-                buy[i] = -prices[i - 1];
+                buy[i] = Math.max(buy[i - 1], sell[i - 2] - prices[i]);
             }
 
-            sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i - 1]);
+            sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i]);
         }
 
-        return sell[prices.length];
+        return sell[sell.length - 1];
     }
 }
 
