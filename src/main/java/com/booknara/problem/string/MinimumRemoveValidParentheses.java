@@ -8,29 +8,28 @@ import java.util.Stack;
  */
 public class MinimumRemoveValidParentheses {
     // T:O(n), S:O(1)
-    public String minRemoveToMakeValidBetter(String s) {
-        if (s == null || s.length() == 0) {
-            return "";
-        }
+    public String minRemoveToMakeValid(String s) {
+        // input check
+        if (s == null || s.length() == 0) return "";
 
+        int open = 0;
         StringBuilder builder = new StringBuilder();
-        int count = 0;
         for (char c: s.toCharArray()) {
+            // three cases
             if (c == '(') {
-                count++;
+                open++;
                 builder.append(c);
             } else if (c == ')') {
-                if (count != 0) {
-                    count--;
+                if (open != 0) {
+                    open--;
                     builder.append(c);
                 }
             } else {
-                // lowercase letter
                 builder.append(c);
             }
         }
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < open; i++) {
             int idx = builder.lastIndexOf("(");
             builder.deleteCharAt(idx);
         }
@@ -38,7 +37,7 @@ public class MinimumRemoveValidParentheses {
         return builder.toString();
     }
 
-    public String minRemoveToMakeValid(String s) {
+    public String minRemoveToMakeValid1(String s) {
         if (s == null || s.length() == 0) {
             return "";
         }
