@@ -5,6 +5,7 @@ package com.booknara.problem.dp;
  * https://leetcode.com/problems/longest-common-subsequence/
  */
 public class LongestCommonSubsequence {
+    // T:O(m*n), S:O(min(m, n))
     public int longestCommonSubsequence(String text1, String text2) {
         if (text1 == null || text1.length() == 0
                 || text2 == null || text2.length() == 0) {
@@ -25,6 +26,7 @@ public class LongestCommonSubsequence {
         return memo[text1.length() % 2][text2.length()];
     }
 
+    // T:O(m*n), S:O(m*n)
     public int longestCommonSubsequence1(String text1, String text2) {
         if (text1.length() == 0 || text2.length() == 0) return 0;
 
