@@ -7,7 +7,7 @@ import java.util.*;
  * https://leetcode.com/problems/task-scheduler/
  */
 public class TaskScheduler {
-    // T: O(n * m), S:O(n), n: the number of tasks, m: interval
+    // T: O(n), S:O(m), n: the number of tasks, m: the number of unique tasks
     public int leastInterval(char[] tasks, int n) {
         // input check
         if (n == 0) return tasks.length;
