@@ -1,4 +1,4 @@
-package com.booknara.problem.array;
+package com.booknara.problem.dp;
 
 /**
  * 123. Best Time to Buy and Sell Stock III (Hard)
