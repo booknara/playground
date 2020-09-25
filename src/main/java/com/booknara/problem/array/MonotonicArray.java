@@ -24,35 +24,26 @@ public class MonotonicArray {
         return ascending || descending;
     }
 
+    // T:O(n), S:O(1)
     public boolean isMonotonic1(int[] A) {
-        int indicator = 0;  // 0: undeterminded, 1: ascending, -1: descending
+        // input check
+        if (A == null || A.length <= 1) return true;
+
+        // 0: un-determined, -1: decreasing, 1: increasing
+        int indicator = 0;
         for (int i = 1; i < A.length; i++) {
-            if (A[i] == A[i - 1]) {
-                // ascending/descending, both allow equal case with the previous one
+            if (A[i - 1] == A[i]) {
                 continue;
             }
 
-            switch (indicator) {
-                case 0:
-                    // assign 1, -1
-                    if (A[i] < A[i - 1]) {
-                        indicator = -1;  // descending
-                    } else {
-                        indicator = 1;  // ascending
-                    }
-                    break;
-                case -1:
-                    // should be descending
-                    if (A[i] > A[i - 1]) {
-                        return false;
-                    }
-                    break;
-                case 1:
-                    // should be ascending
-                    if (A[i] < A[i - 1]) {
-                        return false;
-                    }
-                    break;
+            if (A[i - 1] < A[i]) {
+                if (indicator == -1) return false;
+                // increasing
+                indicator = 1;
+            } else {
+                if (indicator == 1) return false;
+                // decreasing
+                indicator = -1;
             }
         }
 
