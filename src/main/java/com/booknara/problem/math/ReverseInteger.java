@@ -5,43 +5,22 @@ package com.booknara.problem.math;
  * https://leetcode.com/problems/reverse-integer/
  */
 public class ReverseInteger {
+    // T:O(n, the number of x's digits), S:O(1)
     public int reverse(int x) {
-        if (x == 0) return 0;
+        int negative = x < 0 ? -1: 1;
 
-        int positive = 1;
-        if (x < 0) {
-            positive = -1;
-            x *= positive;
-        }
-
+        x = Math.abs(x);
         long res = 0;
         while (x > 0) {
             int mod = x % 10;
-            res = res * 10 + mod;
-            if (res > Integer.MAX_VALUE) {
-                res = 0;
-                break;
-            }
             x /= 10;
+
+            res = res * 10 + mod;
+            // if overflow, return 0;
+            if (negative * res < Integer.MIN_VALUE
+                    || negative * res > Integer.MAX_VALUE) return 0;
         }
 
-        return (int) res * positive;
-    }
-
-    public int reverse1(int x) {
-        int positive = 1;
-        if (x < 0) {
-            positive = -1;
-            x *= positive;
-        }
-        String s = String.valueOf(x);
-        int res = 0;
-        try {
-            res = positive * Integer.parseInt(new StringBuilder(s).reverse().toString());
-        } catch (Exception e) {
-            //System.out.println("number exception");
-        }
-
-        return res;
+        return (int) res * negative;
     }
 }
