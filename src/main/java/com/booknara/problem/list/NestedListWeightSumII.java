@@ -1,6 +1,6 @@
 package com.booknara.problem.list;
 
-import com.booknara.problem.recursive.NestedInteger;
+import com.booknara.problem.iterator.NestedInteger;
 
 import java.util.LinkedList;
 import java.util.List;

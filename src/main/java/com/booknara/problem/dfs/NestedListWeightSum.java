@@ -1,6 +1,6 @@
 package com.booknara.problem.dfs;
 
-import com.booknara.problem.recursive.NestedInteger;
+import com.booknara.problem.iterator.NestedInteger;
 
 import java.util.List;
 
