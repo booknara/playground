@@ -51,39 +51,33 @@ public class FindAllAnagramsInString {
     // T:O(n), S:O(1)
     public List<Integer> findAnagrams1(String s, String p) {
         List<Integer> res = new ArrayList<>();
-        // input check, non-empty string p
+
         if (s.length() == 0) return res;
         if (s.length() < p.length()) return res;
 
-        int[] pBucket = new int[26];
+        int[] bucket = new int[26];
         for (char c: p.toCharArray()) {
-            pBucket[c - 'a']++;
+            bucket[c - 'a']++;
         }
 
         int[] slice = new int[26];
         int l = 0, r = 0;
         while (r < s.length()) {
-            // 00, 01, 02
-            if (r - l < p.length()) {
+            if (r - l + 1 < p.length()) {
                 slice[s.charAt(r) - 'a']++;
                 r++;
                 continue;
             }
 
-            // 03,41
-            // compare pBucket and slice
-            if (Arrays.equals(pBucket, slice)) {
+            slice[s.charAt(r) - 'a']++;
+
+            if (Arrays.equals(bucket, slice)) {
                 res.add(l);
             }
-            slice[s.charAt(r) - 'a']++;
+
             slice[s.charAt(l) - 'a']--;
             r++;
             l++;
-        }
-
-        // the remaining comparision
-        if (Arrays.equals(pBucket, slice)) {
-            res.add(l);
         }
 
         return res;
