@@ -6,7 +6,7 @@ import org.junit.Test;
 public class WordDictionaryIITest {
     @Test
     public void search() {
-        WordDictionaryII wordDictionaryII = new WordDictionaryII();
+        WordDictionary wordDictionaryII = new WordDictionary();
         wordDictionaryII.addWord("bad");
         wordDictionaryII.addWord("dad");
         wordDictionaryII.addWord("mad");
