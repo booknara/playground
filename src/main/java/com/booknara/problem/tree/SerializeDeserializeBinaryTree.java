@@ -71,6 +71,70 @@ public class SerializeDeserializeBinaryTree {
 
         return node;
     }
+
+    // BFS
+    // T:O(n), S:O(n)
+    public String serialize1(TreeNode root) {
+        if (root == null) return "";
+
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        StringBuilder builder = new StringBuilder();
+        builder.append(root.val).append(",");
+        while (!q.isEmpty()) {
+            TreeNode node = q.poll();
+
+            if (node.left == null) {
+                builder.append("#").append(",");
+            } else {
+                q.offer(node.left);
+                builder.append(node.left.val).append(",");
+            }
+
+            if (node.right == null) {
+                builder.append("#").append(",");
+            } else {
+                q.offer(node.right);
+                builder.append(node.right.val).append(",");
+            }
+        }
+
+        String res = builder.toString();
+        //System.out.println(res);
+        return res;
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize1(String data) {
+        if (data.length() == 0) return null;
+
+        int i = 0;
+        String[] node = data.split(",");
+        TreeNode root = new TreeNode(Integer.parseInt(node[i++]));
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        while (!q.isEmpty()) {
+            TreeNode tree = q.poll();
+
+            if (node[i].equals("#")) {
+                tree.left = null;
+            } else {
+                tree.left = new TreeNode(Integer.parseInt(node[i]));
+                q.offer(tree.left);
+            }
+            i++;
+
+            if (node[i].equals("#")) {
+                tree.right = null;
+            } else {
+                tree.right = new TreeNode(Integer.parseInt(node[i]));
+                q.offer(tree.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
 }
 /**
  1
