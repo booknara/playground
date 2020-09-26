@@ -27,8 +27,7 @@ public class LetterCombinationsPhoneNumber {
             return;
         }
 
-        char c = digits.charAt(index);  // 2
-        String letters = getDigitLetters(c);    // "abc"
+        String letters = getLetter(digits.charAt(index));    // "abc"
         for (char l: letters.toCharArray()) {
             builder.append(l);
             dfs(digits, index + 1, builder, res);
@@ -36,31 +35,17 @@ public class LetterCombinationsPhoneNumber {
         }
     }
 
-    public String getDigitLetters(char num) {
-        String res;
-        switch(num) {
-            case '2': res = "abc";
-                break;
-            case '3': res = "def";
-                break;
-            case '4': res = "ghi";
-                break;
-            case '5': res = "jkl";
-                break;
-            case '6': res = "mno";
-                break;
-            case '7': res = "pqrs";
-                break;
-            case '8': res = "tuv";
-                break;
-            case '9': res = "wxyz";
-                break;
-            default:
-                res = "";
-                break;
-        }
+    public String getLetter(char c) {
+        if (c == '2') return"abc";
+        if (c == '3') return"def";
+        if (c == '4') return"ghi";
+        if (c == '5') return"jkl";
+        if (c == '6') return"mno";
+        if (c == '7') return"pqrs";
+        if (c == '8') return"tuv";
+        if (c == '9') return"wxyz";
 
-        return res;
+        return "";
     }
 }
 /**
