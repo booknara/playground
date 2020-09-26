@@ -51,31 +51,4 @@ public class ValidateBST {
 
         return true;
     }
-
-    Integer num = null;
-    boolean valid = true;
-    public boolean isValidBST2(TreeNode root) {
-        if (root == null) return true;
-
-        preorder(root);
-
-        return valid;
-    }
-
-    public void preorder(TreeNode node) {
-        if (node == null) return;
-
-        preorder(node.left);
-        if (num == null) {
-            num = node.val;
-        } else {
-            if (num >= node.val) {
-                valid = false;
-            } else {
-                num = node.val;
-            }
-        }
-        preorder(node.right);
-    }
-
 }
