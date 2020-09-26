@@ -11,37 +11,45 @@ import java.util.Queue;
  * https://leetcode.com/problems/nested-list-weight-sum-ii/
  */
 public class NestedListWeightSumII {
+    // T:O(n + m), S:O(n + m)
     public int depthSumInverse(List<NestedInteger> nestedList) {
-        if (nestedList == null || nestedList.size() == 0) {
-            return 0;
+        if (nestedList == null || nestedList.size() == 0) return 0;
+
+        Queue<NestedInteger> q = new LinkedList<>();
+        for (NestedInteger i: nestedList) {
+            q.offer(i);
         }
 
-        Queue<NestedInteger> queue = new LinkedList<>();
-        for (NestedInteger ni: nestedList) {
-            queue.offer(ni);
-        }
-
-        int prev = 0;
-        int total = 0;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            int sum = 0;
+        int res = 0;
+        int sum = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
             for (int i = 0; i < size; i++) {
-                NestedInteger ni = queue.poll();
-                if (ni.isInteger()) {
-                    sum += ni.getInteger();
+                NestedInteger integer = q.poll();
+
+                if (integer.isInteger()) {
+                    sum += integer.getInteger();
                 } else {
-                    for (NestedInteger inner: ni.getList()) {
-                        queue.offer(inner);
+                    for (NestedInteger n: integer.getList()) {
+                        q.offer(n);
                     }
                 }
             }
 
-            prev += sum;
-            total += prev;
+            res += sum;
         }
 
-        return total;
+        return res;
     }
-
 }
+/**
+ Input: [1,[4,[6]]]
+ 1 * 3 = 3
+ 4 * 2 = 8
+ 6 * 1 = 6
+
+ 1 * 1 = 1
+ 4 * 1 + 1 * 1 = 4 + 1 = 5
+ 6 * 1 + 4 * 1 + 1 * 1 = 6 + 4 + 1
+ Output: 17
+ */
