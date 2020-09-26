@@ -11,17 +11,17 @@ public class MaximumSizeSubarraySumEqualsK {
     // T:O(n), S:O(n)
     public int maxSubArrayLen(int[] nums, int k) {
         // input check
-        if (nums == null || nums.length == 0) return 0;
-
-        // Key: sum, Value: index
         Map<Integer, Integer> map = new HashMap<>();
-        int sum = 0, max = 0;
+        map.put(0, -1);
+        int sum = 0;
+        int max = 0;
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
             if (sum == k) {
                 max = i + 1;
             } else if (map.containsKey(sum - k)) {
-                max = Math.max(max, i - map.get(sum - k));
+                int idx = map.get(sum - k);
+                max = Math.max(max, i - idx);
             }
 
             map.putIfAbsent(sum, i);
@@ -30,3 +30,22 @@ public class MaximumSizeSubarraySumEqualsK {
         return max;
     }
 }
+/**
+ Input: nums = [1, -1, 5, -2, 3], k = 3
+ Output: 4
+ Explanation: The subarray [1, -1, 5, -2] sums to 3 and is the longest.
+ Input: [1,-1,5,-2,3], k = 3
+ prefix [1, 0,5, 3,6]
+ [0,-1]
+ [-2, 0]
+ [-3, 1]
+ [-1, 2]
+ [0, 3]
+
+ [-2, -1, 2, 1], k = 1
+ [0,-1]
+ [-2, 0]
+ [-3, 1]
+ [-1, 2]
+ [0, 3]
+ */
