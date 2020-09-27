@@ -10,56 +10,52 @@ import java.util.Stack;
 public class ExclusiveTimeOfFunctions {
     // T:O(n), S:O(n)
     public int[] exclusiveTime(int n, List<String> logs) {
-        // N > 0 and logs list is neither null nor empty
-        if (n == 0 || logs == null || logs.size() == 0) {
-            return new int[0];
-        }
-
-        // input check 1 <= n
+        // input check n >= 1
         int[] res = new int[n];
 
-        // Stack only contains start function_id
         Stack<Integer> stack = new Stack<>();
-        Task init = new Task(logs.get(0).split(":"));
-        stack.push(init.func);
-        int previousTime = init.timestamp;
+        String[] init = logs.get(0).split(":");
+        stack.push(Integer.parseInt(init[0]));
+
+        int prevTime = Integer.parseInt(init[2]);
         for (int i = 1; i < logs.size(); i++) {
-            Task t = new Task(logs.get(i).split(":"));
-            if (t.start) {
-                // start (the stack can be empty())
+            // "0:start:0"
+            String log = logs.get(i);
+            String[] array = log.split(":");
+            int func = Integer.parseInt(array[0]);
+            int time = Integer.parseInt(array[2]);
+
+            if (array[1].equals("start")) {
                 if (!stack.isEmpty()) {
-                    int preFunc = stack.peek();
-                    res[preFunc] += t.timestamp - previousTime;
+                    res[stack.peek()] += time - prevTime;
                 }
-                stack.push(t.func);
-                previousTime = t.timestamp;
+
+                stack.push(func);
+                prevTime = time;
             } else {
                 // end (inclusive ~ inclusive range)
-                int preFunc = stack.peek();
-                res[preFunc] += t.timestamp - previousTime + 1;
                 stack.pop();
-                previousTime = t.timestamp + 1;  // increment 1 because end takes exclusive ~ inclusive range
+                res[func] += time - prevTime + 1;
+                prevTime = time + 1;      // increment 1 because end takes exclusive ~ inclusive range
             }
         }
 
         return res;
     }
-
-    static class Task {
-        int func;
-        boolean start;
-        int timestamp;
-        Task(String[] s) {
-            this.func = Integer.parseInt(s[0]);
-            this.start = s[1].equals("start");
-            this.timestamp = Integer.parseInt(s[2]);
-        }
-    }
 }
 /**
- ["0:start:0","1:start:2","1:end:5","0:end:6"]
- [0                6]
- [2  3  4  5]
- func1: 3 [0,2] = 2, [5,6] = 1
- func2: [2,5] = 4
+ function Id: 0 ~ n - 1
+ Input: n = 2, logs = ["0:start:0","1:start:2","1:end:5","0:end:6"]
+
+ logs = [
+ "0:start:0"
+ "1:start:2"
+ "1:end:5"
+ "0:end:6"
+ ]
+
+ [0  1                        6    ]
+       [2    3     4    5   ]
+   2             4              1
+ Output: [3,4]
  */
