@@ -7,32 +7,34 @@ import java.math.BigInteger;
  * https://leetcode.com/problems/multiply-strings/
  */
 public class MultiplyStrings {
+    // T:O(n*m), S:O(n + m)
     public String multiply(String num1, String num2) {
-        if (num1.length() * num2.length() == 0) {
-            return "";
-        }
+        if (num1.equals("0") || num2.equals("0")) return "0";
+        if (num1.equals("1")) return num2;
+        if (num2.equals("1")) return num1;
 
-        int m = num1.length();
-        int n = num2.length();
-        int[] number = new int[m + n];
-        for (int i = m - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
-                int mul = Character.getNumericValue(num1.charAt(i)) *
-                        Character.getNumericValue(num2.charAt(j));
+        int[] result = new int[num1.length() + num2.length()];
+        int m = result.length;
+        int carry = 0;
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');
                 int p1 = i + j, p2 = i + j + 1;
-                int sum = mul + number[p2];
 
-                number[p1] += sum / 10;     // carry
-                number[p2] = sum % 10;
+                int sum = mul + result[p2];
+                result[p2] = sum % 10;
+                result[p1] += sum / 10;
             }
         }
 
+        boolean zero = true;
         StringBuilder builder = new StringBuilder();
-        for (int value : number) {
-            // // !(builber.length() == 0 && value == 0) is to skip the leading zeros.
-            if (!(builder.length() == 0 && value == 0)) {
-                builder.append(value);
+        for (int n: result) {
+            if (n == 0 && zero) {
+                continue;
             }
+            zero = false;
+            builder.append(n);
         }
 
         return builder.length() == 0 ? "0" : builder.toString();
