@@ -30,7 +30,7 @@ public class KthLargestElementInArray {
     public int findKthLargest1(int[] nums, int k) {
         // input check
         if (nums.length == 0 || nums.length < k) {
-            new IllegalArgumentException("invalid inut");
+            new IllegalArgumentException("invalid input");
         }
 
         if (nums.length == 0 && k == 1) return nums[0];
