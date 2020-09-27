@@ -7,29 +7,22 @@ import com.booknara.problem.common.Relation;
  * https://leetcode.com/problems/find-the-celebrity/
  */
 public class FindTheCelebrity extends Relation {
+    // T:O(n), S:O(1)
     public int findCelebrity(int n) {
-        int candidate = 0;
+        int celeb = 0;
         for (int i = 1; i < n; i++) {
-            if (knows(candidate, i)) {
-                candidate = i;
+            if (knows(celeb, i)) {
+                celeb = i;
             }
         }
 
-        // System.out.println("candidate: " + candidate);
-        // verifying the candidate
         for (int i = 0; i < n; i++) {
-            // pass himsehlf/hershelf
-            if (i == candidate) {
-                continue;
-            }
+            if (celeb == i) continue;
 
-            // if celebrity knows someone, return -1
-            // if someone does not knows someone, return -1
-            if (knows(candidate, i) || !knows(i, candidate)) {
-                return -1;
-            }
+            // celeb knows i or i doesn't know celeb
+            if (knows(celeb, i) || !knows(i, celeb)) return -1;
         }
 
-        return candidate;
+        return celeb;
     }
 }
