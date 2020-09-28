@@ -10,68 +10,38 @@ import java.util.List;
 public class ZigZagConversion {
     // T:O(n, the length of string), S:O(n, the length of string)
     public String convert(String s, int numRows) {
-        if (s == null || s.length() == 0 || numRows == 1) {
-            return s;
-        }
-
-        // the number of rows StringBuilder needed
-        List<StringBuilder> builders = new ArrayList<>();
-        int next = -1;
-        // cycle variable decides a dedicated StringBuilder
-        int cycle = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (builders.size() == i) {
-                builders.add(new StringBuilder());
-            }
-
-            char c = s.charAt(i);
-            builders.get(cycle).append(c);
-            // System.out.println(cycle);
-            if (cycle == 0 || cycle == numRows - 1) {
-                next *= -1;
-            }
-
-            cycle += next;
-        }
-
-        // append builders
-        StringBuilder res = new StringBuilder();
-        for (StringBuilder b: builders) {
-            res.append(b.toString());
-        }
-
-        return res.toString();
-    }
-
-    // #1 solution
-    public String convert1(String s, int numRows) {
-        if (s == null || s.length() == 0) {
-            return "";
-        }
-
-        if (numRows == 1) {
-            return s;
-        }
+        // input check
+        if (s == null || s.length() == 0) return "";
+        if (numRows == 1) return s;
 
         List<StringBuilder> list = new ArrayList<>();
-        int cycle = numRows + (numRows - 2);
-        for (int i = 0; i < s.length(); i++) {
-            int mod = i % cycle;
+        for (int i = 0; i < numRows; i++) {
+            list.add(new StringBuilder());
+        }
 
-            if (list.size() < numRows) {
-                list.add(new StringBuilder());
+        // down -> row++
+        // up -> row--
+        boolean down = true;
+        int row = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            list.get(row).append(c);
+            if (row == numRows - 1) {
+                down = false;
+            } else if (row == 0) {
+                down = true;
             }
-            if (mod < numRows) {
-                list.get(mod).append(s.charAt(i));
+            if (down) {
+                row++;
             } else {
-                list.get(cycle - mod).append(s.charAt(i));
+                row--;
             }
         }
 
         StringBuilder res = new StringBuilder();
-        for (StringBuilder builder: list) {
-            //System.out.println(builder.toString());
-            res.append(builder.toString());
+        for (StringBuilder b: list) {
+            res.append(b.toString());
         }
 
         return res.toString();
