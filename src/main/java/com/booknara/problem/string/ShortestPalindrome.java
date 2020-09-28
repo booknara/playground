@@ -27,7 +27,6 @@ public class ShortestPalindrome {
     }
 
     // T:O(n), S:O(n)
-    // KMP partial match table
     public String shortestPalindrome1(String s) {
         // input check
         if (s == null || s.length() == 0) return "";
@@ -36,23 +35,28 @@ public class ShortestPalindrome {
         String l = s + "#" + reversed;
 
         int[] p = new int[l.length()];
+        prefix(p, l);
 
-        // i: suffix
-        // j: prefix
-        for (int i = 1; i < l.length(); i++) {
-            int j = p[i - 1];
+        return reversed.substring(0, s.length() - p[l.length() - 1]) + s;
+    }
 
-            while (j > 0 && l.charAt(i) != l.charAt(j)) {
+    //  012345678
+    // "abab#baba"
+    // [001200123]
+    // KMP partial match table
+    public void prefix(int[] p, String s) {
+        int j = 0;
+        for (int i = 1; i < s.length(); i++) {
+            while (j > 0 && s.charAt(i) != s.charAt(j)) {
                 j = p[j - 1];
             }
 
-            if (l.charAt(i) == l.charAt(j)) {
-                p[i] = j + 1;
+            if (s.charAt(i) == s.charAt(j)) {
+                j++;
             }
-            //System.out.println(p[i]);
-        }
 
-        return reversed.substring(0, s.length() - p[l.length() - 1]) + s;
+            p[i] = j;
+        }
     }
 }
 /**
