@@ -11,44 +11,34 @@ public class IntervalListIntersections {
     // Aug 21, 2020 version
     // T:O(n + m), S:O(n + m)
     public int[][] intervalIntersection(int[][] A, int[][] B) {
-        // input check
-        if (A == null || B == null
-                || A.length * B.length == 0) return new int[][] {};
+        if (A == null || A.length == 0) return new int[0][0];
+        if (B == null || B.length == 0) return new int[0][0];
 
-        int idxA = 0, idxB = 0;
+        int i = 0, j = 0;
         List<int[]> list = new ArrayList<>();
-        while (idxA < A.length && idxB < B.length) {
-            int[] e1 = A[idxA];
-            int[] e2 = B[idxB];
+        while (i < A.length && j < B.length) {
+            int[] f = A[i];
+            int[] s = B[j];
 
-            // the max of start points
-            int max = Math.max(e1[0], e2[0]);
-            // the min of end points
-            int min = Math.min(e1[1], e2[1]);
+            int max = Math.max(f[0], s[0]); // start
+            int min = Math.min(f[1], s[1]); // end
+
             if (max <= min) {
+                // overlapped
                 list.add(new int[] {max, min});
             }
 
-            // compare end value
-            if (e1[1] < e2[1]) {
-                idxA++;
-            } else if (e1[1] > e2[1]) {
-                idxB++;
+            if (f[1] < s[1]) {
+                i++;
             } else {
-                // e1[1] == e2[1]
-                // [3,5], [4,5]
-                if (e1[0] < e2[0]) {
-                    idxA++;
-                } else {
-                    idxB++;
-                }
+                j++;
             }
         }
 
         int[][] res = new int[list.size()][2];
-        int i = 0;
-        for (int[] e: list) {
-            res[i++] = e;
+        int n = 0;
+        for (int[] l: list) {
+            res[n++] = l;
         }
 
         return res;
