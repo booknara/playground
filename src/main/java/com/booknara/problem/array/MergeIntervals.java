@@ -12,6 +12,67 @@ import java.util.PriorityQueue;
 public class MergeIntervals {
     // T:O(n*logn) S:O(n)
     public int[][] merge(int[][] intervals) {
+        // input check
+        if (intervals == null || intervals.length == 0) return new int[0][0];
+        if (intervals.length == 1) return intervals;
+
+        Arrays.sort(intervals, (i1, i2) -> {
+            // based on start integer (ascending)
+            return Integer.compare(i1[0], i2[0]);
+        });
+
+        List<int[]> list = new ArrayList<>();
+        int[] temp = intervals[0];
+
+        for (int i = 1; i < intervals.length; i++) {
+            int max = Math.max(temp[0], intervals[i][0]);
+            int min = Math.min(temp[1], intervals[i][1]);
+
+            if (max <= min) {
+                // overlapped
+                temp[0] = Math.min(temp[0], intervals[i][0]);
+                temp[1] = Math.max(temp[1], intervals[i][1]);
+            } else {
+                list.add(new int[] {temp[0], temp[1]});
+
+                // update temp
+                temp[0] = intervals[i][0];
+                temp[1] = intervals[i][1];
+            }
+        }
+
+        // the last interval
+        list.add(new int[] {temp[0], temp[1]});
+
+        // list to array
+        int[][] res = new int[list.size()][2];
+        int i = 0;
+        for (int[] n: list) {
+            res[i] = n;
+            i++;
+        }
+
+        return res;
+    }
+    /**
+     Input: intervals = [[1,3],[2,6],[8,10],[1,18]]
+     [
+     [1                           18]
+     [1   3]
+     [2       6]
+     [8    10]
+
+
+     [1                10]
+     [1   3]
+     [2       6]
+
+     [15,18]
+
+     ]
+     */
+    // T:O(n*logn) S:O(n)
+    public int[][] merge1(int[][] intervals) {
         if (intervals.length == 0) return new int[0][0];
         if (intervals.length == 1) return intervals;
 
@@ -48,7 +109,7 @@ public class MergeIntervals {
         return res;
     }
 
-    public int[][] merge1(int[][] intervals) {
+    public int[][] merge2(int[][] intervals) {
         // input check
         if (intervals == null || intervals.length == 0) return new int[0][0];
         if (intervals.length == 1) return intervals;
