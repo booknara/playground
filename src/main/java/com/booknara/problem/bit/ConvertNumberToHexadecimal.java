@@ -33,9 +33,8 @@ public class ConvertNumberToHexadecimal {
     }
 }
 /**
- Input: 26
- Output: "1a"
+ 0 -> 0
+ 16 -> 1 0000
 
- 26 = 1(1) 1010(a)
- 4 right shift for next hexadecimal
+ -1 -> 00...01 -> 11..10 -> 11..11 (-1)
  */
