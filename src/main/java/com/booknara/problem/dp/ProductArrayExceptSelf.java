@@ -23,65 +23,77 @@ public class ProductArrayExceptSelf {
         return left;
     }
 
-    // Time complexity: O(n), Space complexity: O(1)
+    // T: O(n), S: O(1)
     public int[] productExceptSelf1(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return new int[0];
-        }
+        // input check
+        if (nums == null) return new int[0];
+        if (nums.length <= 1) return nums;
 
-        int[] res = new int[nums.length];
-        for (int i = 0; i < nums.length; i++) {
-            if (i == 0) {
-                res[i] = nums[i];
-            } else {
-                res[i] = res[i - 1] * nums[i];
-            }
-            //System.out.print(res[i] + ",");
-        }
-
-        //System.out.println();
+        int n = nums.length;
+        int[] left = new int[n];
         int product = 1;
-        for (int i = res.length - 1; i >= 0; i--) {
-            if (i == 0) {
-                res[i] = product;
-            } else {
-                res[i] = res[i - 1] * product;
-            }
+        for (int i = 0; i < n; i++) {
             product *= nums[i];
-            //System.out.print(res[i] + ",");
+            left[i] = product;
         }
 
-        return res;
-    }
+        product = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            if (i == n - 1) {
+                left[i] = left[i - 1];
+            } else if (i == 0) {
+                left[i] = product;
+            } else {
+                left[i] = left[i - 1] * product;
+            }
 
-    // Time complexity: O(n), Space complexity: O(n)
-    public int[] productExceptSelf2(int[] nums) {
-        // input check, n > 1
-        int[] left = new int[nums.length];
-        left[0] = 1;
-        int[] right = new int[nums.length];
-        right[nums.length - 1] = 1;
-        for (int i = 1; i < nums.length; i++) {
-            left[i] = left[i - 1] * nums[i - 1];
-        }
-        for (int i = nums.length - 2; i >= 0; i--) {
-            right[i] = right[i + 1] * nums[i + 1];
-        }
+            product *= nums[i];
 
-        for (int i = 0; i < nums.length; i++) {
-            left[i] = left[i] * right[i];
         }
 
         return left;
     }
+
+    // T: O(n), S: O(n)
+    public int[] productExceptSelf2(int[] nums) {
+        // input check
+        if (nums == null) return new int[0];
+        if (nums.length <= 1) return nums;
+
+        int n = nums.length;
+        int product = 1;
+        int[] left = new int[n];
+        for (int i = 0; i < n; i++) {
+            product *= nums[i];
+            left[i] = product;
+        }
+
+        product = 1;
+        int[] right = new int[n];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            product *= nums[i];
+            right[i] = product;
+        }
+
+        int[] res = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (i == 0) {
+                res[i] = right[i + 1];
+            } else if (i == n - 1) {
+                res[i] = left[i - 1];
+            } else {
+                res[i] = left[i - 1] * right[i + 1];
+            }
+        }
+
+        return res;
+    }
 }
 /**
- Given an array nums of n integers where n > 1,
- return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
- Input:  [ 1, 2,3,4]
- Output: [24,12,8,6]
+ /**
+ Input:  [1,2,3, 4]
+ left    [ 1, 2, 6,24]
+ right   [24,24,12, 4]
 
- left:   [ 1, 1,2,6]
- right:  [24,12,4,1]
- Output: [24,12,8,6] left[i] * right[i]
+ Output: [24,12,8,6]
  */
