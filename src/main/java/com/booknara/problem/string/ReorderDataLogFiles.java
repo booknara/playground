@@ -10,7 +10,7 @@ import java.util.List;
  * https://leetcode.com/problems/reorder-data-in-log-files/
  */
 public class ReorderDataLogFiles {
-    // T:O(m*logm), m is the length of letter logs, S:O(n)
+    // T:O(m*logm), m is the length of logs, S:O(1)
     public String[] reorderLogFiles(String[] logs) {
         if (logs == null || logs.length <= 1) {
             return logs;
@@ -52,7 +52,7 @@ public class ReorderDataLogFiles {
         return logs;
     }
 
-    // T:O(m*logm), m is the length of letter logs, S:O(n)
+    // T:O(m*logm), m is the length of logs, S:O(1)
     public String[] reorderLogFiles1(String[] logs) {
         Arrays.sort(logs, (log1, log2) -> {
             // -1: log1, log2
