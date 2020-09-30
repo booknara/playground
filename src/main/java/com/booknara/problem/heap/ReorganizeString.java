@@ -53,56 +53,104 @@ public class ReorganizeString {
         return builder.toString();
     }
 
+    // T:O(n*logn), S:O(m, the distinct number of characters)
     public String reorganizeString1(String S) {
-        if (S == null || S.length() == 0) {
-            return S;
-        }
+        // input check
+        if (S == null || S.length() == 0) return "";
 
-        int max = 0;
-        Map<Character, Integer> map = new HashMap<>();
-        for (char c: S.toCharArray()) {
-            //System.out.println(c);
-            int count = map.getOrDefault(c, 0);
-            map.put(c, count + 1);
-            max = Math.max(max, count + 1);
-        }
-
-        if (max == 1) {
-            return S;
-        }
-
-        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>((entry1, entry2) -> {
-            return entry2.getValue() - entry1.getValue();
+        // Max heap
+        PriorityQueue<Element> pq = new PriorityQueue<>((e1, e2) -> {
+            return Integer.compare(e2.count, e1.count);
         });
 
-        for (Map.Entry<Character, Integer> entry: map.entrySet()) {
-            pq.add(entry);
+        // n
+        int[] bucket = new int[26];
+        for (char c: S.toCharArray()) {
+            bucket[c - 'a']++;
         }
 
+        // n * logn
+        // "abbbc"
+        for (int i = 0; i < bucket.length; i++) {
+            if (bucket[i] != 0) {
+                pq.offer(new Element(bucket[i], (char)('a' + i)));
+            }
+        }
+        // [1,3,1] -> [2,1] -> [1]
         StringBuilder builder = new StringBuilder();
-        while (pq.size() >= 2) {
-            Map.Entry<Character, Integer> entry1 = pq.poll();
-            Map.Entry<Character, Integer> entry2 = pq.poll();
-
-            builder.append(entry1.getKey());
-            builder.append(entry2.getKey());
-            if (entry1.getValue() - 1 != 0) {
-                entry1.setValue(entry1.getValue() - 1);
-                pq.add(entry1);
+        while (!pq.isEmpty()) {
+            if (pq.size() == 1) {
+                if (pq.peek().count >= 2) {
+                    return "";
+                } else {
+                    builder.append(pq.poll().c);
+                    return builder.toString();
+                }
             }
 
-            if (entry2.getValue() - 1 != 0) {
-                entry2.setValue(entry2.getValue() - 1);
-                pq.add(entry2);
-            }
-        }
+            // [1,3,1] -> [2,1]
+            List<Element> list = new ArrayList<>();
+            Element e1 = pq.poll();
+            Element e2 = pq.poll();
+            builder.append(e1.c);
+            builder.append(e2.c);   // babc
 
-        if (pq.size() > 0) {
-            Map.Entry<Character, Integer> last = pq.poll();
-            if (last.getValue() != 1) return "";
-            builder.append(last.getKey());
+
+            e1.count--;
+            e2.count--;
+            if (e1.count > 0) {
+                list.add(e1);
+            }
+            if (e2.count > 0) {
+                list.add(e2);
+            }
+            // [1]
+            pq.addAll(list);
         }
 
         return builder.toString();
     }
+
+    static class Element {
+        int count;
+        char c;
+        Element (int count, char c) {
+            this.count = count;
+            this.c = c;
+        }
+    }
 }
+/**
+ "abbbc"
+ Input: S = "aab"
+ Output: "aba"
+
+ Input: S = "abaca" -> true
+ Output: ""
+
+ a -> z
+ bucket[26]
+ [3,1,1] -> [2,0,0] -> [] -> false;
+
+ [1]
+ [3,1] -> [2,1] ->
+ PriorityQueue Max heap
+ two items poll()
+ [3,1,1] -> [3] -> [a,2]
+ prev = 'a' list = [a,2]
+ [2,1,1]
+ [1,1] -> b,1
+ prev = 'b'
+ [2,1] -> [a,1]
+ prev = 'a'
+ [c,1] -> []
+ prev = 'c'
+ [a,1] -> []
+
+ true;
+
+ "aab"
+ [3,1]->[2] -> return "";
+ [2,1]->[1] -> return
+ [1,1]->[] ->
+ */
