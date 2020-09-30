@@ -1,6 +1,7 @@
 package com.booknara.problem.string;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,5 +50,65 @@ public class ReorderDataLogFiles {
         }
 
         return logs;
+    }
+
+    // T:O(m*logm), m is the length of letter logs, S:O(n)
+    public String[] reorderLogFiles1(String[] logs) {
+        Arrays.sort(logs, (log1, log2) -> {
+            // -1: log1, log2
+            // 1: log2, log1
+            // 0: not change
+            Element e1 = new Element(log1);
+            Element e2 = new Element(log2);
+
+            // both letters
+            if ((e1.str.charAt(0) >= 'a' && e1.str.charAt(0) <= 'z')
+                    && (e2.str.charAt(0) >= 'a' && e2.str.charAt(0) <= 'z')) {
+                if (e1.str.equals(e2.str)) {
+                    // id compare
+                    return e1.id.compareTo(e2.id);
+                }
+
+                // str compare
+                return e1.str.compareTo(e2.str);
+            }
+
+            // number, letter -> letter, number
+            if (Character.isDigit(e1.str.charAt(0)) && (e2.str.charAt(0) >= 'a' && e2.str.charAt(0) <= 'z')) {
+                return 1;
+            }
+
+            // letter, number -> letter, number
+            if ((e1.str.charAt(0) >= 'a' && e1.str.charAt(0) <= 'z') && Character.isDigit(e2.str.charAt(0))) {
+                return -1;
+            }
+
+            // both numbers
+            if (Character.isDigit(e1.str.charAt(0)) && Character.isDigit(e2.str.charAt(0))) {
+                return 0;
+            }
+
+            return 0;
+        });
+
+        return logs;
+    }
+
+    static class Element {
+        String id;
+        String str;
+        Element (String input) {
+            int idx = input.indexOf(" ");
+            this.id = input.substring(0, idx);
+            this.str = input.substring(idx + 1);
+        }
+
+        @Override
+        public String toString() {
+            return "Element{" +
+                    "id='" + id + '\'' +
+                    ", str='" + str + '\'' +
+                    '}';
+        }
     }
 }
