@@ -19,8 +19,28 @@ public class JumpGame {
         return guaranteeIdx == 0;
     }
 
-    // Forward checking (too slow)
+    // Forward checking (Linear greedy approach)
+    // T:O(n), S:O(1)
     public boolean canJump1(int[] nums) {
+        // input check
+        int n = nums.length;
+
+        int maxPos = nums[0];
+        for (int i = 1; i < n; i++) {
+            if (maxPos < i) {
+                return false;
+            }
+
+            if (i + nums[i] > maxPos) {
+                maxPos = i + nums[i];
+            }
+        }
+
+        return true;
+    }
+
+    // Forward checking (too slow)
+    public boolean canJump2(int[] nums) {
         if (nums == null || nums.length == 0) {
             return false;
         }
