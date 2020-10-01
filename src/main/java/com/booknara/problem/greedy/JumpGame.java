@@ -6,20 +6,17 @@ package com.booknara.problem.greedy;
  */
 public class JumpGame {
     // Backward checking (Linear greedy approach)
+    // T:O(n), S:O(1)
     public boolean canJump(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return false;
-        }
-        int lastGoodPos = nums.length - 1;
-        for (int i = nums.length - 1; i >= 0; i--) {
-            // if current index i + value[index] is equal to or higher than last good position
-            // And then update
-            if (i + nums[i] >= lastGoodPos) {
-                lastGoodPos = i;
+        // input check nums.length >= 1
+        int guaranteeIdx = nums.length - 1; // 4
+        for (int i = nums.length - 2; i >= 0; i--) {
+            if (i + nums[i] >= guaranteeIdx) {
+                guaranteeIdx = i;
             }
         }
 
-        return lastGoodPos == 0;
+        return guaranteeIdx == 0;
     }
 
     // Forward checking (too slow)
