@@ -8,7 +8,7 @@ import java.util.Set;
  * https://leetcode.com/problems/custom-sort-string/
  */
 public class CustomSortString {
-    // T:O(n), S:O(n)
+    // T:O(n, the length of T), S:O(n)
     public String customSortString(String S, String T) {
         // input check
         if (S == null || S.length() == 0) return T;
@@ -23,18 +23,17 @@ public class CustomSortString {
         StringBuilder res = new StringBuilder();
         int[] bucket = new int[26];
         for (char c: T.toCharArray()) {
-            if (!set.contains(c)) {
-                res.append(c);
-            } else {
+            if (set.contains(c)) {
                 bucket[c - 'a']++;
+            } else {
+                res.append(c);
             }
         }
 
         // 4. Iterate S characters and print characters based on bucket count
         for (char c: S.toCharArray()) {
-            if (bucket[c - 'a'] == 0) continue; // not present in T
-
-            for (int i = 0; i < bucket[c - 'a']; i++) {
+            int freq = bucket[c - 'a'];
+            for (int i = 0; i < freq; i++) {
                 res.append(c);
             }
         }
