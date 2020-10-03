@@ -11,28 +11,35 @@ import java.util.Set;
 public class WordBreak {
     // T:O(n^2), S:O(n)
     public boolean wordBreak(String s, List<String> wordDict) {
-        // input check, s is non-empty, wordDic is non-empty
+        // input check, s = non-empty string, wordDic = non-empty list
         int n = s.length();
+
+        Set<String> set = new HashSet<>(wordDict);
         boolean[] dp = new boolean[n + 1];
         dp[0] = true;
-        // list to set
-        Set<String> set = new HashSet<>(wordDict);
-
         for (int i = 0; i < n; i++) {
-            if (!dp[i]) continue;   // no need to follow up
+            if (!dp[i]) continue;
 
-            for (int j = i + 1; j < n + 1; j++) {
-                String sub = s.substring(i, j);
+            for (int j = i; j < n; j++) {
+                String sub = s.substring(i, j + 1); // inclusive, exclusive
                 if (set.contains(sub)) {
-                    dp[j] = true;
+                    dp[j + 1] = true;
                 }
             }
         }
 
-        return dp[s.length()];
+        return dp[n];
     }
 }
 /**
+ Input: s =
+ "leetcode", wordDict = ["leet", "code"]
+ [tffftffft]
+ booleanp[] dp = new boolean[s.length()];
+
+ Output: true
+ Explanation: Return true because "leetcode" can be segmented as "leet code".
+
  Input: s = "applepenapple", wordDict = ["apple", "pen"]
  01234
  "applepenapple"
