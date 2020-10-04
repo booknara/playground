@@ -26,22 +26,12 @@ public class FirstBadVersion {
         // 1
         return r;
     }
-
 /**
- [1,2(B),3,4,5,6]
-
- Method: Binary search
- [1 ~ n]
- while (l < r) {
- m = l + (m - r) / 2;
- if (isBadVersion(m)) {
- r = m;
- } else {
- l = m + 1;
- }
- }
-
- return r;
+ [1,2,3,4,5]
+ [f,f,f,t,t]
+ [1,5] -> 3 (f)
+ [4,5] -> 4 (t)
+ [4,4] -> return 4;
  */
     public static class VersionControl {
         static boolean isBadVersion(int version) {return true;}
