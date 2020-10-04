@@ -5,8 +5,56 @@ package com.booknara.problem.search.binary;
  * https://leetcode.com/problems/median-of-two-sorted-arrays/
  */
 public class MedianOfTwoSortedArrays {
-    // T:O(log (n+m)), S:O(log (n+m))
+    // T:O(log (n+m)), S:O(1)
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if (nums1.length > nums2.length) return findMedianSortedArrays(nums2, nums1);
+
+        // nums1 is smaller length array
+        int n = nums1.length;
+        int m = nums2.length;
+        int start = 0, end = n;
+        while (start <= end) {
+            // partitionX + partitionY = (n + m + 1) / 2
+            int partitionX = (start + end) / 2;     // 1
+            int partitionY = ((n + m + 1) / 2) - partitionX;    // 3
+
+            // 4 values check
+            int nums1MaxLeft = partitionX == 0 ? Integer.MIN_VALUE : nums1[partitionX - 1];
+            int nums1MinRight = partitionX == n ? Integer.MAX_VALUE : nums1[partitionX];
+            int nums2Maxleft = partitionY == 0 ? Integer.MIN_VALUE : nums2[partitionY - 1];;
+            int nums2MinRight = partitionY == m ? Integer.MAX_VALUE : nums2[partitionY];
+
+            if (nums1MaxLeft <= nums2MinRight && nums2Maxleft <= nums1MinRight) {
+                // found
+                if ((n + m) % 2 == 0) {
+                    // even
+                    return (Math.max(nums1MaxLeft, nums2Maxleft) + Math.min(nums1MinRight, nums2MinRight)) / 2.0;
+                } else {
+                    // odd
+                    return Math.max(nums1MaxLeft, nums2Maxleft);
+                }
+            } else if (nums1MaxLeft > nums2MinRight) {
+                end = partitionX - 1;
+            } else {
+                start = partitionX + 1;
+            }
+        }
+
+        return -1;
+    }
+    /**
+     Input: n = 3, m = 5
+     [2 | 3,8]
+     [1,3,4 | 6,7]
+
+     [1,2,3,3,4,6,7,8] -> (3 + 4) / 2 = 3.5
+
+     Output: 2.00000
+     Explanation: merged array = [1,2,3] and median is 2.
+     */
+
+    // T:O(log (n+m)), S:O(log (n+m))
+    public double findMedianSortedArrays1(int[] nums1, int[] nums2) {
         if (nums1 == null || nums2 == null || nums1.length * nums2.length == 0) return 0.0;
         int total = nums1.length + nums2.length;
         int left = (total + 1) / 2; // left half of the combined median
