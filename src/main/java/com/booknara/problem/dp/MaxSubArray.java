@@ -20,6 +20,22 @@ public class MaxSubArray {
 
         return total;
     }
+
+    public int maxSubArray1(int[] nums) {
+        // input check num.length >= 1
+        if (nums.length == 1) return nums[0];
+
+        int max = Integer.MIN_VALUE;
+        int prefixSum = 0;
+        int min = 0;
+        for (int n: nums) {
+            prefixSum += n;
+            max = Math.max(max, prefixSum - min);
+            min = Math.min(min, prefixSum);
+        }
+
+        return max;
+    }
 }
 /**
  Given an integer array nums, find the contiguous subarray (containing at least one number)
