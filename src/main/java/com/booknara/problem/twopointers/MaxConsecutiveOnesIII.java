@@ -30,3 +30,15 @@ public class MaxConsecutiveOnesIII {
         return max;
     }
 }
+/**
+ Input: A =
+ [1,1,1,0,0,0,1,1,1,1,0], K = 2
+ l         r
+
+ max = 0;
+ max = Math.max(max, r - l + 1);
+ Output: 6
+ Explanation:
+ [1,1,1,0,0,1,1,1,1,1,1]
+ Using two pointers
+ */
