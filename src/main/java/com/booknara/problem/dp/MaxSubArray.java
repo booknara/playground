@@ -21,6 +21,7 @@ public class MaxSubArray {
         return total;
     }
 
+    // T:O(n), S:O(1)
     public int maxSubArray1(int[] nums) {
         // input check num.length >= 1
         if (nums.length == 1) return nums[0];
@@ -35,6 +36,46 @@ public class MaxSubArray {
         }
 
         return max;
+    }
+
+    // T:O(nlogn), S:O(1)
+    public int maxSubArray2(int[] nums) {
+        // input check num.length >= 1
+        if (nums.length == 1) return nums[0];
+
+        return helper(nums, 0, nums.length - 1);
+    }
+
+    public int helper(int[] nums, int left, int right) {
+        if (left == right) return nums[left];
+
+        int mid = left + (right - left) / 2;
+
+        int leftSum = helper(nums, left, mid);
+        int rightSum = helper(nums, mid + 1, right);
+        int crossSum = crossSum(nums, left, right, mid);
+
+        return Math.max(crossSum, Math.max(leftSum, rightSum));
+    }
+
+    public int crossSum(int[] nums, int left, int right, int p) {
+        if (left == right) return nums[left];
+
+        int leftMax = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int i = p; i > left - 1; i--) {
+            sum += nums[i];
+            leftMax = Math.max(leftMax, sum);
+        }
+
+        int rightMax = Integer.MIN_VALUE;
+        sum = 0;
+        for (int i = p + 1; i < right + 1; i++) {
+            sum += nums[i];
+            rightMax = Math.max(rightMax, sum);
+        }
+
+        return leftMax + rightMax;
     }
 }
 /**
