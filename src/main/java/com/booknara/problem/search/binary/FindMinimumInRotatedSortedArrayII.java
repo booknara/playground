@@ -28,8 +28,31 @@ public class FindMinimumInRotatedSortedArrayII {
         return nums[l];
     }
 
-    // T:O(logn), S:O(1)
+    // T:O(n), S:O(1)
     public int findMin1(int[] nums) {
+        if (nums.length == 0) return -1;
+        if (nums.length == 1) return nums[0];
+
+        int l = 0, r = nums.length - 1;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+
+            if (nums[l] < nums[r]) return nums[l];
+
+            if (nums[l] < nums[m]) {
+                l = m + 1;
+            } else if (nums[l] > nums[m]) {
+                r = m;
+            } else {
+                l++;
+            }
+        }
+
+        return nums[l];
+    }
+
+    // T:O(logn), S:O(1)
+    public int findMin2(int[] nums) {
         // input check
         if (nums == null || nums.length == 0) return 0;
 
