@@ -8,7 +8,7 @@ import java.util.Map;
  * https://leetcode.com/problems/palindrome-permutation/
  */
 public class PalindromePermutation {
-    // T:O(n), S:O(n)
+    // T:O(n), S:O(1)
     public boolean canPermutePalindrome(String s) {
         if (s == null || s.length() == 0) return true;
 
@@ -24,6 +24,27 @@ public class PalindromePermutation {
         }
 
         return oddCount <= 1;
+    }
+
+    // T:O(n), S:O(1)
+    public boolean canPermutePalindrome1(String s) {
+        if (s == null || s.length() == 0) return true;
+
+        int[] bucket = new int[128];
+        for (char c: s.toCharArray()) {
+            bucket[c]++;
+        }
+
+        boolean oddFound = false;
+        for (int i = 0; i < 128; i++) {
+            if (bucket[i] % 2 == 1) {
+                if (oddFound) return false;
+                // odd count
+                oddFound = true;
+            }
+        }
+
+        return true;
     }
 }
 /**
