@@ -114,4 +114,70 @@ public class LongestIncreasingPathInMatrix {
     public int getMax(int m1, int m2, int m3, int m4) {
         return Math.max(m1, Math.max(m2, Math.max(m3, m4)));
     }
+
+    int[][] dirs = new int[][] {
+            {-1, 0},    // up
+            {1, 0},     // down
+            {0, -1},    // left
+            {0, 1}      // right
+    };
+
+    // T:O(n*m), S:O(n*m)
+    public int longestIncreasingPath2(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) return 0;
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] distance = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                distance[i][j] = -1;
+            }
+        }
+        int max = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (distance[i][j] == -1) {
+                    distance[i][j] = getDistance(matrix, distance, true, 0, 0, i, j);
+                }
+
+                max = Math.max(max, distance[i][j]);
+            }
+        }
+
+        return max;
+    }
+
+    public int getDistance(int[][] matrix, int[][] distance, boolean start, int prevR, int prevC, int r, int c) {
+        // base case
+        if (r < 0 || r >= matrix.length || c < 0 || c >= matrix[0].length) return 0;
+
+        if (!start && matrix[prevR][prevC] >= matrix[r][c]) return 0;
+
+        // already got the distance
+        if (distance[r][c] != -1) return distance[r][c];
+
+        int max = 0;
+        for (int[] dir: dirs) {
+            int newR = r + dir[0];
+            int newC = c + dir[1];
+
+            int d = getDistance(matrix, distance, false, r, c, newR, newC);
+            max = Math.max(max, d + 1);
+        }
+
+        distance[r][c] = max;
+
+        return distance[r][c];
+    }
+/**
+ Input: nums =
+ [
+ [9,9,4],
+ [6,6,8],
+ [2,1,1]
+ ]
+ Output: 4
+ Explanation: The longest increasing path is [1, 2, 6, 9].
+ */
 }
