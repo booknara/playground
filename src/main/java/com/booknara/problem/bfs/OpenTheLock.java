@@ -12,66 +12,70 @@ import java.util.Set;
 public class OpenTheLock {
     // T:O(n^2*m^n+d), S:O(m^n + d), n: the number of digit(10), m: the length of rotating key, d:the number of dead-end
     public int openLock(String[] deadends, String target) {
-        final String start ="0000";
         // input check
-        if (target.equals(start)) return 0;
-
-        Set<String> deads = new HashSet<>();
-        Set<String> visited = new HashSet<>();
-        for (String d: deadends) {
-            deads.add(d);
+        Set<String> set = new HashSet<>();
+        for (String dead: deadends) {
+            set.add(dead);
         }
+
+        String start = "0000";
         // edge case
-        if (deads.contains(start) || deads.contains(target)) {
-            return -1;
-        }
+        if (set.contains(start) || set.contains(target)) return -1;
 
-        int level = 0;
+        Set<String> visited = new HashSet<>();
         Queue<String> q = new LinkedList<>();
+        q.offer(start);
         q.add(start);
-        visited.add(start);
+        int steps = 0;
         while (!q.isEmpty()) {
-            int len = q.size();
-            for (int i = 0; i < len; i++) {
-                String s = q.poll();
-                if (s.equals(target)) {
-                    return level;
-                }
+            int size = q.size();
 
-                // rotate each digit(0~4)
+            for (int i = 0; i < size; i++) {
+                String s = q.poll();
+                //System.out.println(s);
+                if (s.equals(target)) return steps;
+
                 for (int j = 0; j < 4; j++) {
-                    // each digit can make two candiates
-                    char c = s.charAt(j);
-                    int before = c - '0' - 1;
-                    if (before < 0) before = 9;
-                    String beforeS = s.substring(0, j) + before + s.substring(j + 1, 4);
-                    // check dead end and visited
-                    if (!deads.contains(beforeS) && !visited.contains(beforeS)) {
-                        q.offer(beforeS);
-                        visited.add(beforeS);
+                    StringBuilder plus = new StringBuilder(s);
+                    char p = plus.charAt(j);
+                    if (p == '9') {
+                        plus.setCharAt(j, '0');
+                    } else {
+                        plus.setCharAt(j, (char)(p + 1));
                     }
 
-                    int after = c - '0' + 1;
-                    if (after > 9) after = 0;
-                    String afterS = s.substring(0, j) + after + s.substring(j + 1, 4);
-                    // check dead end and visited
-                    if (!deads.contains(afterS) && !visited.contains(afterS)) {
-                        q.offer(afterS);
-                        visited.add(afterS);
+                    if (!set.contains(plus.toString()) && !visited.contains(plus.toString())) {
+                        q.offer(plus.toString());  // plus
+                        visited.add(plus.toString());
+                    }
+
+                    StringBuilder minus = new StringBuilder(s);
+                    char m = minus.charAt(j);
+                    if (m == '0') {
+                        minus.setCharAt(j, '9');
+                    } else {
+                        minus.setCharAt(j, (char)(m - 1));
+                    }
+
+                    if (!set.contains(minus.toString()) && !visited.contains(minus.toString())) {
+                        q.offer(minus.toString());  // minus
+                        visited.add(minus.toString());
                     }
                 }
             }
 
-            level++;
+            steps++;
         }
 
         return -1;
     }
 }
 /**
+ * 0123
+ *  each wheel 0 ~ 9
  BFS
  '0000'
- one move candiates
+ one move candidates
  1: '9000' or '1000'
  2: '0900' or '0100'
  3: '0090' or '0010'
