@@ -50,16 +50,31 @@ public class ValidNumber {
     }
 }
 /**
- Decimal number
- 1. Number
- 2. Positive/Negative sign '+/-'
- 3. Exponent e
- 4. Decimal point .
-
- " " -> false
- ".1" -> true
- "." -> false
- "3." -> true
- "0e" -> false
- "13 45" -> false
+ Number 0-9
+ Exponent e
+ Negaive/Positive -,+
+ Decimal point "."
+ "  0 "
+ "0.1"
+ "-1"
+ "+1"
+ "1e3"
+ "5.3e3"
+ "1e-3"
+ "1e+3"
+ "1.5e-3"
+ ".0"
+ "6."
+ "+.8"
+ ---------------
+ "1 a"
+ "1e"
+ "e3"
+ "e2.5"
+ "--6"
+ "-+6"
+ "6..e10"
+ "."
+ " -."
+ "+."
  */
