@@ -55,6 +55,55 @@ public class RestoreIPAddresses {
 
     // T:O(1), S:O(1)
     public List<String> restoreIpAddresses1(String s) {
+        // input check, s only contains digits
+        List<String> res = new ArrayList<>();
+        if (s == null || s.length() == 0) return res;
+
+        // 4 groups, (each group can be up to 3 digits)
+        int n = s.length();
+        for (int i = 1; i < 4; i++) {
+            for (int j = i + 1; j < i + 4; j++) {
+                for (int k = j + 1; k < j + 4; k++) {
+                    for (int l = k + 1; l < k + 4; l++) {
+                        if (i <= n && j <= n && k <= n && l <= n) {
+                            int first = Integer.parseInt(s.substring(0, i));
+                            int second = Integer.parseInt(s.substring(i, j));
+                            int third = Integer.parseInt(s.substring(j, k));
+                            int fourth = Integer.parseInt(s.substring(k, l));
+
+                            if (!validRange(first)) continue;
+                            if (!validRange(second)) continue;
+                            if (!validRange(third)) continue;
+                            if (!validRange(fourth)) continue;
+
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(first).append(".")
+                                    .append(second).append(".")
+                                    .append(third).append(".")
+                                    .append(fourth);
+                            if (builder.length() != s.length() + 3) {
+                                continue;
+                            }
+
+                            res.add(builder.toString());
+                        }
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    public boolean validRange(int num) {
+        return num >= 0 && num < 256;
+    }
+    /**
+     ?.?.?.?
+     ? = 0 ~ 255
+     */
+    // T:O(1), S:O(1)
+    public List<String> restoreIpAddresses2(String s) {
         List<String> res = new ArrayList<>();
         if (s == null || s.length() == 0) {
             return res;
