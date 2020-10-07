@@ -81,6 +81,7 @@ public class ReorderList {
         return head;
     }
 
+    // T:O(n), S:O(1)
     private void merge(ListNode l1, ListNode l2) {
         while (l1 != null) {
             ListNode n1 = l1.next;
@@ -93,5 +94,54 @@ public class ReorderList {
             l1 = n1;
             l2 = n2;
         }
+    }
+
+    public void reorderList2(ListNode head) {
+        // input check
+        if (head == null || head.next == null || head.next.next == null) return;
+
+        ListNode slow = head;
+        ListNode prevSlow = null;
+        ListNode fast = head;
+        // 1. Divide the array (first half, second half)
+        // 1->2->3->4->5
+        // s  s  s
+        // f     f     f      f(null)
+        while (fast != null && fast.next != null) {
+            prevSlow = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        if (fast != null) {
+            prevSlow = slow;
+            slow = slow.next;
+        }
+        prevSlow.next = null;
+        // 1->2
+        // 3->4->5 => 5->4->3
+        // 2. Reverse the second half
+        ListNode reversedSlow = reverse(slow);
+
+        ListNode cur = head;
+        // 3. Merge the first half and the reversed half one by one
+        // merge cur, reversedSlow
+        // 1->2
+        // 5->4->3
+        while (cur != null && reversedSlow != null) {
+            ListNode curNext = cur.next;
+            ListNode reversedSlowNext = reversedSlow.next;
+            cur.next = reversedSlow;
+            reversedSlow.next = curNext;
+
+            cur = curNext;
+            reversedSlow = reversedSlowNext;
+        }
+
+        if (reversedSlow != null) {
+            cur.next = reversedSlow;
+        }
+
+        return;
     }
 }
