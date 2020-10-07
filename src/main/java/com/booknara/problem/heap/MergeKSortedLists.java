@@ -20,7 +20,7 @@ public class MergeKSortedLists {
         }
 
         PriorityQueue<ListNode> minQueue = new PriorityQueue<>((n1, n2) -> {
-            return n1.val - n2.val;
+            return Integer.compare(n1.val, n2.val);
         });
 
         for (ListNode node: lists) {
@@ -44,47 +44,45 @@ public class MergeKSortedLists {
         return head.next;
     }
 
-    // Time Complexity: O(kN), Space Complexity: O(1)
+    // Time Complexity: O(Nlogk), Space Complexity: O(1)
     public ListNode mergeKLists1(ListNode[] lists) {
-        if (lists == null || lists.length == 0) {
-            return null;
-        }
+        if (lists == null || lists.length == 0) return null;
 
-        if (lists.length == 1) {
-            return lists[0];
-        }
+        int l = 0, r = lists.length - 1;
 
-        ListNode last = lists[lists.length - 1];
-        for (int i = lists.length - 1; i > 0; i--) {
-            last = mergeTwoLists(lists[i - 1], last);
-        }
-
-        return last;
+        return divide(lists, 0, r);
     }
 
-    private ListNode mergeTwoLists(ListNode first, ListNode second) {
+    public ListNode divide(ListNode[] lists, int l, int r) {
+        // base case
+        if (l == r) return lists[l];
+
+        int m = l + (r - l) / 2;
+        ListNode left = divide(lists, l, m);
+        ListNode right = divide(lists, m + 1, r);
+
+        return merge(left, right);
+    }
+
+    public ListNode merge(ListNode l1, ListNode l2) {
         ListNode head = new ListNode(0);
-        ListNode temp = head;
-        while (first != null && second != null) {
-            ListNode node;
-            if(first.val < second.val) {
-                node = first;
-                first = first.next;
+        ListNode cur = head;
+
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
             } else {
-                node = second;
-                second = second.next;
+                cur.next = l2;
+                l2 = l2.next;
             }
 
-            temp.next = node;
-            temp = node;
+            cur = cur.next;
         }
 
-        if (first != null) {
-            temp.next = first;
-        }
-        if (second != null) {
-            temp.next = second;
-        }
+        // remaining node
+        if (l1 != null) cur.next = l1;
+        if (l2 != null) cur.next = l2;
 
         return head.next;
     }
