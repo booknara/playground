@@ -1,8 +1,6 @@
 package com.booknara.problem.bit;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 136. Single Number (Easy)
@@ -59,4 +57,22 @@ public class SingleNumber {
 
         return res;
     }
+
+    public int singleNumberSet(int[] nums) {
+        // input check
+        if (nums.length == 1) return nums[0];
+
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i])) {
+                set.remove(nums[i]);
+            } else {
+                set.add(nums[i]);
+            }
+        }
+
+        List<Integer> temp = new ArrayList<>(set);
+        return temp.get(0);
+    }
+
 }
