@@ -1,13 +1,16 @@
 package com.booknara.problem.bit;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 260. Single Number III (Medium)
  * https://leetcode.com/problems/single-number-iii/
  */
 public class SingleNumberIII {
+    // T:O(n), S:O(1)
     public int[] singleNumber(int[] nums) {
         if (nums == null || nums.length == 0) {
             return null;
@@ -36,24 +39,23 @@ public class SingleNumberIII {
     }
 
     // With space(dictionary)
+    // T:O(n), S:O(n)
     public int[] singleNumber1(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return null;
-        }
+        if (nums.length == 2) return nums;
 
-        Map<Integer, Integer> map = new HashMap<>();
+        Set<Integer> set = new HashSet<>();
         for (int n: nums) {
-            int count = map.getOrDefault(n, 0);
-            map.put(n, count + 1);
-        }
-
-        int[] res = new int[2];
-        int idx = 0;
-        for (Map.Entry<Integer, Integer> entry: map.entrySet()) {
-            if (entry.getValue() == 1) {
-                res[idx++] = entry.getKey();
+            if (set.contains(n)) {
+                set.remove(n);
+            } else {
+                set.add(n);
             }
         }
+
+        List<Integer> list = new ArrayList<>(set);
+        int[] res = new int[2];
+        res[0] = list.get(0);
+        res[1] = list.get(1);
 
         return res;
     }
