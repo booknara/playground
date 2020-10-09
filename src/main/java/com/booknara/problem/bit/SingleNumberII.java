@@ -13,16 +13,17 @@ public class SingleNumberII {
     // T:O(n), S:O(1)
     public int singleNumber(int[] nums) {
         // input check(non-empty array)
+        if (nums.length == 1) return nums[0];
+
         int res = 0;
-        int multiple = 3;   // three times
+        int multiple = 3;
         for (int i = 0; i < 32; i++) {
             int sum = 0;
-            // sum the number of each digit (0 ~ 31 digits)
             for (int j = 0; j < nums.length; j++) {
-                sum += (nums[j] >> i) & 1;
+                sum += (nums[j] >>> i) & 1;
             }
 
-            res |= (sum % multiple) << i;
+            res = res | (sum % multiple) << i;
         }
 
         return res;
