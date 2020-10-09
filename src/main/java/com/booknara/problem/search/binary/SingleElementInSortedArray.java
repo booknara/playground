@@ -39,4 +39,29 @@ public class SingleElementInSortedArray {
 
         return nums[l];
     }
+
+    // T:O(n), S:O(1)
+    public int singleNonDuplicate1(int[] nums) {
+        // input check
+        if (nums.length == 1) return nums[0];
+
+        int index = 0;
+        while (index + 1 < nums.length) {
+            // pick two element
+            int first = nums[index];
+            int second = nums[index + 1];
+            if (first != second) return first;
+            index += 2;
+        }
+
+        return nums[index];
+    }
 }
+/**
+ Input: nums =
+ [0,1,2,3,4,5,6,7,8]
+ [1,1,2,3,3,4,4,8,8]
+ Output: 2
+
+ [1,1,2,2,3]
+ */
