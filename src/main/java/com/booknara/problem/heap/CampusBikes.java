@@ -29,7 +29,6 @@ public class CampusBikes {
             }
         }
 
-        int count = 0;
         int[] res = new int[workers.length];
         boolean[] bikeUsed = new boolean[bikes.length];
         Arrays.fill(res, -1);
@@ -47,7 +46,6 @@ public class CampusBikes {
 
                 res[worker] = bike;
                 bikeUsed[bike] = true;
-                count++;
             }
         }
 
