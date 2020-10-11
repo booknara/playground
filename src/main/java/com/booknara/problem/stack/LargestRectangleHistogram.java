@@ -33,4 +33,68 @@ public class LargestRectangleHistogram {
 
         return max;
     }
+
+    // T:O(n), S:O(n)
+    public int largestRectangleArea1(int[] heights) {
+        // input check
+        if (heights == null || heights.length == 0) return 0;
+
+        int max = 0;
+        int m = heights.length;
+        // store index
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1);
+        for (int i = 0; i < m; i++) {
+            int cur = heights[i];
+            while (stack.peek() != -1 && heights[stack.peek()] > cur) {
+                int preIndex = stack.pop();
+                // Note: stack.peek() important to get the width using initial -1
+                int width = i - 1 - stack.peek();
+                int height = heights[preIndex];
+                max = Math.max(max, width * height);
+            }
+
+            stack.push(i);
+        }
+
+        // m: the length of heights
+        while (stack.peek() != -1) {
+            int preIndex = stack.pop();
+            int width = m - 1 - stack.peek();
+            int height = heights[preIndex];
+            max = Math.max(max, width * height);
+        }
+
+        return max;
+    }
 }
+/**
+ Input: [2,1,5,6,2,3]
+ Output: 10
+ .
+ ..
+ ..
+ .. .
+ . ....
+ ......
+ 012345
+
+
+ .
+ ..
+ ...
+ ....
+ .....
+ 01234
+
+
+ . .
+ ...
+ -1012
+
+ .
+ -11
+
+
+
+ */
