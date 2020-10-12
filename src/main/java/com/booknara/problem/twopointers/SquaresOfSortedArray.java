@@ -13,7 +13,7 @@ public class SquaresOfSortedArray {
         int index = A.length - 1;
         int[] res = new int[A.length];
         while (l <= r) {
-            int val = 0;
+            int val;
             if (Math.abs(A[l]) < Math.abs(A[r])) {
                 val = A[r];
                 r--;
