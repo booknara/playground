@@ -1,13 +1,16 @@
 package com.booknara.problem.dfs;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 130. Surrounded Regions (Medium)
  * https://leetcode.com/problems/surrounded-regions/
  */
 public class SurroundedRegions {
+    // T:O(n^2), S:O(n^2)
     public void solve(char[][] board) {
         if (board == null || board.length == 0) {
             return;
@@ -73,4 +76,74 @@ public class SurroundedRegions {
             this.j = j;
         }
     }
+
+    // T:O(n^2), S:O(n^2)
+    public void solve1(char[][] board) {
+        if (board == null || board.length == 0) return;
+
+        int m = board.length;
+        int n = board[0].length;
+
+        int[][] dirs = new int[][] {
+                {-1, 0},
+                {1, 0},
+                {0, -1},
+                {0, 1}
+        };
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || i == m - 1 || j == 0 || j == n - 1) {
+                    // only board
+                    if (board[i][j] == 'O') {
+                        q.offer(new int[] {i, j});
+                    }
+                }
+            }
+        }
+
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int[] point = q.poll();
+                int r = point[0];
+                int c = point[1];
+                board[r][c] = 'M';
+
+                for (int[] dir: dirs) {
+                    int newR = r + dir[0];
+                    int newC = c + dir[1];
+
+                    if (newR < 0 || newR >= m || newC < 0 || newC >= n || board[newR][newC] != 'O') {
+                        continue;
+                    }
+
+                    q.offer(new int[] {newR, newC});
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'M') {
+                    board[i][j] = 'O';
+                } else if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                }
+            }
+        }
+    }
 }
+/**
+ X X X X
+ X O O X
+ X X O X
+ X O X X
+
+ BFS
+ 0 -> M (mark)
+
+ After BFS, update the character
+ M -> O
+ O -> X
+ */
