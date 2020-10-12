@@ -68,91 +68,87 @@ public class WordLadder {
         return 0;
     }
 
-    // O(n^2 * m), n : the number of word list, m : the length of word (Too slow)
+    // T:O(m^2 * n, m: the length of word, n: the size of word list), S:O(m^2)
     public int ladderLength1(String beginWord, String endWord, List<String> wordList) {
-        // Input check
-        if (beginWord.equalsIgnoreCase(endWord)) {
-            return 0;
-        }
+        if (beginWord.equals(endWord)) return 1;
 
-        // Key: hot (word)
-        Map<String, List<String>> map = new HashMap<>();
-        // construct neighbor words
-        for (int i = 0; i < wordList.size(); i++) {
-            String key = wordList.get(i);
-            if (key.equals(endWord)) {
-                continue;
-            }
-
-            for (int j = 0; j < wordList.size(); j++) {
-                if (i == j) {
-                    continue;
-                }
-
-                String n = wordList.get(j);
-                if (isNeighbor(key, n)) {
-                    List<String> list = map.getOrDefault(key, new ArrayList<>());
-                    list.add(n);
-                    map.put(key, list);
-                }
+        // build a graph
+        Map<String, List<String>> graph = new HashMap<>();
+        for (String s: wordList) {
+            List<String> words = getWildWords(s);
+            for (String wild: words) {
+                List<String> list = graph.getOrDefault(wild, new ArrayList<>());
+                list.add(s);
+                graph.put(wild, list);
             }
         }
 
         Set<String> visited = new HashSet<>();
-        Queue<String> queue = new LinkedList<>();
-        // check beginWord neighbor
-        for (int i = 0; i < wordList.size(); i++) {
-            if (isNeighbor(beginWord, wordList.get(i))) {
-                queue.offer(wordList.get(i));
-                visited.add(wordList.get(i));
-            }
-        }
-        queue.offer(null);
-        int depth = 2;
-        while (!queue.isEmpty()) {
-            String s = queue.poll();
-            //System.out.println(s);
-            if (s == null) {
-                depth++;
-                queue.offer(null);
-                if (queue.peek() == null) break;
-                else continue;
-            } else {
-                if (s.equals(endWord)) {
-                    return depth;
-                }
+        Queue<String> q = new LinkedList<>();
+        q.offer(beginWord);
+        visited.add(beginWord);
 
-                List<String> list = map.get(s);
-                if (list == null || list.isEmpty()) {
-                    continue;
-                }
+        int level = 1;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                String s = q.poll();
+                if (s.equals(endWord)) return level;
 
-                for (String n: list) {
-                    if (visited.contains(n)) {
-                        continue;
+                List<String> nextList = getWildWords(s);
+                // nextList = the string contained '*'
+                for (String nei: nextList) {
+                    if (graph.containsKey(nei)) {
+                        List<String> list = graph.get(nei);
+                        for (String next: list) {
+                            if (visited.contains(next)) continue;
+
+                            q.offer(next);
+                            visited.add(next);
+                        }
+
                     }
-                    queue.offer(n);
-                    visited.add(n);
                 }
             }
+
+            level++;
         }
 
         return 0;
     }
 
-    private boolean isNeighbor(String s, String t) {
-        int len = s.length();
-        int diff = 0;
-        for (int i = 0; i < len; i++) {
-            if (s.charAt(i) != t.charAt(i)) {
-                diff++;
-            }
-
-            if (diff > 1) {
-                return false;
-            }
+    public List<String> getWildWords(String s) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            StringBuilder builder = new StringBuilder(s);
+            builder.setCharAt(i, '*');
+            res.add(builder.toString());
         }
 
-        return true;
+        return res;
     }
 }
+/**
+ Input:
+ beginWord = "hit",
+ endWord = "cog",
+ wordList = ["hot","dot","dog","lot","log","cog"]
+
+ Map<String, List<String>> map = new HashMap<>();
+ *ot -> [hot,dot,lot]
+ h*t -> [hot]
+ ho* -> [hot]
+ d*t -> [dot]
+ do* -> [dot,dog]
+ *og -> [dog,log,cog]
+ d*g -> [dog]
+ l*t -> [lot]
+ lo* -> [lot,log]
+ l*g -> [log]
+ c*g -> [cog]
+ *og -> [cog]
+
+ hit - *it
+ - h*t
+ - hi*
+ */
