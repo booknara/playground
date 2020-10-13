@@ -29,4 +29,22 @@ public class ReadNCharactersGivenRead4II extends Reader4 {
 
         return ptr;
     }
+
+    //T:O(n), S:O(1)
+    public int read1(char[] buf, int n) {
+        int ptr = 0;
+        while (ptr < n) {
+            if (pos < read) {
+                // use the remaining buf
+                buf[ptr++] = buf4[pos++];
+            } else {
+                // read a new buf which size is 4 or less
+                pos = 0;
+                read = read4(buf4);
+                if (read == 0) return ptr;
+            }
+        }
+
+        return ptr;
+    }
 }
