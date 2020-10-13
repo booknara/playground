@@ -3,6 +3,7 @@ package com.booknara.problem.minimax;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 843. Guess the Word (Hard)
@@ -16,7 +17,7 @@ public class GuessTheWord {
             list.add(s);
         }
 
-        sort(list);
+        //sort(list);
         while (true) {
             String str = getWord(list);
             int matched = master.guess(str);
@@ -43,9 +44,10 @@ public class GuessTheWord {
     }
 
     public String getWord(List<String> list) {
-        // int random = new Random().nextInt(list.size());
-        // return list.get(random);
-        return list.get(0);
+        // there are two approach to select a word(random or sampling)
+        int random = new Random().nextInt(list.size());
+        return list.get(random);
+        //return list.get(0);
     }
 
     public void sort(List<String> list) {
