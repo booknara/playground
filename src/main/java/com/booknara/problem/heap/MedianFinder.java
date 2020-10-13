@@ -7,19 +7,21 @@ import java.util.PriorityQueue;
  * https://leetcode.com/problems/find-median-from-data-stream/
   */
 class MedianFinder {
-    PriorityQueue<Integer> minHeap;
     PriorityQueue<Integer> maxHeap;
+    PriorityQueue<Integer> minHeap;
 
     /** initialize your data structure here. */
     public MedianFinder() {
-        minHeap = new PriorityQueue<>((i1, i2) -> {
-            return i1 - i2;
-        });
+        // max heap will be equal to min or one more element than min heap
         maxHeap = new PriorityQueue<>((i1, i2) -> {
-            return i2 - i1;
+            return Integer.compare(i2, i1);
+        });
+        minHeap = new PriorityQueue<>((i1, i2) -> {
+            return Integer.compare(i1, i2);
         });
     }
 
+    // T:O(logn)
     public void addNum(int num) {
         // if the size of min/max heap is equal, the value will be inserted into max heap
         if (minHeap.size() == maxHeap.size()) {
@@ -34,6 +36,7 @@ class MedianFinder {
         }
     }
 
+    // T:O(1)
     public double findMedian() {
         if (minHeap.size() == maxHeap.size()) {
             return (minHeap.peek() + maxHeap.peek()) / 2.0;
