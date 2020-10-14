@@ -8,103 +8,94 @@ import java.util.Queue;
  * https://leetcode.com/problems/shortest-bridge/
  */
 public class ShortestBridge {
+    int[][] dirs = new int[][] {
+            {-1, 0},    // up
+            {1, 0},     // down
+            {0, -1},    // left
+            {0, 1}      // right
+    };
     // T:O(n^2), S:(n^2)
     public int shortestBridge(int[][] A) {
-        // input check, 0, or 1 are only contained
-        // there are two islands
-        Queue<Point> source = new LinkedList<>();
-        boolean[][] visited = new boolean[A.length][A[0].length];
-        int[][] directions = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        boolean found = false;
-        for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j <A[0].length; j++) {
-                if (A[i][j] == 0) {
-                    continue;
-                }
+        // input check, A.length >= 2
+        if (A == null || A.length == 0) return 0;
 
-                if (source.isEmpty()) {
-                    dfs(A, i, j, source, visited);
+        int m = A.length;
+        int n = A[0].length;
+        boolean found = false;
+        Queue<int[]> q = new LinkedList<>();
+        boolean[][] visited = new boolean[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (A[i][j] == 1) {
+                    // found the first island
                     found = true;
+                    dfs(A, i, j, q, visited);
                     break;
                 }
             }
 
-            if (found) {
-                break;
-            }
+            if (found) break;
         }
 
-        int step = 0;
-        while (!source.isEmpty()) {
-            int len = source.size();
-            for (int i = 0; i < len; i++) {
-                Point p = source.poll();
+        // bfs
+        int level = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int[] point = q.poll();
 
-                for (int[] d: directions) {
-                    int newR = p.r + d[0];
-                    int newC = p.c + d[1];
-                    if (newR < 0 || newC < 0 || newR >= A.length || newC >= A[newR].length) {
-                        // out of range
-                        continue;
-                    }
-                    if (visited[newR][newC]) {
-                        // visited
-                        continue;
-                    }
+                for (int[] dir: dirs) {
+                    int newR = point[0] + dir[0];
+                    int newC = point[1] + dir[1];
+                    if (newR < 0 || newC < 0 || newR >= m || newC >= n || visited[newR][newC]) continue;
 
-                    if (A[newR][newC] == 1) return step;
+                    if (A[newR][newC] == 1) return level;
 
-                    // Otherwise, A[newR][newC] == 0
-                    source.offer(new Point(newR, newC));
+                    q.offer(new int[] {newR, newC});
                     visited[newR][newC] = true;
                 }
             }
 
-            step++;
+            level++;
         }
 
-        return -1;
+        return level;
     }
 
-    public void dfs(int[][] A, int r, int c, Queue<Point> q, boolean[][] visited) {
+    public void dfs(int[][] A, int r, int c, Queue<int[]> q, boolean[][] visited) {
         // base case
-        if (r < 0 || c < 0 || r >= A.length || c >= A[r].length || A[r][c] == 0) {
-            return;
-        }
+        if (r < 0 || c < 0 || r >= A.length || c >= A[0].length
+                || A[r][c] == 0 || visited[r][c]) return;
 
-        // A[r][c] is valid and 1
-        q.offer(new Point(r, c));
+        q.offer(new int[] {r, c});
         visited[r][c] = true;
-        A[r][c] = 0;
-        // 4 directions
-        // top
-        dfs(A, r - 1, c, q, visited);
-        // bottom
-        dfs(A, r + 1, c, q, visited);
-        // left
-        dfs(A, r, c - 1, q, visited);
-        // right
-        dfs(A, r, c + 1, q, visited);
-    }
-
-
-    static class Point {
-        int r;
-        int c;
-        Point(int r, int c) {
-            this.r = r;
-            this.c = c;
+        for (int[] dir: dirs) {
+            int newR = r + dir[0];
+            int newC = c + dir[1];
+            dfs(A, newR, newC, q, visited);
         }
     }
 }
-
 /**
- [[0,1],
- [1,0]]
+ Input: A = [
 
- [[0,1,0],
- [0,0,0],
- [0,0,1]]
+ [0,1,0]
+ [0,0,0]
+ [0,0,1]
 
- (0, 1) <-> (2, 2) = |0-2| + |1-2| = 3;
+ ]
+
+ [
+
+ [1,1,1,1,1]
+ [1,0,0,0,1]
+ [1,0,1,0,1]
+ [1,0,0,0,1]
+ [1,1,1,1,1]
+ ]
+
+ There are islands
+ 1. Find the first island (dfs)
+ 2. Find the second island (bfs)
+ Output: 2
  */
