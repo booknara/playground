@@ -32,4 +32,50 @@ public class Combinations {
             list.removeLast();
         }
     }
+
+    public List<List<Integer>> combine1(int n, int k) {
+        // input check
+        List<List<Integer>> res = new ArrayList<>();
+        if (n == k) {
+            List<Integer> list = new ArrayList<>();
+            for (int i = 1; i < n + 1; i++) {
+                list.add(i);
+            }
+            res.add(list);
+            return res;
+        }
+
+        backtracking(1, n, k, new LinkedList<>(), res);
+        return res;
+    }
+
+    public void backtracking(int index, int n, int k,
+                             LinkedList<Integer> list, List<List<Integer>> res) {
+        if (k == 0) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+        if (index > n) return;
+
+        for (int i = index; i <= n - k + 1; i++) {
+            list.addLast(i);
+            backtracking(i + 1, n, k - 1, list, res);
+            list.removeLast();
+        }
+    }
 }
+/**
+ Input: n = 4, k = 2
+
+ 1,2,3,4 (1 ~ n), k = 2 the number of elements
+
+ Output:
+ [
+ [2,4],
+ [3,4],
+ [2,3],
+ [1,2],
+ [1,3],
+ [1,4],
+ ]
+ */
