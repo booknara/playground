@@ -81,11 +81,80 @@ public class AlienDictionary {
         // validation
         return builder.length() == graph.size() ? builder.toString() : "";
     }
+
+    // T:O(c, the total number of characters in the words), S:O(1)
+    public String alienOrder1(String[] words) {
+        // input check
+        if (words == null || words.length == 0) return "";
+
+        Map<Character, List<Character>> graph = new HashMap<>();
+        int[] bucket = new int[26];
+        Arrays.fill(bucket , -1);
+        for (int i = 0; i < words.length; i++) {
+            String s = words[i];
+            for (char c: s.toCharArray()) {
+                bucket[c - 'a'] = 0;
+                graph.putIfAbsent(c, new ArrayList<>());
+            }
+        }
+
+        for (int i = 1; i < words.length; i++) {
+            // compare words[i - 1] vs words[i]
+            String first = words[i - 1];
+            String second = words[i];
+            int min = Math.min(first.length(), second.length());
+            boolean valid = false;
+            for (int j = 0; j < min; j++) {
+                char c = first.charAt(j);
+                char d = second.charAt(j);
+
+                if (c != d) {
+                    List<Character> list = graph.getOrDefault(c, new ArrayList<>());
+                    list.add(d);
+                    graph.put(c, list);
+                    bucket[d - 'a']++;
+                    valid = true;
+                    break;
+                }
+            }
+
+            // Edge case: ["abc","ab"] => "", ["z", "z"] => "z"
+            if (!valid && first.length() > second.length()) return "";
+        }
+
+        Queue<Character> q = new LinkedList<>();
+        for (int i = 0; i < 26; i++) {
+            int n = bucket[i];
+            if (n == 0) {
+                q.offer((char)(i + 'a'));
+            }
+        }
+
+        StringBuilder res = new StringBuilder();
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                char c = q.poll();
+                res.append(c);
+
+                List<Character> neis = graph.get(c);
+                if (neis == null) continue;
+
+                for (char d: neis) {
+                    bucket[d - 'a']--;
+
+                    if (bucket[d - 'a'] == 0) {
+                        q.offer(d);
+                    }
+                }
+            }
+        }
+
+        //System.out.println(res.toString());
+        return graph.size() == res.length() ? res.toString() : "";
+    }
 }
 /**
- There is a new alien language which uses the latin alphabet.
- However, the order among letters are unknown to you.
- You receive a list of "non-empty words" from the dictionary, where words are sorted lexicographically by the rules of this new language. Derive the order of letters in this language.
  Input:
  [
  "wrt",
