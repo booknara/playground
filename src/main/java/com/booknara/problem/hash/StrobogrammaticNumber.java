@@ -37,6 +37,31 @@ public class StrobogrammaticNumber {
 
         return true;
     }
+
+    // T:O(n), S:O(1)
+    public boolean isStrobogrammatic1(String num) {
+        if (num == null || num.length() == 0) return true;
+
+        int l = 0, r = num.length() - 1;
+        while (l <= r) {
+            char c = num.charAt(l);
+            char d = num.charAt(r);
+
+            if ((c == '0' && d == '0')
+                    || (c == '1' && d == '1')
+                    || (c == '8' && d == '8')
+                    || (c == '9' && d == '6')
+                    || (c == '6' && d == '9')) {
+                l++;
+                r--;
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
 }
 /**
  6 -> 9
