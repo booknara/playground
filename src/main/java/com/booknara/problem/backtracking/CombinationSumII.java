@@ -2,6 +2,7 @@ package com.booknara.problem.backtracking;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,6 +10,7 @@ import java.util.List;
  * https://leetcode.com/problems/combination-sum-ii/
  */
 public class CombinationSumII {
+    // T:O(2^n), S:O(2^n)
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
         if (candidates == null || candidates.length == 0) {
@@ -46,6 +48,38 @@ public class CombinationSumII {
             nums.add(candidates[i]);
             dfs(candidates, i + 1, remaining - candidates[i], nums, res);
             nums.remove(nums.size() - 1);
+        }
+    }
+
+    // T:O(2^n), S:O(2^n)
+    public List<List<Integer>> combinationSum21(int[] candidates, int target) {
+        // input check
+        List<List<Integer>> res = new ArrayList<>();
+        if (candidates == null || candidates.length == 0) return res;
+
+        Arrays.sort(candidates);
+        helper(candidates, target, 0, 0, new LinkedList<>(), res);
+        return res;
+    }
+
+    public void helper(int[] candidates, int target, int index, int sum,
+                       LinkedList<Integer> candidate, List<List<Integer>> res) {
+        // base case
+        if (sum == target) {
+            res.add(new ArrayList<>(candidate));
+            return;
+        }
+
+        if (index == candidates.length) return;
+
+        for (int i = index; i < candidates.length; i++) {
+            if (i > index && candidates [i - 1] == candidates[i]) continue;
+
+            if (sum + candidates[i] > target) return;
+
+            candidate.addLast(candidates[i]);
+            helper(candidates, target, i + 1, sum + candidates[i], candidate, res);
+            candidate.removeLast();
         }
     }
 }
