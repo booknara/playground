@@ -1,6 +1,7 @@
 package com.booknara.problem.backtracking;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -70,6 +71,35 @@ public class CombinationSum {
             List<Integer> list = new ArrayList<>(nums);
             list.add(candidates[i]);
             dfs(candidates, i, list, remaining - candidates[i], res);
+        }
+    }
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (candidates == null || candidates.length == 0) return res;
+
+        Arrays.sort(candidates);
+        dfs(candidates, target, 0, 0, new LinkedList<>(), res);
+
+        return res;
+    }
+
+    public void dfs(int[] candidates, int target, int index, int sum,
+                    LinkedList<Integer> list, List<List<Integer>> res) {
+        if (sum == target) {
+            res.add(new ArrayList<>(list));
+            return;
+        }
+
+        if (index == candidates.length) return;
+
+        for (int i = index; i < candidates.length; i++) {
+
+            if (sum + candidates[i] > target) continue;
+
+            list.addLast(candidates[i]);
+            dfs(candidates, target, i, sum + candidates[i], list, res);
+            list.removeLast();
         }
     }
 }
