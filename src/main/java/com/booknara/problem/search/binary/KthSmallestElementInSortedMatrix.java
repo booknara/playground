@@ -37,6 +37,7 @@ public class KthSmallestElementInSortedMatrix {
         return r;
     }
 
+    // T:O(n)
     public int getKthNumber(int[][] matrix, int m) {
         // start from top, right corner
         int res = 0;
