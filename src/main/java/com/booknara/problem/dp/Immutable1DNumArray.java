@@ -4,10 +4,10 @@ package com.booknara.problem.dp;
  * 303. Range Sum Query - Immutable (Easy)
  * https://leetcode.com/problems/range-sum-query-immutable/
  */
-public class NumArray {
+public class Immutable1DNumArray {
     int[] dp;
     // T:O(n), S:O(n)
-    public NumArray(int[] nums) {
+    public Immutable1DNumArray(int[] nums) {
         int m = nums.length;
         dp = new int[m + 1];
         for (int i = 1; i <= m; i++) {
