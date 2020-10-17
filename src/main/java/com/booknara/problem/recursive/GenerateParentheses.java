@@ -61,4 +61,34 @@ public class GenerateParentheses {
         builder.append(")");
         dfs(res, open, close - 1, new StringBuilder(builder.toString()));
     }
+
+    // T, S:O(nth-Catalan number), roughly it's exponential complexity
+    public List<String> generateParenthesis2(int n) {
+        // input check
+        List<String> res = new ArrayList<>();
+        if (n == 0) return res;
+
+        dfs(0, 0, n, new StringBuilder(), res);
+        return res;
+    }
+
+    public void dfs(int openCount, int closeCount, int n, StringBuilder builder, List<String> res) {
+        // base case
+        if (openCount > n || closeCount > n) return;
+        if (openCount == n && closeCount == n) {
+            res.add(builder.toString());
+            return;
+        }
+
+        builder.append("(");    // open (
+        dfs(openCount + 1, closeCount, n, builder, res);
+        builder.deleteCharAt(builder.length() - 1);
+
+        if (openCount > closeCount) {
+            builder.append(")");    // close )
+            dfs(openCount, closeCount + 1, n, builder, res);
+            builder.deleteCharAt(builder.length() - 1);
+        }
+    }
+
 }
