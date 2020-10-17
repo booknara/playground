@@ -94,4 +94,58 @@ public class BasicCalculatorII {
 
         return res;
     }
+
+    // T:O(n), S:O(n)
+    public int calculate2(String s) {
+        // input check
+        if (s == null || s.length() == 0) return 0;
+
+        s = s.trim();
+        Stack<Integer> stack = new Stack<>();
+        int num = 0;
+        char sign = '+';    // 1: +, -1: -
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ' ') continue;
+
+            // three cases, number, +-, */
+            if (Character.isDigit(c)) {
+                num = num * 10 + (c - '0');
+            } else {
+                // sign
+                if (sign == '+' || sign == '-') {
+                    if (sign == '+') stack.push(num);
+                    else stack.push(-num);
+                } else {
+                    // *, /
+                    int val;
+                    if (sign == '*') val = stack.pop() * num;
+                    else  val = stack.pop() / num;
+                    stack.push(val);
+                }
+
+                sign = c;
+                num = 0;
+            }
+        }
+
+        // last sign handling
+        if (sign == '+' || sign == '-') {
+            if (sign == '+') stack.push(num);
+            else stack.push(-num);
+        } else {
+            // *, /
+            int val;
+            if (sign == '*') val = stack.pop() * num;
+            else  val = stack.pop() / num;
+            stack.push(val);
+        }
+
+        int res = 0;
+        while (!stack.isEmpty()) {
+            res += stack.pop();
+        }
+
+        return res;
+    }
 }
