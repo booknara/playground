@@ -59,6 +59,81 @@ public class BasicCalculatorIII {
 
         return sum;
     }
+
+    // T:O(n), S:O(n)
+    public int calculate1(String s) {
+        s = s.trim();
+
+        return calc(s, 0).val;
+    }
+
+    public Pair calc(String s, int index) {
+        char sign = '+';
+        int num = 0;
+        int lastIndex = index;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = index; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ' ') continue; //white space
+
+            if (Character.isDigit(c)) {
+                num = num * 10 + c - '0';
+            } else if (c == '(') {
+                Pair p = calc(s, i + 1);
+                num = p.val;
+                i = p.index;
+            } else if (c == ')') {
+                lastIndex = i;
+                break;
+            } else {
+                // sign
+                if (sign == '+') {
+                    stack.push(num);
+                } else if (sign == '-') {
+                    stack.push(-num);
+                } else if (sign == '*') {
+                    int prev = stack.pop();
+                    stack.push(prev * num);
+                } else if (sign == '/') {
+                    int prev = stack.pop();
+                    stack.push(prev / num);
+                }
+
+                sign = c;
+                num = 0;
+            }
+        }
+
+        // the last num/sign handling
+        if (sign == '+') {
+            stack.push(num);
+        } else if (sign == '-') {
+            stack.push(-num);
+        } else if (sign == '*') {
+            int prev = stack.pop();
+            stack.push(prev * num);
+        } else if (sign == '/') {
+            int prev = stack.pop();
+            stack.push(prev / num);
+        }
+
+        int res = 0;
+        while (!stack.isEmpty()) {
+            res += stack.pop();
+        }
+
+        return new Pair(res, lastIndex);
+    }
+
+    static class Pair {
+        int val;
+        int index;
+
+        Pair(int val, int index) {
+            this.val = val;
+            this.index = index;
+        }
+    }
 }
 /**
  input characters: (, ), +, -, *, /, non-negative integers, white space
