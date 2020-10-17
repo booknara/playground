@@ -38,19 +38,12 @@ public class MajorityElementII {
         count2 = 0;
         // verification process
         for (int i: nums) {
-            if (i == num1) {
-                count1++;
-            } else if (i == num2) {
-                count2++;
-            }
+            if (i == num1) count1++;
+            else if (i == num2) count2++;
         }
 
-        if (count1 > nums.length / 3) {
-            res.add(num1);
-        }
-        if (count2 > nums.length / 3) {
-            res.add(num2);
-        }
+        if (count1 > nums.length / 3) res.add(num1);
+        if (count2 > nums.length / 3) res.add(num2);
 
         return res;
     }
