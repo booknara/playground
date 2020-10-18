@@ -5,7 +5,7 @@ package com.booknara.problem.dp;
  * https://leetcode.com/problems/regular-expression-matching/
  */
 public class RegularExpressionMatching {
-    // T:O(n*m), S:O(n*m)
+    // T:O(n*m), S:O(n*m), Invalid test case ("aa", "*a")
     public boolean isMatch(String s, String p) {
         // input check
         if (s == null && p == null) return true;
@@ -56,17 +56,36 @@ public class RegularExpressionMatching {
  "b*" vs "aa" -> F
  "a*" vs "aa" -> T ("a*" -> "" or "a" or "aa")
  "ab*" vs "aaa" -> F ("ab*" -> "a" or "ab" or "abb")
- 0 a b *
+   0 a b *
  0 T F F F
  a F T F T
  a F F F F
  a F F F F
 
 
- 0 a * a .
+   0 a * a .
  0 T F T F F
  a F T T T F
  a F F T T T
  a F F T T
  b F F T T
+
+
+ Input: s = "aab", p = "c*a*b"
+
+ . c * a * b
+ . t f t f t f
+ a f f f t t f
+ a f f f f t f
+ b f f f f f t
+
+ Input: s = "ab", p = ".*"
+ Output: true
+
+ 0 . *
+ 0 t f t
+ a f t t
+ b f f t
+
+ Output: true
  */
