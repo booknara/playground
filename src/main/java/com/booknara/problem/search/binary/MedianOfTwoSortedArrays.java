@@ -92,4 +92,120 @@ public class MedianOfTwoSortedArrays {
             return findKthElement(nums1, start1, nums2, start2 + k/2, k - k/2); // nums2 left + nums1 right
         }
     }
+
+    // T:O(m + n), S:O(m + n)
+    public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
+        if (nums1.length == 0 && nums2.length == 0) return 0.0;
+
+        int m = nums1.length;
+        int n = nums2.length;
+
+        int[] nums = new int[m + n];
+        int i = 0;
+        int j = 0;
+        int index = 0;
+        while (i < m && j < n) {
+            int val;
+            if (nums1[i] < nums2[j]) {
+                val = nums1[i];
+                i++;
+            } else {
+                val = nums2[j];
+                j++;
+            }
+            nums[index++] = val;
+        }
+
+        while (i < m) {
+            nums[index++] = nums1[i++];
+        }
+        while (j < n) {
+            nums[index++] = nums2[j++];
+        }
+
+        double median;
+        int mid = nums.length / 2;
+        if (nums.length % 2 == 0) {
+            median = (nums[mid - 1] + nums[mid]) / 2.0;
+        } else {
+            median = nums[mid] * 1.0;
+        }
+
+        return median;
+    }
+
+    // T:O(log (n+m)), S:O(1)
+    public double findMedianSortedArrays3(int[] nums1, int[] nums2) {
+        if (nums1.length == 0 && nums2.length == 0) return 0.0;
+
+        // nums1 is smaller array
+        if (nums1.length > nums2.length) {
+            return findMedianSortedArrays3(nums2, nums1);
+        }
+
+        int m = nums1.length;
+        int n = nums2.length;
+
+        // Binary search
+        int half = (m + n + 1) / 2;
+        int l = 0, r = m;   // nums1
+        while (l <= r) {
+            int xMid = l + (r - l) / 2;
+            int yMid = half - xMid;
+
+            // terminated condition check
+            int num1LeftMax = xMid - 1 < 0 ? Integer.MIN_VALUE : nums1[xMid - 1];
+            int num1RightMin = xMid == m ? Integer.MAX_VALUE : nums1[xMid];
+            int num2LeftMax = yMid - 1 < 0 ? Integer.MIN_VALUE : nums2[yMid - 1];
+            int num2RightMin = yMid == n ? Integer.MAX_VALUE : nums2[yMid];
+
+            if (num1LeftMax <= num2RightMin
+                    && num2LeftMax <= num1RightMin) {
+                if ((m + n) % 2 == 0) {
+                    // even
+                    int leftMax = Math.max(num1LeftMax, num2LeftMax);
+                    int rightMin = Math.min(num1RightMin, num2RightMin);
+                    return (leftMax + rightMin) / 2.0;
+                } else {
+                    // odd
+                    return Math.max(num1LeftMax, num2LeftMax) * 1.0;
+                }
+            } else if (num2LeftMax > num1RightMin) {
+                // move right
+                l = xMid + 1;
+            } else {
+                r = xMid - 1;
+            }
+        }
+
+        return -1;
+    }
 }
+/**
+ Input: nums1 = [1,2], nums2 = [3,4]
+ Output: 2.50000
+ [1 ,3]
+ [2 ,4]
+
+ [1 ,3]
+ [2]
+
+ 4 + 3 + 1 = 8/2=4
+ [1,2 ,3,4] -> xMid = 2
+ [3,5 ,10] -> yMid = 2
+
+ [1,2] | Integer.MAX_VALUE
+ Integer.MIN_VALUE  | [3,4]
+
+ Medium = m + n -> even : two value / 2.0
+ Medium = m + n -> odd : middle value
+
+ (m + n + 1) / 2 -> left part
+ terminal condition
+ nums1 left max < nums2 right min
+ nums2 left max < nums1 right min
+ m + n == odd -> min(nums2 min, nums1 max)
+ m + n == even -> (nums2 min, nums1 max) / 2.0
+
+ Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+ */
