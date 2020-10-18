@@ -62,10 +62,32 @@
 ### Android 10.0 - API 29
 - External storage access scoped to app files and media
 - Access to device location in the background requires permission: the ACCESS_BACKGROUND_LOCATION permission only affects an app's access to location when it runs in the background.
-
+- Foreground location
+    ```<!-- Recommended for Android 9 (API level 28) and lower. -->
+      <!-- Required for Android 10 (API level 29) and higher. -->
+      <service
+          android:name="MyNavigationService"
+          android:foregroundServiceType="location" ... >
+          <!-- Any inner elements would go here. -->
+      </service>
+    ```
+- Background location (should be incremental request)
+    ```<manifest>
+        <!-- Required only when requesting background location access on
+             Android 10 (API level 29) and higher. -->
+        <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+      </manifest>
+      ```
+      
 ### Android 11.0 - API 30
-
-
+- Device controls, Media controls
+- Conversion: Chat bubbles
+- Privacy
+    - Scoped storage enforcement
+    - One-time permissions: Starting in Android 11, whenever your app requests a permission related to location, microphone, or camera, the user-facing permissions dialog contains an option called Only this time.
+    - Permissions auto-reset
+    - Foreground versus Background location access (Allow only while using app/Allow all the time)  
+    
 License
 -------
 MIT License
