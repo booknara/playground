@@ -48,11 +48,18 @@ public class PalindromePermutation {
     }
 }
 /**
- "rer"
- [
- a:2,
- c:2,
- e:1,
- r:2
- ]
+ Input: "code"
+ Output: false
+
+ Input: "aab" -> "aba"
+ Output: true
+
+ Input: "carerac"
+ Output: true
+
+ acer
+ 2212
+
+ bucket[i] -> even : good
+ bucket[i] -> odd : only one time allowed
  */
