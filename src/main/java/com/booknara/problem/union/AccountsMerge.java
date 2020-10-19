@@ -38,6 +38,7 @@ public class AccountsMerge {
         }
 
         // [0,1,0,3]
+        // dominant part, T:(AlogA)
         Map<Integer, TreeSet<String>> temp = new HashMap<>();
         for (int i = 0; i < n; i++) {
             int r = findRoot(root, i);
