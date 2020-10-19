@@ -25,13 +25,15 @@ public class TaskScheduler {
 
         for (int i = 0; i < 26; i++) {
             if (bucket[i] != 0) {
-                pq.offer(new Element((char)('A' - i), bucket[i]));
+                pq.offer(new Element((char)('A' + i), bucket[i]));
             }
         }
 
         int res = 0;
         while (!pq.isEmpty()) {
             List<Element> list = new ArrayList<>();
+
+            // one cycle (n + 1)
             for (int i = 0; i < n + 1; i++) {
                 if (pq.isEmpty() && list.isEmpty()) {
                     return res;
