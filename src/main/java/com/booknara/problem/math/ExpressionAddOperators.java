@@ -19,7 +19,7 @@ public class ExpressionAddOperators {
     }
 
     public void dfs(String num, String path, int index, int target,
-                    long eval, long multi, List<String> res) {
+                    long eval, long prev, List<String> res) {
         // base case
         if (index == num.length()) {
             if (eval == target) {
@@ -43,7 +43,7 @@ public class ExpressionAddOperators {
                 dfs(num, path + "-" + cur, i + 1, target, eval - cur, -cur, res);
 
                 // *, caution 3
-                dfs(num, path + "*" + cur, i + 1, target, eval - multi + (cur * multi), multi * cur, res);
+                dfs(num, path + "*" + cur, i + 1, target, eval - prev + (cur * prev), prev * cur, res);
             }
         }
     }
