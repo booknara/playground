@@ -63,4 +63,21 @@ public class RotateArray {
             nums[i] = list.removeFirst();
         }
     }
+
+    public void rotate2(int[] nums, int k) {
+        if (nums == null || nums.length == 0) return;
+
+        int n = nums.length;
+        int[] res = new int[n];
+        k = k % nums.length;
+        for (int i = 0; i < n; i++) {
+            int newIdx = (i + k) % n;
+            res[newIdx] = nums[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            nums[i] = res[i];
+        }
+    }
+
 }
