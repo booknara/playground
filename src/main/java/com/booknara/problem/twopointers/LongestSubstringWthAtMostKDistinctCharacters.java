@@ -38,6 +38,39 @@ public class LongestSubstringWthAtMostKDistinctCharacters {
 
         return max;
     }
+
+    // T:O(n), S:O(1, only 128 bucket)
+    public int lengthOfLongestSubstringKDistinct1(String s, int k) {
+        // input check
+        if (s == null || s.length() == 0) return 0;
+
+        int max = 0;
+        int[] bucket = new int[128];
+        int l = 0, r = 0;
+        // s = "eceba", k = 2
+        //         l
+        //          r
+        while (r < s.length()) {
+            if (bucket[s.charAt(r)] == 0) {
+                k--;    // first appear
+            }
+            bucket[s.charAt(r)]++;
+
+            while (l <= r && k < 0) {
+                bucket[s.charAt(l)]--;
+                if (bucket[s.charAt(l)] == 0) {
+                    k++;
+                }
+                l++;
+            }
+
+            max = Math.max(max, r - l + 1);
+            r++;
+        }
+
+        return max;
+    }
+
 }
 /**
  Input: s = "ec eba", k = 2
