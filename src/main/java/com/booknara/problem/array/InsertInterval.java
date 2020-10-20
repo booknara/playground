@@ -43,6 +43,44 @@ public class InsertInterval {
 
         return output;
     }
+
+    // T:O(n), S:O(1)
+    public int[][] insert1(int[][] intervals, int[] newInterval) {
+        // input check
+        if (newInterval == null) return intervals;
+
+        List<int[]> list = new ArrayList<>();
+        for (int i = 0; i < intervals.length; i++) {
+            int[] interval = intervals[i];
+            if (newInterval == null || newInterval[1] < interval[0]) {
+                // add newInterval and interval
+                if (newInterval != null) list.add(newInterval);
+                list.add(interval);
+                newInterval = null;
+            } else if (interval[1] < newInterval[0]) {
+                // before reaching newInterval
+                list.add(interval);
+            } else if (newInterval[0] <= interval[1]) {
+                // overlapped
+                newInterval[0] = Math.min(interval[0], newInterval[0]);
+                newInterval[1] = Math.max(interval[1], newInterval[1]);
+            }
+        }
+
+        if (newInterval != null) {
+            list.add(newInterval);
+            newInterval = null;
+        }
+
+        int n = list.size();
+        int[][] res = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            res[i] = list.get(i);
+        }
+
+        return res;
+    }
+
 }
 /**
  case 1
