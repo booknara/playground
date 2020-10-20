@@ -29,4 +29,18 @@ public class BinaryTreeMaxPathSum {
 
         return Math.max(left + val, right + val);
     }
+
+    public int dfs2(TreeNode node) {
+        if (node == null) return 0;
+
+        int left = dfs2(node.left);
+        int right = dfs2(node.right);
+        if (left < 0) left = 0;
+        if (right < 0) right = 0;
+
+        max = Math.max(max, left + right + node.val);
+
+        int res = Math.max(left, right) + node.val;
+        return res < 0 ? 0 : res;
+    }
 }
