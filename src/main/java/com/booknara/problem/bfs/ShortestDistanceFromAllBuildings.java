@@ -53,7 +53,7 @@ public class ShortestDistanceFromAllBuildings {
         };
 
         Queue<Element> q = new LinkedList<>();
-        q.offer(new Element(r, c, 1));
+        q.offer(new Element(r, c, 0));
         while (!q.isEmpty()) {
             Element e = q.poll();
             for (int[] dir: dirs) {
@@ -64,7 +64,7 @@ public class ShortestDistanceFromAllBuildings {
                         && !visited[newR][newC] && grid[newR][newC] == 0) {
                     visited[newR][newC] = true;
                     counter[newR][newC]++;
-                    distance[newR][newC] += e.step;
+                    distance[newR][newC] += e.step + 1;
                     q.offer(new Element(newR, newC, e.step + 1));
                 }
             }
