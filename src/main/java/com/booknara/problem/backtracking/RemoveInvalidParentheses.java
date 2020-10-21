@@ -75,8 +75,8 @@ public class RemoveInvalidParentheses {
  Input: "()())()"
  Output: ["()()()", "(())()"]
 
- Rule 1: Open parenthese >= close parenthese
- Rule 2: When index == s.length(), open parenthese == close parenthese, check minimum ignore count
+ Rule 1: Open parentheses >= close parentheses
+ Rule 2: When index == s.length(), open parentheses == close parentheses, check minimum ignore count
  - if same, add the string to result
  - if less than previous count, clear and add
  - if more than previous count, skip
