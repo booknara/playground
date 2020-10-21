@@ -28,7 +28,7 @@ public class RemoveInvalidParentheses {
                              StringBuilder builder, Set<String> res) {
         // base case
         if (index == s.length()) {
-            // not valid parenthese
+            // not valid parentheses
             if (openCount != closeCount) return;
 
             // three cases(less, equal, more)
@@ -69,7 +69,6 @@ public class RemoveInvalidParentheses {
 
         // Case #1 (ignore)
         backtracking(s, index + 1, openCount, closeCount, ignore + 1, builder, res);
-
     }
 }
 /**
