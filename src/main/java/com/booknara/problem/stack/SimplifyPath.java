@@ -42,31 +42,34 @@ public class SimplifyPath {
 
     // T:O(n), S:O(n)
     public String simplifyPath1(String path) {
-        if (path == null || path.length() == 0) return "";
+        if (path == null || path.length() == 0) return "/";
 
         Stack<String> stack = new Stack<>();
-        // #2
-        path = path.replaceAll("//", "/");
         String[] array = path.split("/");
+
         for (String s: array) {
+            // case 1: empty
+            if (s.length() == 0) continue;
+            // case 2: .
+            if (s.equals(".")) continue;
+
+            // case 3: ..
             if (s.equals("..")) {
                 if (!stack.isEmpty()) stack.pop();
-            } else if (s.equals(".")) {
-                // skip
             } else {
-                if (s.length() != 0) stack.push(s);
+                // case 4: direction name
+                stack.push(s);
             }
         }
 
-        if (stack.isEmpty()) return "/";
+        StringBuilder builder = new StringBuilder();
 
-        StringBuilder res = new StringBuilder();
+        // [a,b] => /a/b
         while (!stack.isEmpty()) {
-            String dir = "/" + stack.pop();
-            res.insert(0, dir);
+            builder.insert(0, "/" + stack.pop());
         }
 
-        return res.toString();
+        return builder.length() == 0 ? "/" : builder.toString();
     }
 }
 /**
@@ -75,6 +78,4 @@ public class SimplifyPath {
  #2: // -> /
  #3: . -> current
  #4: .. -> directory up
-
-
  */
