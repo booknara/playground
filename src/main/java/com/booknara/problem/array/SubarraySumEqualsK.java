@@ -8,7 +8,6 @@ import java.util.Map;
  * https://leetcode.com/problems/subarray-sum-equals-k/
  */
 public class SubarraySumEqualsK {
-    // Using Hash(one pass)
     // T:O(n), S:O(n)
     public int subarraySum(int[] nums, int k) {
         // input check, nums = non-empty array
@@ -19,10 +18,13 @@ public class SubarraySumEqualsK {
         int sum = 0, res = 0;
         for (int i = 0; i < n; i++) {
             sum += nums[i];
+
+            // check sum - k
             if (map.containsKey(sum - k)) {
                 res += map.get(sum - k);
             }
 
+            // update the map
             int count = map.getOrDefault(sum, 0);
             map.put(sum, count + 1);
         }
