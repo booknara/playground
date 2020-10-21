@@ -34,8 +34,9 @@ public class MinimumWindowSubstring {
                     res = s.substring(l, r + 1);
                 }
 
-                bucket[s.charAt(l)]++;
-                if (bucket[s.charAt(l)] > 0) {
+                char d = s.charAt(l);
+                bucket[d]++;
+                if (bucket[d] > 0) {
                     len++;
                 }
                 l++;
