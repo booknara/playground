@@ -26,29 +26,24 @@ public class ProductArrayExceptSelf {
     // T: O(n), S: O(1)
     public int[] productExceptSelf1(int[] nums) {
         // input check
-        if (nums == null) return new int[0];
-        if (nums.length <= 1) return nums;
+        if (nums == null || nums.length == 0) return new int[0];
 
         int n = nums.length;
         int[] left = new int[n];
-        int product = 1;
+        int mul = 1;
         for (int i = 0; i < n; i++) {
-            product *= nums[i];
-            left[i] = product;
+            left[i] = mul * nums[i];
+            mul = left[i];
         }
 
-        product = 1;
+        mul = 1;
         for (int i = n - 1; i >= 0; i--) {
-            if (i == n - 1) {
-                left[i] = left[i - 1];
-            } else if (i == 0) {
-                left[i] = product;
+            if (i == 0) {
+                left[i] = mul;
             } else {
-                left[i] = left[i - 1] * product;
+                left[i] = left[i - 1] * mul;
+                mul *= nums[i];
             }
-
-            product *= nums[i];
-
         }
 
         return left;
