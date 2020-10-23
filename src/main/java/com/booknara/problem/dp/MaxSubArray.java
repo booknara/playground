@@ -27,12 +27,12 @@ public class MaxSubArray {
         if (nums.length == 1) return nums[0];
 
         int max = Integer.MIN_VALUE;
-        int prefixSum = 0;
+        int sum = 0;
         int min = 0;
         for (int n: nums) {
-            prefixSum += n;
-            max = Math.max(max, prefixSum - min);
-            min = Math.min(min, prefixSum);
+            sum += n;
+            max = Math.max(max, sum - min);
+            min = Math.min(min, sum);
         }
 
         return max;
