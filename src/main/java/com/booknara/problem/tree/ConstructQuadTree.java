@@ -7,51 +7,58 @@ package com.booknara.problem.tree;
 public class ConstructQuadTree {
     // T:O(logn), S:O(logn)
     public Node construct(int[][] grid) {
+        // input check
         if (grid == null || grid.length == 0) return null;
 
-        return dfs(grid, 0, 0, grid.length - 1, grid[0].length - 1);
+        int m = grid.length;
+        int n = grid[0].length;
+        return helper(grid, 0, 0, m - 1, n - 1);
     }
 
-    public Node dfs(int[][] grid, int top, int left, int bottom, int right) {
-        //System.out.println(top + "," + left + "," + bottom + "," + right);
-        if (top > bottom || left > right) {
-            return null;
+    // 0, 0, 3, 3
+    public Node helper(int[][] grid, int top, int left, int bottom, int right) {
+        if (top == bottom || left == right) {
+            return new Node(grid[top][left] != 0, true);
         }
 
-        // search elements
-        int v = grid[top][left];
-        boolean isLeaf = true;
-        for (int i = top; i <= bottom; i++) {
-            for (int j = left; j <= right; j++) {
-                if (v != grid[i][j]) {
-                    isLeaf = false;
-                    break;
-                }
-            }
+        int rowMid = top + (bottom - top) / 2;
+        int colMid = left + (right - left) / 2;
+        Node topLeft = helper(grid, top, left, rowMid, colMid);
+        Node topRight = helper(grid, top, colMid + 1, rowMid, right);
+        Node bottomLeft = helper(grid, rowMid + 1, left, bottom, colMid);
+        Node bottomRight = helper(grid, rowMid + 1, colMid + 1, bottom, right);
+
+        // leaf node
+        if (topLeft.isLeaf && topRight.isLeaf && bottomLeft.isLeaf && bottomRight.isLeaf
+                && topLeft.val == topRight.val && topRight.val == bottomLeft.val
+                && bottomLeft.val == bottomRight.val) {
+            return new Node(topLeft.val, true);
         }
 
-        Node node = new Node();
-        if (isLeaf) {
-            node.isLeaf = true;
-            node.val = v == 1;
-            node.topLeft = null;
-            node.topRight = null;
-            node.bottomLeft = null;
-            node.bottomRight = null;
-        } else {
-            node.isLeaf = false;
-            node.val = false;
-            int rowMid = (top + bottom) / 2;
-            int colMid = (left + right) / 2;
-
-            node.topLeft = dfs(grid, top, left, rowMid, colMid);
-            node.topRight = dfs(grid, top, colMid + 1, rowMid, right);
-            node.bottomLeft = dfs(grid, rowMid + 1, left, bottom, colMid);
-            node.bottomRight = dfs(grid, rowMid + 1, colMid + 1, bottom, right);
-        }
-
-        return node;
+        return new Node(true, false, topLeft, topRight, bottomLeft, bottomRight);
     }
+
+    /**
+     n is even number
+     Bottom up approach
+     1. Divide four parts
+     (n,n) -> n = 4, (0,1,2,3)
+     (0,0) - (3,3)
+     0 1 |2 3
+     0    |
+     1    |
+     -----------
+     2    |
+     3    |
+     top left    (0,0) (1,1) top right     (0,2) (1,3)
+     bottom left (2,0), (3,1) bottom right (2,2), (3,3)
+
+     top, left, bottom, right
+     topLeft: top, left, bottom / 2, right / 2
+     topRight: top, right / 2 + 1, bottom / 2, right
+     bottomLeft: bottom / 2 + 1, left, bottom, right / 2
+     bottomRight: bottom / 2 + 1, right / 2 + 1, bottom, right
+     */
 
     static class Node {
         public boolean val;
