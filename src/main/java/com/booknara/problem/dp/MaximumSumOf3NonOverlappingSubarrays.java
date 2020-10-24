@@ -70,8 +70,8 @@ public class MaximumSumOf3NonOverlappingSubarrays {
 
  int m = nums.length;
  int[] dp = new int[m - k + 1];  // 8 - 2 + 1 = 7
- [1,2,1,2,6, 7, 5,1], 2
- [3,3,3,8,13,12,6] // sum of k length slice
- l =   [0,0,0,3, 4, 4,4]
- r =   [4,4,4,4, 4, 5,6]
+   [1,2,1,2,6, 7, 5,1], 2
+     [3,3,3,8,13,12,6] // sum of k length slice
+ l = [0,0,0,3, 4, 4,4]
+ r = [4,4,4,4, 4, 5,6]
  */
