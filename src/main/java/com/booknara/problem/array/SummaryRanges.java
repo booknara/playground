@@ -8,40 +8,37 @@ import java.util.List;
  * https://leetcode.com/problems/summary-ranges/
  */
 public class SummaryRanges {
+    // T:O(n), S:O(1)
     public List<String> summaryRanges(int[] nums) {
+        // input check
         List<String> res = new ArrayList<>();
-        if (nums == null || nums.length == 0) {
-            return res;
-        }
+        if (nums == null || nums.length == 0) return res;
 
-        int start = nums[0];
-        int end = nums[0];
-        for (int i = 1; i < nums.length; i++) {
-            // System.out.println(nums[i]);
-            if (nums[i] == end + 1) {
+        /*Input: nums = [0,1,2,4,5,7]
+        Output: ["0->2","4->5","7"]
+        */
+        Integer start = null, end = null;
+        for (int i = 0; i < nums.length; i++) {
+            if (start == null) {
+                start = nums[i];
+                end = nums[i];
+            } else if (end + 1 == nums[i]) {
                 end = nums[i];
             } else {
-                print(res, start, end);
+                // output
+                res.add(getOutput(start, end));
                 start = nums[i];
                 end = nums[i];
             }
         }
-
-        print(res, start, end);
+        // the last range
+        res.add(getOutput(start, end));
 
         return res;
     }
 
-    public void print(List<String> list, int s, int e) {
-        StringBuilder builder = new StringBuilder();
-        if (s == e) {
-            builder.append(s);
-        } else {
-            builder.append(s);
-            builder.append("->");
-            builder.append(e);
-        }
-
-        list.add(builder.toString());
+    public String getOutput(int start, int end) {
+        if (start == end) return String.valueOf(start);
+        return start + "->" + end;
     }
 }
