@@ -5,7 +5,7 @@ package com.booknara.problem.dp;
  * https://leetcode.com/problems/maximal-square/
  */
 public class MaximalSquare {
-    // DP, Space O(min(n, m))
+    // T:O(n^2), s:O(min(n, m))
     public int maximalSquare(char[][] matrix) {
         if (matrix == null || matrix.length == 0) {
             return 0;
@@ -34,7 +34,7 @@ public class MaximalSquare {
         return max;
     }
 
-    // DP, Space O(n*m)
+    // T:O(m*n), s:O(m*n)
     public int maximalSquare1(char[][] matrix) {
         // input check
         if (matrix == null || matrix.length == 0) return 0;
