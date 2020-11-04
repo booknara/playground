@@ -1,3 +1,4 @@
+//@file:JvmName("SomeName") // to change the file class name
 package com.booknara.practice.kotlin.annotation
 
 import java.util.*
