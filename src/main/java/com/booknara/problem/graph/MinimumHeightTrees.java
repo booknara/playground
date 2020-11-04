@@ -7,8 +7,62 @@ import java.util.*;
  * https://leetcode.com/problems/minimum-height-trees/
  */
 public class MinimumHeightTrees {
-    // T:O(V + E), S:O(E), Need to check again
+    // T:O(V), S:O(V)
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+        // input check, n >= 1
+        List<Integer> leaf = new ArrayList<>();
+        if (n == 1) {
+            leaf.add(0);
+            return leaf;
+        }
+
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        int[] degree = new int[n];
+        for (int[] edge: edges) {
+            // bi-directional
+            Set<Integer> set1 = map.getOrDefault(edge[0], new HashSet<>());
+            set1.add(edge[1]);
+            map.put(edge[0], set1);
+
+            Set<Integer> set2 = map.getOrDefault(edge[1], new HashSet<>());
+            set2.add(edge[0]);
+            map.put(edge[1], set2);
+
+            degree[edge[0]]++;
+            degree[edge[1]]++;
+        }
+
+        // finding the leaf nodes which is the farthest node from the core node
+        for (int i = 0; i < n; i++) {
+            if (degree[i] == 1) {
+                leaf.add(i);
+            }
+        }
+
+        while (n > 2) {
+            int size = leaf.size();
+            n -= size;
+
+            for (int i = 0; i < size; i++) {
+                int node = leaf.remove(0);  // check the first one and remove
+                degree[node] = 0;
+
+                Set<Integer> neighbors = map.get(node);
+                for (int nei: neighbors) {
+                    map.get(nei).remove(node);
+                    degree[nei]--;
+                    if (degree[nei] == 1) {
+                        leaf.add(nei);
+                    }
+                }
+            }
+        }
+
+        return leaf;
+    }
+
+    // T:O(V), S:O(V)
+    public List<Integer> findMinHeightTrees1(int n, int[][] edges) {
         List<Integer> res = new ArrayList<>();
         if (n == 1) {
             res.add(0);
@@ -71,7 +125,7 @@ public class MinimumHeightTrees {
     }
 
     // TLE
-    public List<Integer> findMinHeightTrees1(int n, int[][] edges) {
+    public List<Integer> findMinHeightTrees2(int n, int[][] edges) {
         List<Integer> res = new ArrayList<>();
         if (edges == null || edges.length == 0) {
             // no edge case
