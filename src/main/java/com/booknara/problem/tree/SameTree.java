@@ -7,7 +7,7 @@ import com.booknara.problem.common.TreeNode;
  * https://leetcode.com/problems/same-tree/
  */
 public class SameTree {
-    // T:O(n, the number of nodes), S:O(n, the number of nodes in case of skewed tree)
+    // T:O(n), S:O(h)
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null && q == null) return true;
         if (p == null || q == null) return false;
