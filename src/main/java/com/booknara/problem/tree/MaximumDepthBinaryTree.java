@@ -7,22 +7,13 @@ import com.booknara.problem.common.TreeNode;
  * https://leetcode.com/problems/maximum-depth-of-binary-tree/
  */
 public class MaximumDepthBinaryTree {
+    // T:O(n), S:O(h)
     public int maxDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
+        if (root == null) return 0;
 
-        return dfs(root);
-    }
+        int left = maxDepth(root.left) + 1;
+        int right = maxDepth(root.right) + 1;
 
-    public int dfs(TreeNode node) {
-        if (node == null) {
-            return 0;
-        }
-
-        int left = dfs(node.left);
-        int right = dfs(node.right);
-
-        return Math.max(left, right) + 1;
+        return Math.max(left, right);
     }
 }
