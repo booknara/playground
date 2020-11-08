@@ -95,6 +95,78 @@ public class AddTwoNumbersII {
 
         return head.next;
     }
+
+    // T:O(max(n, m) + 1), S:O(1)
+    public ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+        // input check, non-empty linked list
+        Pair reversedL1 = reverse1(l1);
+        Pair reversedL2 = reverse1(l2);
+
+        ListNode longer;
+        ListNode shorter;
+        if (reversedL1.len > reversedL2.len) {
+            longer = reversedL1.node;
+            shorter = reversedL2.node;
+        } else {
+            longer = reversedL2.node;
+            shorter = reversedL1.node;
+        }
+
+        ListNode res = longer;
+        int carry = 0;
+        ListNode prev = null;
+        while (longer != null || carry == 1) {
+            int num1 = 0, num2 = 0;
+            if (longer != null) {
+                num1 = longer.val;
+            }
+            if (shorter != null) {
+                num2 = shorter.val;
+            }
+
+            int sum = num1 + num2 + carry;
+            if (longer == null) {
+                prev.next = new ListNode(sum % 10);
+                break;
+            } else {
+                longer.val = sum % 10;
+                carry = sum / 10;
+            }
+
+            prev = longer;
+            if (longer != null) longer = longer.next;
+            if (shorter != null) shorter = shorter.next;
+        }
+
+        return reverse1(res).node;
+    }
+
+    public Pair reverse1(ListNode node) {
+        if (node == null) return new Pair(0, null);
+
+        ListNode head = new ListNode(0);
+        head.next = node;
+        int len = 1;
+        while (node.next != null) {
+            ListNode next = node.next;
+            node.next = node.next.next;
+            next.next = head.next;
+            head.next = next;
+            len++;
+        }
+
+        return new Pair(len, head.next);
+    }
+
+    static class Pair {
+        int len;
+        ListNode node;
+
+        Pair(int len, ListNode node) {
+            this.len = len;
+            this.node = node;
+        }
+    }
 }
 /**
 
