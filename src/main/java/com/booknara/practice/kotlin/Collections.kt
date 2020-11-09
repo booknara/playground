@@ -131,6 +131,16 @@ fun main() {
     val peopleCities = people.groupBy(Person::city, Person::name)
     println(peopleCities)
 
+    val alphabet = listOf("a", "ab", "b")
+    //println(alphabet.groupBy(String::first))
+    println(alphabet.groupBy { it[0]} )
+
+    //println(people.map(Person::name).filter { it.startsWith("S") })
+    println(people.asSequence()
+            .map(Person::name)
+            .filter { it.startsWith("S") }
+            .toList())
+
     // partition
     val evenOdd = numbers.partition { it % 2 == 0 } // return type: Pair
     println(evenOdd)
