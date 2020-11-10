@@ -23,15 +23,12 @@ class FlippingImage {
 
     fun swap(array: IntArray, l: Int, r: Int) {
         if (l == r) {
-            if (array[l] == 0) array[l] = 1
-            else array[l] = 0
+            array[l] = array[l] xor 1
             return;
         }
 
-        if (array[l] == 0) array[l] = 1
-        else array[l] = 0
-        if (array[r] == 0) array[r] = 1
-        else array[r] = 0
+        array[l] = array[l] xor 1
+        array[r] = array[r] xor 1
 
         val temp = array[l]
         array[l] = array[r]
