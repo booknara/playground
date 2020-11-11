@@ -21,7 +21,7 @@ class Solution {
         // min-heap
         val pq = PriorityQueue<Map.Entry<Int, Int>>(compareBy { it.value })
 
-        for (entry in map.entries) {
+        for (entry in map) {
             pq.offer(entry)
             if (pq.size > k) {
                 pq.poll()
