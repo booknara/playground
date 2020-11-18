@@ -7,6 +7,7 @@ import java.util.Stack;
  * https://leetcode.com/problems/daily-temperatures/
  */
 public class DailyTemperatures {
+    // T:O(n), S:O(n)
     public int[] dailyTemperatures(int[] T) {
         int[] res = new int[T.length];
         if (T == null || T.length < 2) {
