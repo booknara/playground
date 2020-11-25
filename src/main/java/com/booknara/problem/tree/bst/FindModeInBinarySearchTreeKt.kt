@@ -6,7 +6,6 @@ package com.booknara.problem.tree.bst
  */
 class FindModeInBinarySearchTreeKt {
   var res = mutableSetOf<Int>()
-  var values = mutableSetOf<Int>()
   var currValue = 0
   var currCount = 0
   var maxCount = 0
@@ -18,23 +17,7 @@ class FindModeInBinarySearchTreeKt {
 
     inorder(root)
 
-    // println(values.joinToString())
-    // println("max count: $maxCount")
-
-    getMode(root)
     return res.toIntArray()
-  }
-
-  fun getMode(node: TreeNode?) {
-    // base case
-    if (node == null) return
-
-    if (values.contains(node.`val`)) {
-      res.add(node.`val`)
-    }
-
-    getMode(node.left)
-    getMode(node.right)
   }
 
   fun inorder(node: TreeNode?) {
@@ -48,11 +31,11 @@ class FindModeInBinarySearchTreeKt {
     currCount++
 
     if (currCount > maxCount) {
-      values.clear()
-      values.add(node.`val`)
+      res.clear()
+      res.add(node.`val`)
       maxCount = currCount
     } else if (currCount == maxCount) {
-      values.add(node.`val`)
+      res.add(node.`val`)
     }
     currValue = node.`val`
 
