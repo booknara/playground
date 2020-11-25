@@ -10,7 +10,7 @@ class FindModeInBinarySearchTreeKt {
   var currCount = 0
   var maxCount = 0
 
-  // T:O(n), S:O(n) -> less space than using Map which maintains all the count of the numbers
+  // T:O(n), S:O(1, except the result)
   fun findMode(root: TreeNode?): IntArray {
     // input check
     if (root == null) return intArrayOf()
