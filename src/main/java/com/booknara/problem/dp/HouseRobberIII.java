@@ -1,4 +1,4 @@
-package com.booknara.problem.tree;
+package com.booknara.problem.dp;
 
 import com.booknara.problem.common.TreeNode;
 
