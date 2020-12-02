@@ -12,7 +12,6 @@ class ShortestWordDistanceKt {
     var index2: Int? = null
     var distance = Int.MAX_VALUE
     for (i in words.indices) {
-      var found = false
       if (words[i].equals(word1)) {
         index1 = i
       } else if (words[i].equals(word2)) {
