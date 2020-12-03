@@ -18,12 +18,12 @@ class SimplifyPathKt {
 
     val stack = Stack<String>()
     for (token in tokens) {
-      if (token.isNullOrEmpty()) continue
+      if (token.isEmpty()) continue
 
       //println(token)
-      if (token.equals(".")) continue
+      if (token == ".") continue
 
-      if (token.equals("..")) {
+      if (token == "..") {
         if (!stack.isEmpty()) stack.pop()
       } else {
         stack.push(token)
