@@ -12,7 +12,7 @@ class SimplifyPathKt {
     val res = StringBuilder()
 
     // two slash to one slash
-    path.replace("//", "/")
+    // path.replace("//", "/")
 
     val tokens = path.split("/")
 
