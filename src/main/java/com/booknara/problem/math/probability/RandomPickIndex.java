@@ -1,4 +1,4 @@
-package com.booknara.problem.math;
+package com.booknara.problem.math.probability;
 
 import java.util.Random;
 
