@@ -14,16 +14,16 @@ class HouseRobberIIIKt {
   }
 
   fun dfs(node: TreeNode?): Pair<Int, Int> {
+    // base case
     if (node == null) return Pair(0, 0)
 
     val left = dfs(node.left)
     val right = dfs(node.right)
+    // Pair.first: pprev, Pair.second: prev
+    val prev = left.first + right.first + node.`val`
+    val pprev = left.second + right.second
 
-    // res.first: prev, res.second: pprev
-    return Pair(
-        left.second + right.second + node.`val`,
-        Math.max(left.first, left.second) + Math.max(right.first, right.second)
-    )
+    return Pair(pprev, Math.max(pprev, prev))
   }
 
   class TreeNode(var `val`: Int) {
