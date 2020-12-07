@@ -15,6 +15,24 @@ class LinkedListRandomNodeKt(head: ListNode?) {
   // T:O(n), S:O(1)
   /** Returns a random node's value. */
   fun getRandom(): Int {
+    var result = 0
+    var cur = this.head
+    var size = 1
+
+    while (cur != null) {
+      val random = Random().nextInt(size) + 1  // 1 ~ size
+      if (random == size) {
+        result = cur.`val`
+      }
+
+      cur = cur.next
+      size++
+    }
+
+    return result
+  }
+
+  fun getRandom1(): Int {
     var size = 0
     var cur = this.head
     while (cur != null) {
