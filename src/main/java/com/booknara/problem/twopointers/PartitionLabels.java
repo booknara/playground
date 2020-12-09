@@ -19,15 +19,15 @@ public class PartitionLabels {
             lastIndex[S.charAt(i) - 'a'] = i;
         }
 
-        int left = 0;
-        int max = -1;
+        int start = 0;
+        int end = 0;
         for (int i = 0; i < S.length(); i++) {
-            max = Math.max(max, lastIndex[S.charAt(i) - 'a']);
+            end = Math.max(end, lastIndex[S.charAt(i) - 'a']);
 
-            if (max == i) {
+            if (end == i) {
                 // new group
-                res.add(i - left + 1);
-                left = i + 1;
+                res.add(end - start + 1);
+                start = end + 1;
             }
         }
 
