@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 163. Missing Ranges (Medium)
+ * 163. Missing Ranges (Easy)
  * https://leetcode.com/problems/missing-ranges/submissions/
  */
 public class MissingRanges {
+    // T:O(n), S:O(1)
     public List<String> findMissingRanges(int[] nums, int lower, int upper) {
         List<String> res = new ArrayList<>();
         if (nums == null || nums.length == 0) {
