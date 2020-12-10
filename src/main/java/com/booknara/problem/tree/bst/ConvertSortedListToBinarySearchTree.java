@@ -11,6 +11,7 @@ import java.util.List;
  * https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
  */
 public class ConvertSortedListToBinarySearchTree {
+    // T:O(n*logn), S:O(logn)
     public TreeNode sortedListToBST(ListNode head) {
         if (head == null) return null;
 
