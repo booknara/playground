@@ -1,4 +1,4 @@
-package com.booknara.problem.array;
+package com.booknara.problem.twopointers;
 
 /**
  * 80. Remove Duplicates from Sorted Array II (Medium)
