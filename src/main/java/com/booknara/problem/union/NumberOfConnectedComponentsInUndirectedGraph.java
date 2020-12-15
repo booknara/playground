@@ -1,11 +1,11 @@
-package com.booknara.problem.graph;
+package com.booknara.problem.union;
 
 /**
  * 323. Number of Connected Components in an Undirected Graph (Medium)
  * https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
  */
 public class NumberOfConnectedComponentsInUndirectedGraph {
-    // T:O(n), S:O(n)
+    // T:O(n with path compression), S:O(n)
     public int countComponents(int n, int[][] edges) {
         // input check
         if (edges == null || edges.length == 0) return n;
