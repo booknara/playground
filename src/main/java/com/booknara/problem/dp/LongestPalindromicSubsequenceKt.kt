@@ -9,7 +9,7 @@ class LongestPalindromicSubsequenceKt {
   fun longestPalindromeSubseq(s: String): Int {
     // input check s.length >= 1
     val n = s.length
-    val dp = Array(n, {IntArray(n) { 0 } } )
+    val dp = Array(n) {IntArray(n) { 0 } }
 
     for (i in dp.size - 1 downTo 0) {
       val arr = dp[i]
