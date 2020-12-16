@@ -28,7 +28,7 @@ public class ValidateBST {
     public boolean isValidBST1(TreeNode root) {
         if (root == null) return true;
 
-        // preorder traverse (ascending order)
+        // inorder traverse (ascending order)
         Integer num = null;
         Stack<TreeNode> stack = new Stack<>();
         TreeNode cur = root;
