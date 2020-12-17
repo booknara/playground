@@ -210,4 +210,23 @@ fun main() {
 
     map1["x"] = null
     println(map1.getOrElse("x") { 1 })
+
+    initWithValue()
+}
+
+fun initWithValue() {
+    println("initWithValue()")
+    val fiveZeros = IntArray(5)
+    for (i in fiveZeros) {
+        print("$i ")
+    }
+    println()
+    val fiveZeros2 = intArrayOf(0, 0, 0, 0, 0)
+    for (i in fiveZeros2) {
+        print("$i ")
+    }
+    println()
+
+    val squares = IntArray(5) { i -> (i + 1) * (i + 1)}
+    println(squares.joinToString())
 }
