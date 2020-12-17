@@ -3,6 +3,15 @@ package com.booknara.practice.kotlin.annotation
 
 import java.util.*
 
+/**
+ * Common Kotlin annotation for Java interop
+ * @Volatile
+ * @Strictfp
+ * @JvmName
+ * @JvmStatic
+ * @JvmOverloads
+ * @JvmField
+ */
 fun main() {
     bar()
     bar(1)
