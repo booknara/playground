@@ -1,6 +1,20 @@
 package com.booknara.practice.kotlin
 
-fun main() {
+import java.util.*
+
+fun main(args: Array<String>) {
+    println(if (args[0].toInt() < 12) "Good morning, Kotlin" else "Good night, Kotlin")
+    dayOfWeek()
+
+
+    var fortune: String
+    for (i in 1..10) {
+        // fortune = getFortune(getBirthday())
+//        println("\nYour fortune is: $fortune")
+//        if (fortune.contains("Take it easy")) break
+    }
+
+
     println("Hello World!")
     printMessage("Hello")
     printMessageWithPrefix("Hello", "Log")
@@ -21,8 +35,8 @@ fun main() {
     val myPair = "McLaren" onto "Lucas"
     println(myPair)
 
-    val sophia = Person("Sophia")
-    val claudia = Person("Claudia")
+    val sophia = Person("Sophia", age = 34)
+    val claudia = Person("Claudia", age = 29)
 
     sophia likes claudia
 
@@ -41,6 +55,36 @@ fun main() {
     println(a)
     val b: Int = 1;
     var c = 3
+}
+
+fun getFortune(): String {
+    val fortunes = listOf("You will have a great day!",
+            "Things will go well for you today.",
+            "Enjoy a wonderful day of success.",
+            "Be humble and all will turn out well.",
+            "Today is a good day for exercising restraint.",
+            "Take it easy and enjoy life!",
+            "Treasure your friends because they are your greatest fortune."
+    )
+    println("Enter your birthday: ")
+    val birthday = readLine()?.toIntOrNull() ?: 1
+
+    return fortunes[birthday.rem(fortunes.size)]
+}
+
+fun dayOfWeek() {
+    println("What day is it today?")
+    val day = when (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+        1 -> "Sunday"
+        2 -> "Monday"
+        3 -> "Tuesday"
+        4 -> "Wednesday"
+        5 -> "Thursday"
+        6 -> "Friday"
+        7 -> "Saturday"
+        else -> ""
+    }
+    println(day)
 }
 
 fun printMessage(message: String): Unit {
@@ -81,7 +125,11 @@ fun describeString(maybeString: String?): String {
     }
 }
 
-class Person(val name: String) {
+data class Person(
+        val firsName: String,
+        val lastName: String = "default",
+        val phoneNUmber: String? = null,
+        val age: Int = 20) {
     val likedPeople = mutableListOf<Person>()
     infix fun likes(other: Person) {
         likedPeople.add(other)
