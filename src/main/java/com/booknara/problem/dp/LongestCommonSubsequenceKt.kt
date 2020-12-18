@@ -5,6 +5,7 @@ package com.booknara.problem.dp
  * https://leetcode.com/problems/longest-common-subsequence/
  */
 class LongestCommonSubsequenceKt {
+  // T:O(n^2), S:O(n^2)
   fun longestCommonSubsequence(text1: String, text2: String): Int {
     // input check, text1.length >= 1, text1.length >= 1
     val m = text1.length
