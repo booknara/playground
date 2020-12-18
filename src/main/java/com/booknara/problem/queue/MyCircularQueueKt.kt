@@ -53,4 +53,3 @@ class MyCircularQueue(k: Int) {
     return size == deque.size
   }
 }
-}
