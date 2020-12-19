@@ -5,6 +5,7 @@ package com.booknara.problem.dfs;
  * https://leetcode.com/problems/number-of-islands/
  */
 public class NumberOfIslands {
+    // T:O(n^2), S:O(1)
     public int numIslands(char[][] grid) {
         if (grid == null || grid.length == 0) {
             return 0;
