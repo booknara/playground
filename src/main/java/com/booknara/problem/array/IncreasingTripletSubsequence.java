@@ -5,7 +5,7 @@ package com.booknara.problem.array;
  * https://leetcode.com/problems/increasing-triplet-subsequence/
  */
 public class IncreasingTripletSubsequence {
-    // T:O(n), S:O(1)
+    // T:O(n*k), S:O(k)
     public boolean increasingTriplet(int[] nums) {
         int k = 3;
         if (nums == null || nums.length < k) {
