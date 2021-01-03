@@ -5,6 +5,7 @@ package com.booknara.problem.dp;
  * https://leetcode.com/problems/maximum-product-subarray/
  */
 public class MaxProductSubArray {
+    // T:O(n), S:O(1)
     public int maxProduct(int[] nums) {
         // input check
         if (nums == null || nums.length == 0) return 0;
@@ -30,20 +31,6 @@ public class MaxProductSubArray {
 
         return max;
     }
-    /**
-     Input: [2,3, -2,4]
-     [1,2,6,-12,-48] left -> right
-     [2,3, -2,4]
-     [-48,-24,-8,4] 1
-
-     [-2,0,-1]
-     [1,-2,0,-1]
-     1
-     [-2,0,-1]
-     [-2,0,-1,1]
-     1
-     Output: 6
-     */
 
     // T:O(n), S:O(1)
     public int maxProduct1(int[] nums) {
