@@ -1,4 +1,4 @@
-package com.booknara.problem.list;
+package com.booknara.problem.stack;
 
 import com.booknara.problem.iterator.NestedInteger;
 
