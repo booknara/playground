@@ -6,9 +6,11 @@ package com.booknara.problem.array;
  */
 public class TicTacToe {
     int[][] grid;
+    int n;
     /** Initialize your data structure here. */
     public TicTacToe(int n) {
-        grid = new int[n][n];
+        this.grid = new int[n][n];
+        this.n = n;
     }
 
     /** Player {player} makes a move at ({row}, {col}).
@@ -41,6 +43,10 @@ public class TicTacToe {
         if (win) return player;
 
         // two diagonal cases
+        if (row != col && row != n - 1 - col) {
+            // no need to check
+            return 0;
+        }
         int i = 0, j = 0;
         win = true;
         while (i < grid.length && j < grid.length) {
