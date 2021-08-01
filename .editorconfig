@@ -6,7 +6,7 @@
 #
 # To use Dropbox style, uncomment the lines at the bottom of the section.
 
-[{*.kt,*.kts}]
+[{*.java,*.kt,*.kts}]
 indent_style = space
 insert_final_newline = true
 max_line_length = 100
