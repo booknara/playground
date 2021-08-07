@@ -1,4 +1,4 @@
-package com.booknara.practice.kotlin.design
+package com.booknara.practice.kotlin.design.creational.builder
 
 class Car private constructor(builder: Builder) {
     val engine: String          // mandatory
