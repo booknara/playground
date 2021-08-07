@@ -1,6 +1,6 @@
-package com.booknara.practice.kotlin.design
+package com.booknara.practice.kotlin.design.creational.factory
 
-import com.booknara.practice.kotlin.design.FacebookController.getFacebookName
+import com.booknara.practice.kotlin.design.creational.factory.FacebookController.getFacebookName
 
 class User private constructor(val nickName: String) {
     // Factory using companion object
