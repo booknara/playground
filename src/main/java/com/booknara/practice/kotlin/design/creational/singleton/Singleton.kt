@@ -1,4 +1,4 @@
-package com.booknara.practice.kotlin.design
+package com.booknara.practice.kotlin.design.creational.singleton
 
 import com.booknara.practice.kotlin.Context
 
