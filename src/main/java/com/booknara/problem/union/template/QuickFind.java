@@ -1,7 +1,11 @@
 package com.booknara.problem.union.template;
 
+/**
+ * Quick Find - Disjoint Set
+ * https://leetcode.com/explore/learn/card/graph/618/disjoint-set/3878/
+ */
 public class QuickFind {
-  private int[] roots;
+  private final int[] roots;
 
   public QuickFind(int size) {
     this.roots = new int[size];
@@ -10,11 +14,14 @@ public class QuickFind {
     }
   }
 
+  // O(1)
   private int find(int x) {
     return roots[x];
   }
 
+  // O(n)
   private void union(int x, int y) {
+    // X(parent) - Y(child)
     int rootX = find(x);
     int rootY = find(y);
     if (rootX != rootY) {
@@ -26,6 +33,7 @@ public class QuickFind {
     }
   }
 
+  // O(1)
   public boolean connected(int x, int y) {
     return find(x) == find(y);
   }
