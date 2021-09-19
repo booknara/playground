@@ -1,29 +1,26 @@
 package com.booknara.problem.union.template;
 
 /**
- * Union by Rank - Disjoint Set
- * https://leetcode.com/explore/learn/card/graph/618/disjoint-set/3879/
+ * Path Compression Optimization - Disjoint Set
+ * https://leetcode.com/explore/learn/card/graph/618/disjoint-set/3880/
  */
-public class UnionByRank {
+public class PathCompression {
   private final int[] root;
-  private final int[] rank;
 
   // T:O(N)
-  public UnionByRank(int size) {
+  public PathCompression(int size) {
     root = new int[size];
-    rank = new int[size];
     for (int i = 0; i < size; i++) {
-      root[i] = i;
-      rank[i] = 1;
+     root[i] = i;
     }
   }
 
   // T:O(logN)
   public int find(int x) {
-    while (x != root[x]) {
-      x = root[x];
+    if (x == root[x]) {
+      return x;
     }
-    return x;
+    return root[x] = find(root[x]);
   }
 
   // T:O(logN)
@@ -31,15 +28,7 @@ public class UnionByRank {
     int rootX = find(x);
     int rootY = find(y);
     if (rootX != rootY) {
-      if (rank[rootX] < rank[rootY]) {
-        root[rootX] = rootY;
-      } else if (rank[rootX] > rank[rootY]) {
-        root[rootY] = rootX;
-      } else {
-        // equal
-        root[rootX] = rootY;
-        rank[rootY]++;
-      }
+      root[rootX] = rootY;
     }
   }
 
@@ -49,7 +38,7 @@ public class UnionByRank {
   }
 
   public static void main(String[] args) throws Exception {
-    UnionByRank uf = new UnionByRank(10);
+    PathCompression uf = new PathCompression(10);
     // 1-2-5-6-7 3-8-9 4
     uf.union(1, 2);
     uf.union(2, 5);
