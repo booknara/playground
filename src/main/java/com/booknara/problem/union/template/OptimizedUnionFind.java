@@ -31,9 +31,10 @@ public class OptimizedUnionFind {
     int rootX = find(x);
     int rootY = find(y);
     if (rootX != rootY) {
+      // the smaller rank one should be a root for smaller tree depth
       if (rank[rootX] > rank[rootY]) {
         root[rootX] = root[rootY];
-      } else if (rank[rootX] > rank[rootY]) {
+      } else if (rank[rootX] < rank[rootY]) {
         root[rootY] = root[rootX];
       } else {
         root[rootX] = root[rootY];
