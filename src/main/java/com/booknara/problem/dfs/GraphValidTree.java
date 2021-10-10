@@ -10,6 +10,10 @@ public class GraphValidTree {
   // T:O(V+E), S:O(V+E)
   public boolean validTree(int n, int[][] edges) {
     // check input, n >= 1, edges >= 0
+    if (n - 1 != edges.length) {
+      // Tree must have n - 1 edges given conditions(no cycle, no multiple same edge)
+      return false;
+    }
     // build graph
     List<List<Integer>> graph = new ArrayList<>();
     for (int i = 0; i < n; i++) {
