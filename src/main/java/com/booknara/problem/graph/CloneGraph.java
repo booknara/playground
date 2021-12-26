@@ -10,7 +10,7 @@ import java.util.Map;
  * https://leetcode.com/problems/clone-graph/
  */
 public class CloneGraph {
-    // T:O(n), S:O(n)
+    // T:O(v+e), S:O(v)
     Map<Node, Node> map = new HashMap<>();
     public Node cloneGraph(Node node) {
         if (node == null) {
@@ -60,12 +60,12 @@ public class CloneGraph {
 
         public Node() {
             val = 0;
-            neighbors = new ArrayList<Node>();
+            neighbors = new ArrayList<>();
         }
 
         public Node(int _val) {
             val = _val;
-            neighbors = new ArrayList<Node>();
+            neighbors = new ArrayList<>();
         }
 
         public Node(int _val, ArrayList<Node> _neighbors) {
