@@ -30,9 +30,9 @@ public class EarliestMomentWhenEveryoneBecomeFriends {
       // different group, then union
       if (root1 != root2) {
         if (rank[root1] < rank[root2]) {
-          root[root2] = root1;
-        } else if (rank[root1] > rank[root2]) {
           root[root1] = root2;
+        } else if (rank[root1] > rank[root2]) {
+          root[root2] = root1;
         } else {
           root[root1] = root2;
           rank[root2]++;
