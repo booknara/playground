@@ -24,7 +24,7 @@ class EarliestMomentWhenEveryoneBecomeFriendsKt {
           root[root2] = root1
         } else {
           root[root2] = root1
-          rank[root2]++
+          rank[root1]++
         }
 
         groups--
