@@ -8,14 +8,13 @@ import java.util.Map;
 
 public class JsonConverter {
   public static void main(String[] args) {
-
-    String jsonString = "{'initialization' : '5', 'ptr' : '5', 'auto' : '5', 'back_button' : '5'}";
+    String jsonString = "{'apple' : '5', 'banana' : '5', 'citrus' : '5', 'durian' : '5'}";
     Gson gson = new Gson();
-    Type empMapType = new TypeToken<Map<String, String>>() {}.getType();
-    Map<String, String> nameEmployeeMap = gson.fromJson(jsonString, empMapType);
-    System.out.println("size: " + nameEmployeeMap.size());
-    System.out.println("size: " + nameEmployeeMap.get("initialization"));
-//    Assert.assertEquals(3, nameEmployeeMap.size());
-//    Assert.assertEquals(Employee.class, nameEmployeeMap.get("Bob").getClass());
+    Type fruitType = new TypeToken<Map<String, String>>() {}.getType();
+    Map<String, String> fruitMap = gson.fromJson(jsonString, fruitType);
+    System.out.println("size: " + fruitMap.size());
+    System.out.println("size: " + fruitMap.get("apple"));
+//    Assert.assertEquals(3, fruitMap.size());
+//    Assert.assertEquals(Employee.class, fruitMap.get("banana").getClass());
   }
 }
