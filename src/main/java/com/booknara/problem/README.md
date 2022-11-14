@@ -1,9 +1,14 @@
 Problem Index
 ===================================
 
-| No      | Problem | Solution     |
-| :---        |    :----:   |       :---: |
-| 1      | TBA       | TBA   |
+| No  | Problem | Difficulty | Solution |
+|:----|:-------:|:----------:|:--------:|
+| 1   |    Two Sum     |    Easy    | [Link](https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/hash/TwoSum.java) |
+| 217 |    Contains Duplicate     |    Easy    |   [Link](https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/hash/ContainsDuplicate.java)   |
+| 121 |    Best Time to Buy and Sell Stock     |    Easy    |   [Link](https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/BestTimeToBuyAndSellStock.java)   |
+| 242 |    Valid Anagram	     |    Easy    |   [Link](https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/hash/ValidAnagram.java)   |
+| 20  |    Valid Parentheses     |    Easy    |   [Link](https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/stack/ValidParentheses.java)   |
+| 53  |    Maximum Subarray     |    Medium    |   [Link](https://github.com/booknara/playground/blob/master/src/main/java/com/booknara/problem/dp/MaxSubArray.java)   |
 
 License
 -------
