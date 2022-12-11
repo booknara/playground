@@ -11,17 +11,17 @@ public class NumberOfIslands {
             return 0;
         }
 
-        int count = 0;
+        int res = 0;
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (grid[i][j] == '1') {
-                    count++;
+                    res++;
                     dfs(grid, i, j);
                 }
             }
         }
 
-        return count;
+        return res;
     }
 
     public void dfs(char[][] grid, int i, int j) {
