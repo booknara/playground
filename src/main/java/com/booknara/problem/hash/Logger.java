@@ -8,24 +8,25 @@ import java.util.Map;
  * https://leetcode.com/problems/logger-rate-limiter/
  */
 class Logger {
-    Map<String, Integer> map;
-    public Logger() {
-        map = new HashMap<>();
+  private static final int THRESHOLD = 10;
+  Map<String, Integer> map;
+  public Logger() {
+    map = new HashMap<>();
+  }
+
+  // T: O(1), S:O(n), n: the number of unique messages
+  public boolean shouldPrintMessage(int timestamp, String message) {
+    if (!map.containsKey(message)) {
+      map.put(message, timestamp);
+      return true;
     }
 
-    // T:O(1), S:O(n, the number of unique message)
-    public boolean shouldPrintMessage(int timestamp, String message) {
-        if (map.containsKey(message)) {
-            if (timestamp - map.get(message) >= 10) {
-                map.put(message, timestamp);
-                return true;
-            } else {
-                // no update
-                return false;
-            }
-        }
-
-        map.put(message, timestamp);
-        return true;
+    int prevTime = map.get(message);
+    if (timestamp - prevTime < THRESHOLD) {
+      return false;
     }
+
+    map.put(message, timestamp);
+    return true;
+  }
 }
