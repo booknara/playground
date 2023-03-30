@@ -21,7 +21,7 @@ public class LargestNumber {
 
         Arrays.sort(strings, (i1, i2) -> {
             String first = i1 + i2;     // 3, 30 -> 330
-            String second = i2 + i1;    // 3, 30 -> 303
+            String second = i2 + i1;    // 3, 03 -> 303
             return second.compareTo(first); // in this case, make reverse order
         });
 
