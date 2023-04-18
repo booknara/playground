@@ -44,3 +44,26 @@ public class RemoveKDigits {
         return builder.length() == 0 ? "0" : builder.toString();
     }
 }
+/**
+ Algorithm: Using stack, if a new input value is bigger than the top value of the stack, remove the top stack value
+ because it can decrease the value.
+
+ Input: num = "1432219", k = 3
+ Output: "1219"
+
+ 1 -> 2
+ 4/3
+
+ Input: num = "4321", k = 3
+ Output: "1"
+ 4 -> 3 -> 2 -> 1
+
+ Input: num = "4324", k = 3
+ Output: "2"
+
+ Input: num = "1234", k = 3
+ Output: "1"
+
+ Input: num = "223", k = 1
+ Output: "22"
+ */
