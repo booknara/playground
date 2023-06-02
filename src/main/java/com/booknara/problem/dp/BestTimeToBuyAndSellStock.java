@@ -7,6 +7,24 @@ package com.booknara.problem.dp;
 public class BestTimeToBuyAndSellStock {
   // T:O(n), S:O(1)
   public int maxProfit(int[] prices) {
+    // edge case
+    if (prices == null || prices.length == 0) return 0;
+
+    int min = Integer.MAX_VALUE;
+    int profit = 0; // profit -> price - min
+    for (int p: prices) {
+      if (p < min) {
+        min = p;  // found the min value
+      } else if (p - min > profit) {
+        profit = p - min;
+      }
+    }
+
+    return profit;
+  }
+
+  // T:O(n), S:O(1)
+  public int maxProfit0(int[] prices) {
     // input check
     if (prices == null || prices.length == 0) return 0;
     // input : all the values of prices are non-negative
