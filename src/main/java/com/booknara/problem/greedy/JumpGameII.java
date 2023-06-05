@@ -3,7 +3,7 @@ package com.booknara.problem.greedy;
 import java.util.Arrays;
 
 /**
- * 45. Jump Game II (Hard)
+ * 45. Jump Game II (Medium)
  * https://leetcode.com/problems/jump-game-ii/
  */
 public class JumpGameII {
