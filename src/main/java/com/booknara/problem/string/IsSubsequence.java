@@ -104,4 +104,22 @@ public class IsSubsequence {
 
     return true;
   }
+
+  public boolean isSubsequence3(String s, String t) {
+    int sLen = s.length();
+    int tLen = t.length();
+    if (sLen > tLen) return false;
+
+    int i = 0, j = 0;
+    while (i < sLen) {
+      while (j < tLen && s.charAt(i) != t.charAt(j)) {
+        j++;
+      }
+      if (j == tLen) return false;  // t is already out of bound
+      i++;
+      j++;
+    }
+
+    return i == sLen;
+  }
 }
