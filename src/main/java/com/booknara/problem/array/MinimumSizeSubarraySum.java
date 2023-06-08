@@ -9,54 +9,54 @@ import java.util.TreeMap;
  * https://leetcode.com/problems/minimum-size-subarray-sum/
  */
 public class MinimumSizeSubarraySum {
-    // 04/19/2020 version
-    public int minSubArrayLen(int s, int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-
-        TreeMap<Integer, Integer> map = new TreeMap<>(Collections.reverseOrder());
-        map.put(0, -1);
-        int sum = 0;
-        int res = Integer.MAX_VALUE;
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-            if (sum >= s) {
-                Map.Entry<Integer, Integer> ceiling = map.ceilingEntry(sum - s);
-                res = Math.min(i - ceiling.getValue(), res);
-            }
-
-            map.put(sum, i);
-        }
-
-        return res == Integer.MAX_VALUE ? 0 : res;
+  // 04/19/2020 version
+  public int minSubArrayLen(int target, int[] nums) {
+    if (nums == null || nums.length == 0) {
+      return 0;
     }
 
-    // 03/17/2020 version
-    public int minSubArrayLen1(int s, int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
+    TreeMap<Integer, Integer> map = new TreeMap<>(Collections.reverseOrder());
+    map.put(0, -1);
+    int sum = 0;
+    int res = Integer.MAX_VALUE;
+    for (int i = 0; i < nums.length; i++) {
+      sum += nums[i];
+      if (sum >= target) {
+        Map.Entry<Integer, Integer> ceiling = map.ceilingEntry(sum - target);
+        res = Math.min(i - ceiling.getValue(), res);
+      }
 
-        int j = 0;
-        int sum = 0;
-        int minLen = Integer.MAX_VALUE;
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-
-            if (sum >= s) {
-                // System.out.println(i);
-                while (j <= i) {
-                    minLen = Math.min(minLen, i - j + 1);
-                    sum = sum - nums[j];
-                    j++;
-                    if (sum < s) {
-                        break;
-                    }
-                }
-            }
-        }
-
-        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+      map.put(sum, i);
     }
+
+    return res == Integer.MAX_VALUE ? 0 : res;
+  }
+
+  // T:(n), S:O(1)
+  public int minSubArrayLen1(int target, int[] nums) {
+    // input check
+    if (nums == null || nums.length == 0) return 0;
+
+    int len = nums.length;
+    int[] prefixSum = new int[len];
+    int sum = 0;
+    int res = Integer.MAX_VALUE;
+    int j = 0;
+    for (int i = 0; i < len; i++) {
+      sum += nums[i];
+
+      if (sum >= target) {
+        while (j <= i) {
+          res = Math.min(res, i - j + 1);
+          sum -= nums[j];
+          j++;
+          if (sum < target) {
+            break;
+          }
+        }
+      }
+    }
+
+    return res == Integer.MAX_VALUE ? 0 : res;
+  }
 }
