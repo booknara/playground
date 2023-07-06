@@ -1,5 +1,8 @@
 package com.booknara.problem.hash;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 2671. Frequency Tracker (Medium)
  * https://leetcode.com/problems/frequency-tracker
