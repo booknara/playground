@@ -1,5 +1,8 @@
 package com.booknara.problem.twopointers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 3. Longest Substring Without Repeating Characters (Medium)
  * https://leetcode.com/problems/longest-substring-without-repeating-characters/
@@ -7,6 +10,29 @@ package com.booknara.problem.twopointers;
 public class LongestSubstringWithoutRepeatingCharacters {
   // T:O(n), S:O(1)
   public int lengthOfLongestSubstring(String s) {
+    // input check
+    if (s == null || s.length() == 0) return 0;
+
+    Map<Character, Integer> map = new HashMap<>();
+    int res = 0;
+    int l = 0;
+    // "abcdefgg"
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      // exist
+      if (map.containsKey(c) && l <= map.get(c)) {
+        // jump to the last appearance index
+        l = map.get(c) + 1;
+      }
+      map.put(c, i);
+      res = Math.max(res, i - l + 1);
+    }
+
+    return res;
+  }
+
+  // T:O(n), S:O(1)
+  public int lengthOfLongestSubstring1(String s) {
     if (s == null || s.length() == 0) return 0;
 
     int m = s.length();
@@ -33,7 +59,7 @@ public class LongestSubstringWithoutRepeatingCharacters {
   }
 
   // T:O(n), S:O(1)
-  public int lengthOfLongestSubstring1(String s) {
+  public int lengthOfLongestSubstring2(String s) {
     // input check
     if (s == null || s.length() == 0) return 0;
     if (s.length() == 1) return 1;
