@@ -8,7 +8,28 @@ import java.util.Stack;
  */
 public class DailyTemperatures {
     // T:O(n), S:O(n)
-    public int[] dailyTemperatures(int[] T) {
+    public int[] dailyTemperatures(int[] temperatures) {
+      // input check
+      if (temperatures == null) return null;
+      int[] res = new int[temperatures.length];
+      // storing index value
+      Stack<Integer> stack = new Stack<>();
+      stack.push(0);
+
+      for (int i = 1; i < temperatures.length; i++) {
+        int num = temperatures[i];
+        while (!stack.isEmpty() && num > temperatures[stack.peek()]) {
+          int topIndex = stack.pop();
+          res[topIndex] = i - topIndex;
+        }
+        stack.push(i);
+      }
+
+      return res;
+    }
+
+  // T:O(n), S:O(n)
+    public int[] dailyTemperatures1(int[] T) {
         int[] res = new int[T.length];
         if (T == null || T.length < 2) {
             return res;
@@ -35,7 +56,7 @@ public class DailyTemperatures {
     }
 
     // 4.14.2020 version
-    public int[] dailyTemperatures1(int[] T) {
+    public int[] dailyTemperatures2(int[] T) {
         int[] res = new int[T.length];
         if (T == null || T.length < 2) {
             return res;
@@ -61,7 +82,7 @@ public class DailyTemperatures {
     }
 
     // 3.10.2020 version
-    public int[] dailyTemperatures2(int[] T) {
+    public int[] dailyTemperatures3(int[] T) {
         if (T == null || T.length == 0) {
             return null;
         }
