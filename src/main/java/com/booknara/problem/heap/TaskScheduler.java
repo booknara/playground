@@ -19,38 +19,43 @@ public class TaskScheduler {
         });
 
         int[] bucket = new int[26];
-        for (char c : tasks) {
+        for (char c : tasks) {  // O(n, the number of tasks)
             bucket[c - 'A']++;
         }
-
+        // ["A","A","A","B","B","C"]
+        // [A: 3, B: 2, C: 1]
         for (int i = 0; i < 26; i++) {
             if (bucket[i] != 0) {
                 pq.offer(new Element((char)('A' + i), bucket[i]));
             }
         }
 
+      // [A: 3, B: 2, C: 1] -> [A: 2, B: 1] -> [A: 1]
         int res = 0;
         while (!pq.isEmpty()) {
             List<Element> list = new ArrayList<>();
 
-            // one cycle (n + 1)
-            for (int i = 0; i < n + 1; i++) {
+            // one cycle (n + 1)  // 3
+            for (int i = 0; i < n + 1; i++) { // 3
                 if (pq.isEmpty() && list.isEmpty()) {
                     return res;
                 }
 
                 if (!pq.isEmpty()) {
-                    Element e = pq.poll();
-                    e.n--;
-                    if (e.n > 0) {
-                        list.add(e);
+                    Element element = pq.poll();
+                    element.n--;  // A:2, B:1, C:0
+                    if (element.n > 0) {
+                        list.add(element);
                     }
+                } else {
+                  // idle
                 }
 
-                res++;
+                res++;  // 3  // 6 // 7
             }
 
             pq.addAll(list);
+
         }
 
         return res;
